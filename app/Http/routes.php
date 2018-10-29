@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/admin','Admin\IndexController@index');
+Route::resource('/admin/category','Admin\CategoryController');
