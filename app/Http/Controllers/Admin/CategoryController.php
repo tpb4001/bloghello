@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Models\Admin\Category;
 class CategoryController extends Controller
 {
     /**
@@ -28,6 +28,10 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        $cate = new Category;
+        $data = $cate::orderRaw('path,cid,","')->all();
+        dump($data);
+        return view ('admin.category.create',['data'=>$data]);
     }
 
     /**

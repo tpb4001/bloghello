@@ -1,128 +1,184 @@
 
 <!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-  <title>blog hello</title>
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width">        
-  <link rel="stylesheet" href="/Background/css/templatemo_main.css">
+<meta charset="utf-8">
+
+<!-- Viewport Metatag -->
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- Plugin Stylesheets first to ease overrides -->
+<link rel="stylesheet" type="text/css" href="/Background/plugins/colorpicker/colorpicker.css" media="screen">
+
+<!-- Required Stylesheets -->
+<link rel="stylesheet" type="text/css" href="/Background/bootstrap/css/bootstrap.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/css/fonts/ptsans/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/css/fonts/icomoon/style.css" media="screen">
+
+<link rel="stylesheet" type="text/css" href="/Background/css/mws-style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/css/icons/icol16.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/css/icons/icol32.css" media="screen">
+
+<!-- Demo Stylesheet -->
+<link rel="stylesheet" type="text/css" href="/Background/css/demo.css" media="screen">
+
+<!-- jQuery-UI Stylesheet -->
+<link rel="stylesheet" type="text/css" href="/Background/jui/css/jquery.ui.all.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/jui/jquery-ui.custom.css" media="screen">
+
+<!-- Theme Stylesheet -->
+<link rel="stylesheet" type="text/css" href="/Background/css/mws-theme.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/Background/css/themer.css" media="screen">
+
+<title>MWS Admin - Icons</title>
+
 </head>
+
 <body>
-  <div class="navbar navbar-inverse" role="navigation">
-      <div class="navbar-header">
-        <div class="logo"><h1>管理员</h1></div>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> 
-      </div>   
-    </div>
-    <div class="template-page-wrapper">
-      <div class="navbar-collapse collapse templatemo-sidebar">
-        <ul class="templatemo-sidebar-menu">
-          <li>
-            <form class="navbar-form">
-              <input type="text" class="form-control" id="templatemo_search_box" placeholder="Search...">
-              <span class="btn btn-default">Go</span>
-            </form>
-          </li>
-          <li class="active"><a href="#"><i class="fa fa-home"></i>控制面板</a></li>
-          <li class="sub open">
-            <a href="javascript:;">
-              <i class="fa fa-database"></i> 用户管理 <div class="pull-right"><span class="caret"></span></div>
-            </a>
-            <ul class="templatemo-submenu">
-              <li><a href="#">添加用户</a></li>
-              <li><a href="#">浏览用户</a></li>
-            </ul>
-          </li>
-        </ul>
+  <!-- Header -->
+  <div id="mws-header" class="clearfix">
+    
+      <!-- Logo Container -->
+      <div id="mws-logo-container">
+        
+          <!-- Logo Wrapper, images put within this wrapper will always be vertically centered -->
+          <div id="mws-logo-wrap">
+              <img src="/Background/images/mws-logo.png" alt="mws admin">
       </div>
-   	  <!-- 内容 开始 -->
-      <div class="templatemo-content-wrapper">
-        <div class="templatemo-content">
-        <ol class="breadcrumb">
-            <li><a href="/admin"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">管理面板</font></font></a></li>
-         </ol>
-         @section('content')
-
-         @show
         </div>
-      </div>
-      <!-- 内容 结束 -->
-      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+        <!-- User Tools (notifications, logout, profile, change password) -->
+        <div id="mws-user-tools" class="clearfix">
+        
+          <!-- Notifications -->
+          <div id="mws-user-notif" class="mws-dropdown-menu">
             </div>
-            <div class="modal-footer">
-              <a href="sign-in.html" class="btn btn-primary">Yes</a>
-              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <!-- Messages -->
+            <div id="mws-user-message" class="mws-dropdown-menu">
             </div>
-          </div>
+            
+            <!-- User Information and functions section -->
+            <div id="mws-user-info" class="mws-inset">
+            
+              <!-- User Photo -->
+              <div id="mws-user-photo">
+                  <img src="/Background/example/profile.jpg" alt="User Photo">
+                </div>
+                
+                <!-- Username and Functions -->
+                <div id="mws-user-functions">
+                    <div id="mws-username">
+                       hello admin
+                    </div>
+                    <ul>
+                      <li><a href="#">轮廓</a></li>
+                        <li><a href="#">更改密码</a></li>
+                        <li><a href="index.html">退出</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
+    
+    <!-- Start Main Wrapper -->
+    <div id="mws-wrapper">
+    
+      <!-- Necessary markup, do not remove -->
+    <div id="mws-sidebar-stitch"></div>
+    <div id="mws-sidebar-bg"></div>
+        
+        <!-- Sidebar Wrapper -->
+        <div id="mws-sidebar">
+        
+            <!-- Hidden Nav Collapse Button -->
+            <div id="mws-nav-collapse">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+          <!-- Searchbox -->
+          <div id="mws-searchbox" class="mws-inset">
+              <form action="typography.html">
+                  <input type="text" class="mws-search-input" placeholder="Search...">
+                    <button type="submit" class="mws-search-submit"><i class="icon-search"></i></button>
+                </form>
+            </div>
+            
+            <!-- Main Navigation -->
+            <!-- 导航栏 开始 -->
+            <div id="mws-navigation">
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-user"></i>用户管理</a>
+                        <ul>
+                            <li><a href="form_layouts.html">添加用户</a></li>
+                            <li><a href="form_elements.html">浏览用户</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="mws-navigation">
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-align-left"></i>类别管理</a>
+                        <ul>
+                            <li><a href="form_layouts.html">添加类别</a></li>
+                            <li><a href="form_elements.html">浏览类别</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- 导航栏 结束 -->
+        </div>
+        
+      <!-- 内容 开始 -->
+        <div id="mws-container" class="clearfix">
+          @section('content')
+
+          @show
+        </div>
+      <!-- 内容 结束 -->>
+                       
+            <!-- Footer -->
+            <div id="mws-footer">
+              Copyright Your Website 2012. All Rights Reserved.
+            </div>
+            
+        </div>
+        <!-- Main Container End -->
+        
     </div>
 
-    <script src="/Background/js/jquery.min.js"></script>
-    <script src="/Background/js/bootstrap.min.js"></script>
-    <script src="/Background/js/Chart.min.js"></script>
-    <script src="/Background/js/templatemo_script.js"></script>
+    <!-- JavaScript Plugins -->
+    <script src="/Background/js/libs/jquery-1.8.3.min.js"></script>
+    <script src="/Background/js/libs/jquery.mousewheel.min.js"></script>
+    <script src="/Background/js/libs/jquery.placeholder.min.js"></script>
+    <script src="/Background/custom-plugins/fileinput.js"></script>
+    
+    <!-- jQuery-UI Dependent Scripts -->
+    <script src="/Background/jui/js/jquery-ui-1.9.2.min.js"></script>
+    <script src="/Background/jui/jquery-ui.custom.min.js"></script>
+    <script src="/Background/jui/js/jquery.ui.touch-punch.js"></script>
+
+    <!-- Plugin Scripts -->
+    <script src="/Background/plugins/colorpicker/colorpicker-min.js"></script>
+
+    <!-- Core Script -->
+    <script src="/Background/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Background/js/core/mws.js"></script>
+
+    <!-- Themer Script (Remove if not needed) -->
+    <script src="/Background/js/core/themer.js"></script>
+
+    <!-- Demo Scripts (remove if not needed) -->
     <script type="text/javascript">
-    // Line chart
-    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-    var lineChartData = {
-      labels : ["January","February","March","April","May","June","July"],
-      datasets : [
-      {
-        label: "My First dataset",
-        fillColor : "rgba(220,220,220,0.2)",
-        strokeColor : "rgba(220,220,220,1)",
-        pointColor : "rgba(220,220,220,1)",
-        pointStrokeColor : "#fff",
-        pointHighlightFill : "#fff",
-        pointHighlightStroke : "rgba(220,220,220,1)",
-        data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-      },
-      {
-        label: "My Second dataset",
-        fillColor : "rgba(151,187,205,0.2)",
-        strokeColor : "rgba(151,187,205,1)",
-        pointColor : "rgba(151,187,205,1)",
-        pointStrokeColor : "#fff",
-        pointHighlightFill : "#fff",
-        pointHighlightStroke : "rgba(151,187,205,1)",
-        data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-      }
-      ]
+        $(function() {
+            $.fn.tabs && $('.mws-tabs').tabs();
+        });
+    </script>
 
-    }
-
-    window.onload = function(){
-      var ctx_line = document.getElementById("templatemo-line-chart").getContext("2d");
-      window.myLine = new Chart(ctx_line).Line(lineChartData, {
-        responsive: true
-      });
-    };
-
-    $('#myTab a').click(function (e) {
-      e.preventDefault();
-      $(this).tab('show');
-    });
-
-    $('#loading-example-btn').click(function () {
-      var btn = $(this);
-      btn.button('loading');
-      // $.ajax(...).always(function () {
-      //   btn.button('reset');
-      // });
-  });
-  </script>
 </body>
 </html>
