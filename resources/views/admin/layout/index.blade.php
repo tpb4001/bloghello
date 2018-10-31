@@ -114,8 +114,8 @@
                     <li>
                         <a href="#"><i class="icon-user"></i>用户管理</a>
                         <ul>
-                            <li><a href="form_layouts.html">添加用户</a></li>
-                            <li><a href="form_elements.html">浏览用户</a></li>
+                            <li><a href="/admin/users">用户列表</a></li>
+                            <li><a href="/admin/users/create">添加用户</a></li>
                         </ul>
                     </li>
                 </ul>
