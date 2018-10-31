@@ -131,6 +131,39 @@
                     </li>
                 </ul>
             </div>
+            <div id="mws-navigation">
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-tags"></i>标签管理</a>
+                        <ul>
+                            <li><a href="/admin/tags/create">添加标签</a></li>
+                            <li><a href="/admin/tags">浏览标签</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="mws-navigation">
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-edit"></i>公告管理</a>
+                        <ul>
+                            <li><a href="/admin/notice/create">添加公告</a></li>
+                            <li><a href="/admin/notice">浏览公告</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="mws-navigation">
+                <ul>
+                    <li>
+                        <a href="#"><i class="icon-link"></i>友情链接</a>
+                        <ul>
+                            <li><a href="/admin/link/create">添加链接</a></li>
+                            <li><a href="/admin/link">浏览链接</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             <!-- 导航栏 结束 -->
         </div>
         

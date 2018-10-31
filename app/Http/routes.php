@@ -21,7 +21,12 @@ Route::get('/admin','Admin\IndexController@index');
 Route::resource('/admin/users','Admin\UsersController');
 // 添加分类
 Route::resource('/admin/cates','Admin\CatesController');
-
+// 添加标签
+Route::resource('/admin/tags','Admin\TagsController');
+// 添加公告
+Route::resource('/admin/notice','Admin\NoticeController');
+// 友情链接
+Route::resource('/admin/link','Admin\LinkController');
 
 
 
