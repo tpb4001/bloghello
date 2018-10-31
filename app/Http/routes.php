@@ -26,5 +26,5 @@ Route::resource('/admin/tags','Admin\TagsController');
 // 添加公告
 Route::resource('/admin/notice','Admin\NoticeController');
 // 友情链接
-Route::resource('/admin/link','Admin\LinkController');
+Route::resource('/admin/link','Admin\LinksController');
 

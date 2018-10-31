@@ -11,29 +11,29 @@
                             <thead>
                                 <tr>
 									<th>ID</th>
-									<th>用户名</th>
-									<th>手机号码</th>
-									<th>邮箱</th>
-									<th>身份</th>
+									<th>链接名称</th>
+									<th>链接地址</th>
+									<th>链接logo</th>
+									<th>状态</th>
 									<th>注册日期</th>
 									<th>操作</th>
 
                                 </tr>
                             </thead>
                            <tbody role="alert" aria-live="polite" aria-relevant="all">
-								@foreach($user as $k => $v)
+								@foreach($link as $k => $v)
                            		<tr class="odd">
                            			
                                     <td>{{$v->id}}</td>
-                                    <td>{{$v->uname}}</td>
-                                    <td>{{$v->userinfo->phone}}</td>
-                                    <td>{{$v->userinfo->email}}</td>
-                                    <td>{{$v->ldentity}}</td>
+                                    <td>{{$v->lname}}</td>
+                                    <td>{{$v->url}}</td>
+                                    <td>{{$v->pic}}</td>
+                                    <td>{{$v->status}}</td>
                                     <td>{{$v->created_at}}</td>
                                     <td>
-										<a href="/admin/users/{{$v->id}}/edit" class="btn btn-warning">修改</a>
-										<a href="" class="btn btn-info">详情</a>
-										<form action="/admin/users/{{$v->id}}" method="post" style="display: inline-block">
+										<a href="/admin/link/{{$v->id}}/edit" class="btn btn-warning">修改</a>
+										
+										<form action="/admin/link/{{ $v->id }}" method="post" style="display: inline-block">
 											{{csrf_field()}}
 											{{method_field('DELETE')}}
 											<input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
