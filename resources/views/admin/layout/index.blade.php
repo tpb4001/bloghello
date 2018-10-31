@@ -32,7 +32,7 @@
 <!-- Theme Stylesheet -->
 <link rel="stylesheet" type="text/css" href="/Background/css/mws-theme.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/themer.css" media="screen">
-
+<link rel="stylesheet" type="text/css" href="/Background/css/page_page.css">
 <title>MWS Admin - Icons</title>
 
 </head>
@@ -181,6 +181,17 @@
               {{ session('error') }}
             </div>
           @endif
+          <!-- 显示验证信息 开始 -->
+             @if (count($errors) > 0)
+                 <div class="mws-form-message error">
+                     <ul>
+                         @foreach ($errors->all() as $error)
+                             <li>{{ $error }}</li>
+                         @endforeach
+                     </ul>
+                 </div>
+             @endif
+           <!-- 显示验证信息 结束 -->
           <!-- 读取提示信息 结束 -->
           @section('content')
 
