@@ -105,13 +105,14 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         // 开启事务  
          DB::beginTransaction();
 
-        // 获取数据 进行添加
-        $user = new USer;
+        // 获取数据 进行修改
+        $user = User::find($id);
         $user->uname = $request->input('uname');
+        $user->ldentity = $request->input('ldentity');
+        $user->upass = Hash::make($request->input('upass'));
         $res1 = $user->save();//bool
         $id=$user->id;//获取最后插入的id号
         $userdetail = new Userdetail;
@@ -122,11 +123,11 @@ class UsersController extends Controller
       if($res1 && $res2){
         // 提交事务   
          DB::commit();
-         return redirect('admin/users')->with('success','修改成功');
+         return redirect('admin/users')->with('success','添加成功');
       }else{
         // 回滚事务  
          DB::rollBack();
-         return back()->with('error','修改失败');
+         return back()->with('error','添加失败');
       }
     }
 
