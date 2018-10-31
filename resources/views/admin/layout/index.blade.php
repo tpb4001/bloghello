@@ -125,8 +125,8 @@
                     <li>
                         <a href="#"><i class="icon-align-left"></i>类别管理</a>
                         <ul>
-                            <li><a href="form_layouts.html">添加类别</a></li>
-                            <li><a href="form_elements.html">浏览类别</a></li>
+                            <li><a href="/admin/cates/create">添加类别</a></li>
+                            <li><a href="/admin/cates">浏览类别</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -136,6 +136,19 @@
         
       <!-- 内容 开始 -->
         <div id="mws-container" class="clearfix">
+          <!-- 读取提示信息 开始 -->
+          @if (session('success'))
+            <div class="mws-form-message success">
+              {{ session('success') }}
+            </div>
+          @endif
+
+          @if (session('error'))
+            <div class="mws-form-message error">
+              {{ session('error') }}
+            </div>
+          @endif
+          <!-- 读取提示信息 结束 -->
           @section('content')
 
           @show

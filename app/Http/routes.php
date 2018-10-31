@@ -14,6 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// 后台首页
+Route::get('/admin','Admin\IndexController@index');
+// 添加分类
+Route::resource('/admin/cates','Admin\CatesController');
 
 
 
