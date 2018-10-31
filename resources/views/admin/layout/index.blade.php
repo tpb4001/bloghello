@@ -136,8 +136,8 @@
                     <li>
                         <a href="#"><i class="icon-tags"></i>标签管理</a>
                         <ul>
+                        	<li><a href="/admin/tags">浏览标签</a></li>
                             <li><a href="/admin/tags/create">添加标签</a></li>
-                            <li><a href="/admin/tags">浏览标签</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -147,8 +147,8 @@
                     <li>
                         <a href="#"><i class="icon-edit"></i>公告管理</a>
                         <ul>
+                        	<li><a href="/admin/notice">浏览公告</a></li>
                             <li><a href="/admin/notice/create">添加公告</a></li>
-                            <li><a href="/admin/notice">浏览公告</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -158,8 +158,8 @@
                     <li>
                         <a href="#"><i class="icon-link"></i>友情链接</a>
                         <ul>
+                        	<li><a href="/admin/link">浏览链接</a></li>
                             <li><a href="/admin/link/create">添加链接</a></li>
-                            <li><a href="/admin/link">浏览链接</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -182,6 +182,20 @@
             </div>
           @endif
           <!-- 读取提示信息 结束 -->
+          <!-- 显示验证信息 开始 -->
+
+
+             @if (count($errors) > 0)
+                 <div class="mws-form-message error">
+                     <ul>
+                         @foreach ($errors->all() as $error)
+                             <li>{{ $error }}</li>
+                         @endforeach
+                     </ul>
+                 </div>
+             @endif
+           <!-- 显示验证信息 结束 -->
+          
           @section('content')
 
           @show

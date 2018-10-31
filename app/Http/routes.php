@@ -48,7 +48,7 @@ Route::resource('/admin/link','Admin\LinkController');
 
 
 
-
+// 后台的公告路由
 
 
 
