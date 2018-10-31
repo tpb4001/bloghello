@@ -52,7 +52,7 @@
                         	<form action="/admin/cates/{{ $v->id }}" method="post" style="display: inline-block;">
                         		{{ csrf_field() }}
                         		{{ method_field('DELETE') }}
-                        		<input type="submit" value="删除" class="btn btn-danger">
+                        		<input type="submit" onclick="return confirm('请确认删除');" value="删除" class="btn btn-danger">
                         	</form>
                         </td>
                     </tr>

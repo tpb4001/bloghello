@@ -27,4 +27,3 @@ Route::resource('/admin/tags','Admin\TagsController');
 Route::resource('/admin/notice','Admin\NoticeController');
 // 友情链接
 Route::resource('/admin/link','Admin\LinksController');
-
