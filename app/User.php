@@ -36,4 +36,9 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+    // 配置用户和用户详情
+    public function userinfo()
+    {
+        return $this->hasOne('App\Models\Userdetail','uid');
+    }
 }

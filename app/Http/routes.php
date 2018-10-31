@@ -14,7 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+// 后台用户路由
+Route::resource('/admin/users','Admin\UsersController');
 
 
 

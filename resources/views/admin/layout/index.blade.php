@@ -114,8 +114,9 @@
                     <li>
                         <a href="#"><i class="icon-user"></i>用户管理</a>
                         <ul>
-                            <li><a href="form_layouts.html">添加用户</a></li>
-                            <li><a href="form_elements.html">浏览用户</a></li>
+                            <li><a href="/admin/users">用户列表</a></li>
+                            <li><a href="/admin/users/create">添加用户</a></li>
+                            
                         </ul>
                     </li>
                 </ul>
@@ -136,6 +137,30 @@
         
       <!-- 内容 开始 -->
         <div id="mws-container" class="clearfix">
+         
+          <!-- 读取提示信息 开始 -->
+          @if (session('success'))
+              <div class="mws-form-message success">
+                  {{ session('success') }}
+              </div>
+          @endif
+           @if (session('error'))
+              <div class="mws-form-message error">
+                  {{ session('error') }}
+              </div>
+          @endif
+          <!-- 显示验证错误信息 开始 -->
+             @if (count($errors) > 0)
+                 <div class="mws-form-message error">
+                     <ul>
+                         @foreach ($errors->all() as $error)
+                             <li>{{ $error }}</li>
+                         @endforeach
+                     </ul>
+                 </div>
+             @endif
+         <!-- 结束 -->
+          <!-- 读取提示信息 结束  -->
           @section('content')
 
           @show
