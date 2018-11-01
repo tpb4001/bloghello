@@ -17,13 +17,19 @@ Route::get('/', function () {
 
 // 后台首页
 Route::get('/admin','Admin\IndexController@index');
-// 后台用户路由
+// 用户管理
 Route::resource('/admin/users','Admin\UsersController');
-// 添加分类
+// 分类管理
 Route::resource('/admin/cates','Admin\CatesController');
-// 添加标签
+// 标签管理
 Route::resource('/admin/tags','Admin\TagsController');
-// 添加公告
+// 公告管理
 Route::resource('/admin/notice','Admin\NoticeController');
 // 友情链接
 Route::resource('/admin/link','Admin\LinksController');
+// 文章管理
+Route::resource('/admin/article','Admin\ArticleController');
+// 留言管理
+Route::resource('/admin/message','Admin\MessageController');
+// 用户举报
+Route::resource('/admin/report','Admin\ReportController');

@@ -118,48 +118,41 @@
                             <li><a href="/admin/users/create">添加用户</a></li>
                         </ul>
                     </li>
-                </ul>
-            </div>
-            <div id="mws-navigation">
-                <ul>
                     <li>
                         <a href="#"><i class="icon-align-left"></i>类别管理</a>
                         <ul>
-                            <li><a href="/admin/cates/create">添加类别</a></li>
                             <li><a href="/admin/cates">浏览类别</a></li>
+                            <li><a href="/admin/cates/create">添加类别</a></li>
                         </ul>
                     </li>
-                </ul>
-            </div>
-            <div id="mws-navigation">
-                <ul>
                     <li>
                         <a href="#"><i class="icon-tags"></i>标签管理</a>
                         <ul>
-                        	<li><a href="/admin/tags">浏览标签</a></li>
+                          <li><a href="/admin/tags">浏览标签</a></li>
                             <li><a href="/admin/tags/create">添加标签</a></li>
                         </ul>
                     </li>
-                </ul>
-            </div>
-            <div id="mws-navigation">
-                <ul>
                     <li>
                         <a href="#"><i class="icon-edit"></i>公告管理</a>
                         <ul>
-                        	<li><a href="/admin/notice">浏览公告</a></li>
-                            <li><a href="/admin/notice/create">添加公告</a></li>
+                          <li><a href="/admin/notice">浏览公告</a></li>
+                          <li><a href="/admin/notice/create">添加公告</a></li>
                         </ul>
                     </li>
-                </ul>
-            </div>
-            <div id="mws-navigation">
-                <ul>
+                    <li>
+                        <a href="/admin/article"><i class="icon-book"></i>文章管理</a>
+                    </li>
+                    <li>
+                        <a href="/admin/message"><i class="icon-pencil-2"></i>留言管理</a>
+                    </li>
+                    <li>
+                        <a href="/admin/report"><i class="icon-blocked"></i>用户举报</a>
+                    </li>
                     <li>
                         <a href="#"><i class="icon-link"></i>友情链接</a>
-                        <ul>
-                        	<li><a href="/admin/link">浏览链接</a></li>
-                            <li><a href="/admin/link/create">添加链接</a></li>
+                        <ul class="closed" style="display: none;">
+                          <li><a href="/admin/link">浏览链接</a></li>
+                          <li><a href="/admin/link/create">添加链接</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -181,6 +174,7 @@
               {{ session('error') }}
             </div>
           @endif
+          <!-- 读取提示信息 结束 -->
           <!-- 显示验证信息 开始 -->
              @if (count($errors) > 0)
                  <div class="mws-form-message error">
@@ -192,7 +186,6 @@
                  </div>
              @endif
            <!-- 显示验证信息 结束 -->
-          <!-- 读取提示信息 结束 -->
           @section('content')
 
           @show
