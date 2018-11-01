@@ -78,7 +78,9 @@
 <!-- 导航栏 结束 -->
 <!-- 内容 开始 -->
 	<section class="container">
-		
+		@section('content')
+
+		@show
 	</section>
 <!-- 内容 结束 -->
 <!-- 页脚 开始 -->
