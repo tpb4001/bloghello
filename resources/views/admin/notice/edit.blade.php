@@ -38,6 +38,8 @@
 <script type="text/javascript" src="/utf8-php/ueditor.all.js"></script>
  <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    var ue = UE.getEditor('container');
+    var ue = UE.getEditor('container',{toolbars: [
+    ['source', 'undo', 'redo','fontfamily', 'bold','forecolor','snapscreen','insertimage','link','attachment',]
+]});
 </script>
 @endsection

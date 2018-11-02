@@ -31,3 +31,22 @@ Route::resource('/admin/article','Admin\ArticleController');
 Route::resource('/admin/message','Admin\MessageController');
 // 用户举报
 Route::resource('/admin/report','Admin\ReportController');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 轮播图
+Route::resource('/admin/image','Admin\ImageController');

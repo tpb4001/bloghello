@@ -143,7 +143,18 @@
                         <a href="/admin/article"><i class="icon-book"></i>文章管理</a>
                     </li>
                     <li>
-                        <a href="/admin/message"><i class="icon-pencil-2"></i>留言管理</a>
+                        <a href="#"><i class="icon-pencil-2"></i>留言管理</a>
+                        <ul>
+                          <li><a href="/admin/message">浏览留言</a></li>
+                          <li><a href="/admin/message/create">回复留言</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="icon-pictures"></i>轮播图</a>
+                        <ul>
+                          <li><a href="/admin/image">浏览图片</a></li>
+                          <li><a href="/admin/image/create">添加图片</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="/admin/report"><i class="icon-blocked"></i>用户举报</a>
