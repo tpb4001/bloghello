@@ -73,7 +73,7 @@
                        hello {{ session('uname') }}
                     </div>
                     <ul>
-                      <li><a href="/admin/{{ $user->id }}">个人详情</a></li>
+                      <li><a href="/admin/show/">个人详情</a></li>
                         <li><a href="#">更改密码</a></li>
                         <li><a href="index.html">退出</a></li>
                     </ul>
@@ -147,7 +147,18 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/admin/message"><i class="icon-pencil-2"></i>留言管理</a>
+                        <a href="#"><i class="icon-pencil-2"></i>留言管理</a>
+                        <ul>
+                          <li><a href="/admin/message">浏览留言</a></li>
+                          <li><a href="/admin/message/create">回复留言</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="icon-pictures"></i>轮播图</a>
+                        <ul>
+                          <li><a href="/admin/image">浏览图片</a></li>
+                          <li><a href="/admin/image/create">添加图片</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="/admin/report"><i class="icon-blocked"></i>用户举报</a>

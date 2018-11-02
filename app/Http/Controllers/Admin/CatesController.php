@@ -31,7 +31,6 @@ class CatesController extends Controller
      */
     public function index()
     {
-        //加载视图
        return view('admin.cates.index',['title'=>'浏览类别','cates'=>self::getCates()]);
     }
 

@@ -20,7 +20,8 @@ Route::post('/admin/login/ACname','Admin\LoginController@ACname');
 Route::group(['middleware' => 'admin'],function()
 {
 	// 后台首页
-	Route::resource('/admin','Admin\IndexController');
+	Route::get('/admin','Admin\IndexController@index');
+	Route::get('/admin/show/{id}','Admin\IndexController@show');
 	// 用户管理
 	Route::resource('/admin/users','Admin\UsersController');
 	// 分类管理
@@ -37,7 +38,8 @@ Route::group(['middleware' => 'admin'],function()
 	Route::resource('/admin/message','Admin\MessageController');
 	// 用户举报
 	Route::resource('/admin/report','Admin\ReportController');
+	// 轮播图
+	Route::resource('/admin/image','Admin\ImageController');
 
 });
     
-

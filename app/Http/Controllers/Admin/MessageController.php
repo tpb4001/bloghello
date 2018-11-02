@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
-use App\Providers\AppServiceProvider;
-class IndexController extends Controller
+use App\Models\Message;
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,8 @@ class IndexController extends Controller
      */
     public function index()
     {
-        //
-        
-        // echo '1111';
-        // exit;
-        return view('admin.index.index');
+        $message = Message::all();
+        return view('admin.message.index',['message'=>$message]);
     }
 
     /**
@@ -47,14 +43,13 @@ class IndexController extends Controller
 
     /**
      * Display the specified resource.
-     *  
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        return view('admin.index.show');
     }
 
     /**
@@ -66,7 +61,6 @@ class IndexController extends Controller
     public function edit($id)
     {
         //
-        echo $id;
     }
 
     /**
@@ -78,7 +72,7 @@ class IndexController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -87,8 +81,13 @@ class IndexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+   
     public function destroy($id)
     {
-        //
+        if(Message::destroy($id)){
+        return redirect('admin/message')->with('success','删除成功');
+        }else{
+        return back()->with('error','删除失败');
+        }
     }
 }
