@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="/Background/css/mws-theme.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/themer.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/page_page.css">
-<title>MWS Admin - Icons</title>
+<title>BLOG-HELLO Admin - Icons</title>
 
 </head>
 
@@ -141,6 +141,10 @@
                     </li>
                     <li>
                         <a href="/admin/article"><i class="icon-book"></i>文章管理</a>
+                        <ul>
+                          <li><a href="/admin/article">浏览文章</a></li>
+                          <li><a href="/admin/article/create">添加文章</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="/admin/message"><i class="icon-pencil-2"></i>留言管理</a>
