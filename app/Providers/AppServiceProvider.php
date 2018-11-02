@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\User;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,6 +14,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        
+        // return view()->share('user', $user);
+        view()->composer(['admin.*'],function($view){
+            $uname = session('uname');
+            $user = User::where('uname',$uname)->first();
+            view()->share('user',$user);
+        });
     }
 
     /**

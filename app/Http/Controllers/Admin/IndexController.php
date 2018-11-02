@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\User;
+use App\Providers\AppServiceProvider;
 class IndexController extends Controller
 {
     /**
@@ -17,6 +18,8 @@ class IndexController extends Controller
     public function index()
     {
         //
+        
+        
         return view('admin.index.index');
     }
 
@@ -43,13 +46,14 @@ class IndexController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *  
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
+        return view('admin.index.show');
     }
 
     /**
@@ -61,6 +65,7 @@ class IndexController extends Controller
     public function edit($id)
     {
         //
+        echo $id;
     }
 
     /**

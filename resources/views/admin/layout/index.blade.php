@@ -70,10 +70,10 @@
                 <!-- Username and Functions -->
                 <div id="mws-user-functions">
                     <div id="mws-username">
-                       hello admin
+                       hello {{ session('uname') }}
                     </div>
                     <ul>
-                      <li><a href="#">轮廓</a></li>
+                      <li><a href="/admin/{{ $user->id }}">个人详情</a></li>
                         <li><a href="#">更改密码</a></li>
                         <li><a href="index.html">退出</a></li>
                     </ul>
