@@ -6,15 +6,24 @@
         	<span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $title }}</font></font></span>
         </div>
         <div class="mws-panel-body no-padding">
-        	<form class="mws-form" action="/admin/index/{{ $data->id }}" method="post">
+        	<form class="mws-form" action="/admin/index/{{ $data->id }}" method="post" enctype="multipart/form-data">
         		{{ csrf_field() }}
         		{{ method_field('PUT') }}
         		<input type="hidden" name="show" value="show">
         		<div class="mws-form-inline">
+        			<div class="mws-form-row" style="width: 200px;height: 200px; display: block; margin-left: auto; margin-right: auto;">
+                    	<span class="thumbnail"><img src="{{ $data->userinfo->avatar or '/Background/example/cyan_hawk.jpg'}}" style="width:200px;height: 200px;" alt=""></span>
+                    </div>
+                    <div class="mws-form-row">
+        				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">头像</font></font></label>
+        				<div class="mws-form-item">
+        					<input type="file" style="width: 200px;" name="avatar" class="medium">
+        				</div>
+        			</div>    
         			<div class="mws-form-row">
         				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用户名</font></font></label>
         				<div class="mws-form-item">
-        					<input type="text" name="uname" value="{{ $data->uname }}" class="medium">
+        					<input type="text" name="uname" readonly value="{{ $data->uname }}" class="medium">
         				</div>
         			</div>
         			<div class="mws-form-row">

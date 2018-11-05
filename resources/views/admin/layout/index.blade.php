@@ -64,7 +64,7 @@
             
               <!-- User Photo -->
               <div id="mws-user-photo">
-                  <img src="/Background/example/profile.jpg" alt="User Photo">
+                  <img src="{{ $account->userinfo->avatar or '/Background/example/profile.jpg' }}" alt="用户头像">
                 </div>
                 
                 <!-- Username and Functions -->

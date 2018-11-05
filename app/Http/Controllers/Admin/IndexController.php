@@ -88,6 +88,17 @@ class IndexController extends Controller
         if (!empty($request->input('show'))) {
             // 保存个人详情修改信息  
             $User_details = User_details::where('uid',$id)->first();
+            //头像修改
+            if ($request->hasFile('avatar')) {
+                $profile = $request -> file('avatar');
+                $ext = $profile ->getClientOriginalExtension(); 
+                $file_name = str_random('20').'.'.$ext;
+                $dir_name = './uploads/'.date('Ymd',time());
+                $res = $profile -> move($dir_name,$file_name);
+                // 拼接数据库存放路径
+                $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+                $User_details->avatar = $profile_path;
+            }
             $User_details->phone = $request->input('phone');
             $User_details->email = $request->input('email');
             $User_details->sex = $request->input('sex');
