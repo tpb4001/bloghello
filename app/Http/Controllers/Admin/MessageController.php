@@ -60,7 +60,8 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Message::find($id);
+        return view('admin.message.edit',['title'=>'留言修改','data'=>$data]);
     }
 
     /**
@@ -72,7 +73,15 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        // // 获取数据 进行回复
+        $message = Message::find($id);
+        $message->huifu = $request->input('huifu');
+        if($message->save()) {
+            return redirect('/admin/message')->with('success','回复成功');
+        } else {
+            return back()->with('error','回复失败');
+        }
+       
     }
 
     /**

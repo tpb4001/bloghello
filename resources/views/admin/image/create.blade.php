@@ -6,14 +6,20 @@
     	<span>{{ $image or '' }}</span>
     </div>
     <div class="mws-panel-body no-padding">
-    	<form class="mws-form" action="/admin/image" method="post">
+    	<form class="mws-form" action="/admin/image" method="post" enctype="multipart/form-data">
     		{{ csrf_field() }}
     		<div class="mws-form-inline">
+          <div id="" class="mws-form-row">
+              <label class="mws-form-label">图片名字<span class="required">*</span></label>
+              <div class="mws-form-item">
+                  <input type="text" name="iname" class="small">
+              </div>
+          </div>
     			<div class="mws-form-row">
     				<label class="mws-form-label">链接路径</font></label>
-                      	<div class="mws-form-item">
-                           <input type="text" name="url" value="{{ old('iurl')}}" class="small">
-                   		</div>
+            	<div class="mws-form-item">
+                 <input type="text" name="iurl" value="{{ old('iurl')}}" class="small">
+         		  </div>
     			</div>
     			<div class="mws-form-row">
     				<label class="mws-form-label">图片</label>
@@ -23,7 +29,7 @@
     			</div>
     			<div class="mws-form-item clearfix">
                      <ul class="mws-form-list inline">
-                          <li><input type="radio" name="status" value="1">激活</li>
+                          <li><input type="radio" name="status" value="1" checked>激活</li>
                           <li><input type="radio" name="status" value="2">未激活</li>
                      </ul>
                 </div>

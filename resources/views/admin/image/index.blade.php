@@ -45,7 +45,7 @@
                     <td>{{ $v->iname }}</td>
                     <td>{{ $v->iurl }}</td>
                     <td><img src="{{ $v->img }}" style="width:200px;height:70px;border-radius:0px;"></td>
-                    <td>@if ($v->status == 0)
+                    <td>@if ($v->status == 2)
 						    未激活
 						@else
 						    激活
