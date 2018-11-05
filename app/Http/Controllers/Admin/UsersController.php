@@ -50,7 +50,7 @@ class UsersController extends Controller
         // 获取数据 进行添加
         $user = new USer;
         $user->uname = $request->input('uname');
-        $user->ldentity = $request->input('ldentity');
+        $user->Identity = $request->input('ldentity');
         $user->upass = Hash::make($request->input('upass'));
         $res1 = $user->save();//bool
         $id=$user->id;//获取最后插入的id号

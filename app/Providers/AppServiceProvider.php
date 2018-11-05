@@ -18,8 +18,8 @@ class AppServiceProvider extends ServiceProvider
         // return view()->share('user', $user);
         view()->composer(['admin.*'],function($view){
             $uname = session('uname');
-            $user = User::where('uname',$uname)->first();
-            view()->share('user',$user);
+            $Account = User::where('uname',$uname)->first();
+            view()->share('account',$Account);
         });
     }
 

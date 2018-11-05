@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\User_details;
 use App\Providers\AppServiceProvider;
+use DB;
+use Hash;
+use App\Http\Requests\UpassStoreRequest;
 class IndexController extends Controller
 {
     /**
@@ -17,10 +21,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        //
-        
-        // echo '1111';
-        // exit;
+        //加载首页视图
         return view('admin.index.index');
     }
 
@@ -53,8 +54,9 @@ class IndexController extends Controller
      */
     public function show($id)
     {
-        //
-        return view('admin.index.show');
+        $data = User::find($id);
+        //加载个人详情页视图
+        return view('admin.index.show',['title'=>'个人详情','data'=>$data]);
     }
 
     /**
@@ -65,8 +67,9 @@ class IndexController extends Controller
      */
     public function edit($id)
     {
-        //
-        echo $id;
+        $data = User::find($id);
+        // 加载修改密码视图
+        return view('admin.index.edit',['title'=>'修改密码','data'=>$data]);
     }
 
     /**
@@ -76,9 +79,52 @@ class IndexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpassStoreRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        // 开启事务   
+        DB::beginTransaction();
+        //保存修改信息
+        if (!empty($request->input('show'))) {
+            // 保存个人详情修改信息  
+            $User_details = User_details::where('uid',$id)->first();
+            $User_details->phone = $request->input('phone');
+            $User_details->email = $request->input('email');
+            $User_details->sex = $request->input('sex');
+            $User_details->introduce = $request->input('introduce');
+            $res1 = $User_details->save();
+            $user->Identity = $request->input('Identity');
+            $res2 = $user->save();
+            if($res1 && $res2) {
+                // 提交事务   
+                DB::commit();
+                return redirect('/admin/index')->with('success','修改成功');
+            } else {
+                // 回滚事务  
+                DB::rollBack();
+                return back()->with('error','修改失败');
+            }
+        } else {
+            // 修改密码
+            $upass = $user->upass;
+            $jupass = $request->input('jupass');
+            if (Hash::check($jupass,$upass)) {
+                $user->upass = Hash::make($request->input('upass'));
+                if ($user->save()) {
+                    // 提交事务   
+                    DB::commit();
+                    return redirect('/admin/index')->with('success','修改成功');
+                } else {
+                    // 回滚事务  
+                    DB::rollBack();
+                    return back()->with('error','修改失败');
+                }
+            } else {
+                // 回滚事务  
+                DB::rollBack();
+                return back()->with('error','修改失败');
+            }
+        }
     }
 
     /**

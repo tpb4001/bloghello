@@ -37,5 +37,10 @@ class LoginController extends Controller
             echo "error";
         }
     }
+    public function esc(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('admin/login');
+    }
     
 }

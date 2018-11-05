@@ -19,7 +19,7 @@ $(function(){
 						alert('用户名和密码不匹配');
 					} else {
 						isUpass=true;
-						location.href='/admin';
+						location.href='/admin/index';
 					}
 			},'html');
 		};

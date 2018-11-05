@@ -19,9 +19,10 @@ Route::post('/admin/login/ACname','Admin\LoginController@ACname');
 
 Route::group(['middleware' => 'admin'],function()
 {
+	// 退出后台登录
+	Route::get('/admin/login/esc','Admin\LoginController@esc');
 	// 后台首页
-	Route::get('/admin','Admin\IndexController@index');
-	Route::get('/admin/show/{id}','Admin\IndexController@show');
+	Route::resource('/admin/index','Admin\IndexController');
 	// 用户管理
 	Route::resource('/admin/users','Admin\UsersController');
 	// 分类管理

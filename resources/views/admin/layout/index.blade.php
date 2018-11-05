@@ -73,9 +73,9 @@
                        hello {{ session('uname') }}
                     </div>
                     <ul>
-                      <li><a href="/admin/show/">个人详情</a></li>
-                        <li><a href="#">更改密码</a></li>
-                        <li><a href="index.html">退出</a></li>
+                      <li><a href="/admin/index/{{ $account->id }}">个人详情</a></li>
+                        <li><a href="/admin/index/{{ $account->id }}/edit">更改密码</a></li>
+                        <li><a href="/admin/login/esc">退出</a></li>
                     </ul>
                 </div>
             </div>
