@@ -48,8 +48,8 @@ class ImageController extends Controller
         // 开启事物
         DB::beginTransaction();
         // 判断是否有文件上传
-        if($request->hasFile('img')){
-            $profile = $request -> file('img');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
             $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
             $file_name = str_random('20').'.'.$ext;
             $dir_name = './uploads/'.date('Ymd',time());
@@ -119,8 +119,8 @@ class ImageController extends Controller
         $image->iurl = $request->input('iurl');
         $image->status = $request->input('status');
         // 判断是否有文件上传
-        if($request->hasFile('img')){
-            $profile = $request -> file('img');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
             $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
             $file_name = str_random('20').'.'.$ext;
             $dir_name = './uploads/'.date('Ymd',time());
@@ -128,7 +128,10 @@ class ImageController extends Controller
             // 拼接数据库存放路径
             $profile_path = ltrim($dir_name.'/'.$file_name,'.');
             $image->img = $profile_path;
+        }else{
+        	 $image->img = $image->img;
         }
+       
         $res = $image->save(); // bool
         
         if($res){
