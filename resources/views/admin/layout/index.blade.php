@@ -150,7 +150,6 @@
                         <a href="#"><i class="icon-pencil-2"></i>留言管理</a>
                         <ul>
                           <li><a href="/admin/message">浏览留言</a></li>
-                          <li><a href="/admin/message/create">回复留言</a></li>
                         </ul>
                     </li>
                     <li>

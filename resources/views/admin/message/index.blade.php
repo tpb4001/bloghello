@@ -11,9 +11,9 @@
                     <tr>
                         <th><font style="vertical-align: inherit; font-size:20px;">ID</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">用户名</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">留言内容</font></th>
+                        <th><font style="vertical-align: inherit; font-size:20px;">用户留言</font></th>
+                        <th><font style="vertical-align: inherit; font-size:20px;">回复留言</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">留言时间</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">状态</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">操作</font></th>
                     </tr>
                 </thead>
@@ -23,13 +23,14 @@
                     <td>{{ $v->id }}</td>
                     <td>{{ $v->uname }}</td>
                     <td>{{ $v->umes }}</td>
-                    <td>{{ $v->send_time }}</td>
-                    <td>{{ $v->status }}</td>
+                    <td>{{ $v->huifu }}</td>
+                    <td>{{ $v->time }}</td>
                     <td>
+                        <a href="/admin/message/{{$v->id}}/edit" class="btn btn-info">回复</a>
                     <form action="/admin/message/{{ $v->id }}" method="post" style="display: inline-block">
                         {{csrf_field()}}
                         {{method_field('DELETE')}}
-                        <input  type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
+                        <input  type="submit" value="删除留言" class="btn btn-danger" onclick="return confirm('请确认删除');">
                     </form>
                     </td>
                 </tr>
