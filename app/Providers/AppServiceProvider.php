@@ -13,13 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        
-        // return view()->share('user', $user);
-        view()->composer(['admin.*'],function($view){
+        //全局保存用户登录信息
+        view()->composer(['admin.*'] ,function($view) {
             $uname = session('uname');
-            $Account = User::where('uname',$uname)->first();
-            view()->share('account',$Account);
+            $Account = User::where('uname' ,$uname)->first();
+            view()->share('account' ,$Account);
         });
     }
 

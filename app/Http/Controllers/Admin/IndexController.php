@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Models\User_details;
-use App\Providers\AppServiceProvider;
 use DB;
 use Hash;
+use App\User;
+use App\Http\Requests;
+use App\Models\User_details;
+use App\Http\Controllers\Controller;
+use App\Providers\AppServiceProvider;
 use App\Http\Requests\UpassStoreRequest;
+
 class IndexController extends Controller
 {
     /**
@@ -106,7 +107,7 @@ class IndexController extends Controller
             $res1 = $User_details->save();
             $user->Identity = $request->input('Identity');
             $res2 = $user->save();
-            if($res1 && $res2) {
+            if ($res1 && $res2) {
                 // 提交事务   
                 DB::commit();
                 return redirect('/admin/index')->with('success','修改成功');

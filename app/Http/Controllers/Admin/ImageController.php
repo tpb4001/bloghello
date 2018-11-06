@@ -48,7 +48,7 @@ class ImageController extends Controller
         // 开启事物
         DB::beginTransaction();
         // 判断是否有文件上传
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $profile = $request -> file('image');
             $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
             $file_name = str_random('20').'.'.$ext;
@@ -56,7 +56,7 @@ class ImageController extends Controller
             $res = $profile -> move($dir_name,$file_name);
             // 拼接数据库存放路径
             $profile_path = ltrim($dir_name.'/'.$file_name,'.');
-        }else{
+        } else {
             return redirect() -> back() -> withInput() -> withErrors('没有图片上传');
         }
         // 获取数据 进行添加
@@ -67,11 +67,11 @@ class ImageController extends Controller
         $image->img = $profile_path;
         $image->status = $request->input('status');
         $res = $image->save(); // bool
-        if($res){
+        if ($res) {
             // 提交事务
             DB::commit();
             return redirect('admin/image')->with('success', '添加成功');
-        }else{
+        } else {
             // 事务回滚
             DB::rollBack();
             return back()->with('error','添加失败');
@@ -119,7 +119,7 @@ class ImageController extends Controller
         $image->iurl = $request->input('iurl');
         $image->status = $request->input('status');
         // 判断是否有文件上传
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $profile = $request -> file('image');
             $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
             $file_name = str_random('20').'.'.$ext;
@@ -128,17 +128,17 @@ class ImageController extends Controller
             // 拼接数据库存放路径
             $profile_path = ltrim($dir_name.'/'.$file_name,'.');
             $image->img = $profile_path;
-        }else{
+        } else {
         	 $image->img = $image->img;
         }
        
         $res = $image->save(); // bool
         
-        if($res){
+        if ($res) {
             // 提交事务
             DB::commit();
             return redirect('admin/image')->with('success', '修改成功');
-        }else{
+        } else {
             // 事务回滚
             DB::rollBack();
             return back()->with('error','修改失败');
@@ -153,10 +153,10 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        if(Image::destroy($id)){
-         return redirect('admin/image')->with('success','删除成功');
-         }else{
-         return back()->with('error','删除失败');
+        if (Image::destroy($id)) {
+            return redirect('admin/image')->with('success','删除成功');
+        } else {
+            return back()->with('error','删除失败');
         }
     }
 }

@@ -59,11 +59,11 @@ class UsersController extends Controller
         $userdetail->phone = $request->input('phone');
         $userdetail->email = $request->input('email');
       $res2 = $userdetail->save();
-      if($res1 && $res2){
+      if ($res1 && $res2) {
         // 提交事务   
          DB::commit();
          return redirect('admin/users')->with('success','添加成功');
-      }else{
+      } else {
         // 回滚事务  
          DB::rollBack();
          return back()->with('error','添加失败');
@@ -89,11 +89,9 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        //通过id查询用户信息
         $data = User::find($id);
-      
-
-         return view('admin.users.edit',['title'=>'用户修改','data'=>$data]);
+        return view('admin.users.edit',['title'=>'用户修改','data'=>$data]);
     }
 
     /**
@@ -107,28 +105,38 @@ class UsersController extends Controller
     {
         // 开启事务  
          DB::beginTransaction();
-
         // 获取数据 进行修改
         $user = User::find($id);
         $user->uname = $request->input('uname');
-        $user->ldentity = $request->input('ldentity');
+        $user->Identity = $request->input('Identity');
         $user->upass = Hash::make($request->input('upass'));
         $res1 = $user->save();//bool
         $id=$user->id;//获取最后插入的id号
         $userdetail = new Userdetail;
+        //头像修改
+        if ($request->hasFile('avatar')) {
+            $profile = $request -> file('avatar');
+            $ext = $profile ->getClientOriginalExtension(); 
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $userdetail->avatar = $profile_path;
+        }
         $userdetail->uid = $id;
         $userdetail->phone = $request->input('phone');
         $userdetail->email = $request->input('email');
-      $res2 = $userdetail->save();
-      if($res1 && $res2){
-        // 提交事务   
-         DB::commit();
-         return redirect('admin/users')->with('success','添加成功');
-      }else{
-        // 回滚事务  
-         DB::rollBack();
-         return back()->with('error','添加失败');
-      }
+        $res2 = $userdetail->save();
+        if ($res1 && $res2) {
+          // 提交事务   
+           DB::commit();
+           return redirect('admin/users')->with('success','修改成功');
+        } else {
+          // 回滚事务  
+           DB::rollBack();
+           return back()->with('error','修改失败');
+        }
     }
 
     /**
@@ -144,14 +152,14 @@ class UsersController extends Controller
         DB::beginTransaction();
         $res1 = User::destroy($id);
         $res2 = Userdetail::where('uid',$id)->delete();
-        if($res1 && $res2){
-        // 提交事务   
-         DB::commit();
-         return redirect('admin/users')->with('success','删除成功');
-         }else{
+        if ($res1 && $res2) {
+            // 提交事务   
+            DB::commit();
+            return redirect('admin/users')->with('success','删除成功');
+        } else {
         // 回滚事务  
-         DB::rollBack();
-         return back()->with('error','删除失败');
-      }
+            DB::rollBack();
+            return back()->with('error','删除失败');
+        }
     }
 }

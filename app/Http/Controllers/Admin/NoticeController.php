@@ -39,12 +39,11 @@ class NoticeController extends Controller
      */
     public function store(Request $request)
     {
-        //
         new users;
         $notice = new Notice;
         $notice->title = $request->input('title','');
         $notice->content = $request->input('content','');
-        if($notice->save()) {
+        if ($notice->save()) {
             return redirect('/admin/notice')->with('success','添加成功');
         } else {
             return back()->with('error','添加失败');

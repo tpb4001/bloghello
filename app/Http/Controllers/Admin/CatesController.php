@@ -56,7 +56,7 @@ class CatesController extends Controller
         //将分类添加到数据库
         // 获取当前提交的分类是否是顶级分类
         $pid = $request->input('pid',' ');
-        if($pid == 0) {
+        if ($pid == 0) {
             // 顶级
             $path = 0;
         } else {
@@ -70,7 +70,7 @@ class CatesController extends Controller
         $cates->pid = $request->input('pid','');
         $cates->status = $request->input('status',1);
         $cates->path = $path;
-        if($cates->save()) {
+        if ($cates->save()) {
             return redirect('/admin/cates')->with('success','添加成功');
         } else {
             return back()->with('error','添加失败');
@@ -100,7 +100,7 @@ class CatesController extends Controller
         $data = Cates::find($id);
         //查询子分类
         $child_data = Cates::where('pid',$id)->first();
-        if($child_data){
+        if ($child_data) {
             return back()->with('error','当前分类有子分类,不允许修改');
             exit;
         }
@@ -133,7 +133,7 @@ class CatesController extends Controller
         $cates->pid = $request->input('pid','');
         $cates->status = $request->input('status',1);
         $cates->path = $path;
-        if($cates->save()) {
+        if ($cates->save()) {
             return redirect('/admin/cates')->with('success','修改成功');
         } else {
             return back()->with('error','修改失败');
@@ -150,13 +150,13 @@ class CatesController extends Controller
     {
         //查询子分类
         $child_data = Cates::where('pid',$id)->first();
-        if($child_data){
+        if ($child_data) {
             return back()->with('error','当前分类有子分类,不允许删除');
             exit;
         }
         // 执行删除
         $res = Cates::destroy($id);
-        if($res) {
+        if ($res) {
             return redirect('/admin/cates')->with('success','删除成功');
         } else {
             return back()->with('error','删除失败');

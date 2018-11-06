@@ -76,7 +76,7 @@ class MessageController extends Controller
         // // 获取数据 进行回复
         $message = Message::find($id);
         $message->huifu = $request->input('huifu');
-        if($message->save()) {
+        if ($message->save()) {
             return redirect('/admin/message')->with('success','回复成功');
         } else {
             return back()->with('error','回复失败');
@@ -93,10 +93,10 @@ class MessageController extends Controller
    
     public function destroy($id)
     {
-        if(Message::destroy($id)){
-        return redirect('admin/message')->with('success','删除成功');
-        }else{
-        return back()->with('error','删除失败');
+        if (Message::destroy($id)) {
+            return redirect('admin/message')->with('success','删除成功');
+        } else {
+            return back()->with('error','删除失败');
         }
     }
 }

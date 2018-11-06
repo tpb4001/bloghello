@@ -46,7 +46,7 @@ class TagsController extends Controller
         $tags = new Tags;
         $tags->tname = $request->input('tname','');
         $tags->tagsclass = $request->input('tagsclass','');
-        if($tags->save()) {
+        if ($tags->save()) {
             return redirect('/admin/tags')->with('success','添加成功');
         } else {
             return back()->with('error','添加失败');
@@ -91,7 +91,7 @@ class TagsController extends Controller
         $tags = Tags::find($id);
         $tags->tname = $request->input('tname','');
         $tags->tagsclass = $request->input('tagsclass','');
-        if($tags->save()) {
+        if ($tags->save()) {
             return redirect('/admin/tags')->with('success','修改成功');
         } else {
             return back()->with('error','修改失败');
@@ -107,7 +107,6 @@ class TagsController extends Controller
     public function destroy($id)
     {
         //執行刪除
-        
         if(Tags::destroy($id)) {
             return redirect('/admin/tags')->with('success','删除成功');
         } else {

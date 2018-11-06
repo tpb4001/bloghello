@@ -48,7 +48,7 @@ class LinksController extends Controller
         $link->lname = $request->input('lname','');
         $link->url = $request->input('url','');
         $link->status = $request->input('status',1);
-        if($link->save()) {
+        if ($link->save()) {
             return redirect('/admin/link')->with('success','添加成功');
         } else {
             return back()->with('error','添加失败');
@@ -96,7 +96,7 @@ class LinksController extends Controller
         $link->lname = $request->input('lname');
         $link->url = $request->input('url');
         $link->status = $request->input('status');
-        if($link->save()) {
+        if ($link->save()) {
             return redirect('/admin/link')->with('success','修改成功');
         } else {
             return back()->with('error','修改失败');
@@ -114,12 +114,11 @@ class LinksController extends Controller
     {
         //
 
-        if(Link::destroy($id)){
+        if (Link::destroy($id)) {
+            return redirect('admin/link')->with('success','删除成功');
+        } else {
 
-         return redirect('admin/link')->with('success','删除成功');
-         }else{
-
-         return back()->with('error','删除失败');
+            return back()->with('error','删除失败');
         }
     }
 }
