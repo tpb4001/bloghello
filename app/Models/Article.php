@@ -10,6 +10,11 @@ class Article extends Model
 
     public function articleinfo()
     {
-        return $this->hasOne('App\Models\Articleinfo','tid');
+        return $this->hasOne('App\Models\Articleinfo','aid');
     }
+    public function abc()
+    {
+        return $this->hasOne('App\User','id','uid');
+    }
+    
 }
