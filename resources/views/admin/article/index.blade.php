@@ -3,7 +3,7 @@
 @section('content')
 <div class="mws-panel grid_8">
     <div class="mws-panel-header">
-        <span>{{ $title or '' }}</span>
+        <span>浏览文章</span>
     </div>
     <div class="mws-panel-body no-padding">
         <table class="mws-table">
@@ -12,24 +12,24 @@
                     <th>ID</th>
                     <th>标题</th>
                     <th>作者</th>
-                    <th>浏览量</th>
                     <th>来源</th>
                     <th>文章状态</th>
-                     <th>文章图片</th>
+                    <th>文章图片</th>
+                    <th>发布者</th>
                     <th>发布时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($article as $k=>$v)
+                @foreach ($article as $k=>$v)
                 <tr>
                     <td>{{ $v->id }}</td>
-                    <td>{{ $v->biaoti }}</td>
+                    <td>{{ $v->title }}</td>
                     <td>{{ $v->auth }}</td>
                     <td>{{ $v->copyform }}</td>
-                    <td>{{ $v->articleinfo->path }}</td>
                     <td>{{ $v->status }}</td>
                     <td>{{ $v->articleinfo->image }}</td>
+                    <td>{{ $v->abc->uname }}</td>
                     <td>{{ $v->created_at }}</td>
 
                     <td><a href="/admin/article/{{ $v->id }}" class="btn btn-info">详情</a>
@@ -42,7 +42,7 @@
                     </td>
                 </tr>
                 @endforeach
-            </tbody>
+            </tbody>    
         </table>
     </div>
 </div>
