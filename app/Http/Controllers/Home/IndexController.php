@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Models\Notice;
+use App\Models\Image;
 class IndexController extends Controller
 {
     /**
@@ -16,8 +17,12 @@ class IndexController extends Controller
      */
     public function index()
     {
+        $image = Image::all();
+        // dd($image);
+        $ljg = Notice::orderBy('created_at','desc')->first();
+        $lbt = count($image);
         //首页视图
-        return view('home.index.index');
+        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt]);
     }
 
     /**

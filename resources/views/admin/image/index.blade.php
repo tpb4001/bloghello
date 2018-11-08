@@ -63,9 +63,9 @@
                 @endforeach
             </tbody>
         </table>
-        <ul class="pagination" style="margin:0px auto;">
-	    {!! $image->render() !!}
-	    </ul>
+        <div id="page_page">
+            {!! $image->appends($request)->render() !!}
+        </div>
     </div>
 </div>
 @endsection

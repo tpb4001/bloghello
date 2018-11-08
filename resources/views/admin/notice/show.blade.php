@@ -8,5 +8,6 @@
     <div class="mws-panel-body">
         <p>{!! $notice->content !!}</p>
     </div>
+    <a href="/admin/notice" type="submit" value="返回" class="btn btn-danger" style="float: right;">返回</a>
     </div>
 @endsection
