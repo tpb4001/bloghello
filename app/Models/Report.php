@@ -16,11 +16,15 @@ class Report extends Model
 
     public function getB()
     {
-    	return $this->hasOne('App\User','id','tid');
+    	return $this->hasOne('App\User','id','bid');
     }
 
     public function getT()
     {
-    	return $this->hasOne('App\Models\Tags','id','tid');
+        return $this->hasOne('App\Models\Article','id','aid');
+    }
+    public function getTinfo()
+    {
+    	return $this->hasOne('App\Models\Articleinfo','aid','aid');
     }
 }

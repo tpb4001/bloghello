@@ -10,13 +10,37 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+// 前台登录
+Route::get('/login','Home\LoginController@index');
+Route::post('/login/yz','Home\LoginController@yz');
+// 退出登录
+Route::get('/login/esc','Home\LoginController@esc');
+
+// 用户注册
+Route::get('/login/create','Home\LoginController@create');
+Route::post('/login/store','Home\LoginController@store');
+
+
 // 前台页面
 Route::get('/','Home\IndexController@index');
 
-//后台登录
+
+// 个人详情
+	// 密码验证
+	Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
+Route::resource('/Pdetalis','Home\PdetalisController');
+// 博主详情
+// Route::controller('/Bdetalis/{name}','Home\BdetalisController');
+
+
+
+
+
+
+// 后台登录
 Route::get('/admin/login','Admin\LoginController@index');
 Route::post('/admin/login/ACname','Admin\LoginController@ACname');
-
+// 后台登录中间件
 Route::group(['middleware' => 'admin'],function()
 {
 	// 退出后台登录
@@ -24,6 +48,15 @@ Route::group(['middleware' => 'admin'],function()
 	// 后台首页
 	Route::resource('/admin/index','Admin\IndexController');
 	// 用户管理
+		// 管理员
+		Route::get('/admin/users/Administrators','Admin\UsersController@Administrators');
+		// 博主
+		Route::get('/admin/users/Blogger','Admin\UsersController@Blogger');
+			// 博主个人文章
+			Route::get('/admin/users/Particle/{id}','Admin\UsersController@Particle');
+		// 普通用户
+		Route::get('/admin/users/OrdinaryUser','Admin\UsersController@OrdinaryUser');
+	// 用户增删改
 	Route::resource('/admin/users','Admin\UsersController');
 	// 分类管理
 	Route::resource('/admin/cates','Admin\CatesController');

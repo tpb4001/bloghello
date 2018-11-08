@@ -146,14 +146,14 @@ class ArticleController extends Controller
         DB::beginTransaction();
         $res1 = Article::destroy($id);
         $res2 = Articleinfo::where('aid',$id)->delete();
-        if($res1 && $res2){
-        // 提交事务   
-         DB::commit();
-         return redirect('admin/article')->with('success','删除成功');
-         }else{
-        // 回滚事务  
-         DB::rollBack();
-         return back()->with('error','删除失败');
-      }
+        if ($res1 && $res2) {
+            // 提交事务   
+            DB::commit();
+            return redirect('admin/article')->with('success','删除成功');
+        } else {
+            // 回滚事务  
+            DB::rollBack();
+            return back()->with('error','删除失败');
+        }
     }
 }

@@ -4,10 +4,10 @@
 @section('content')
 	<div class="mws-panel grid_8">
     	<div class="mws-panel-header">
-        	<span><i class="icon-table"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 带有编号分页的数据表</font></font></span>
+        	<span><i class="icon-table"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $title }}</font></font></span>
         </div>
         <div class="mws-panel-body no-padding">
-            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid"><div id="DataTables_Table_1_length" class="dataTables_length"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显示 </font></font><select size="1" name="DataTables_Table_1_length" aria-controls="DataTables_Table_1"><option value="10" selected="selected"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10</font></font></option><option value="25"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">25</font></font></option><option value="50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">50</font></font></option><option value="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100</font></font></option></select><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 页</font></font></label></div><div class="dataTables_filter" id="DataTables_Table_1_filter"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索： </font></font><input type="text" aria-controls="DataTables_Table_1"></label></div><table class="mws-datatable-fn mws-table dataTable" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
+            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid"><div id="DataTables_Table_1_length" class="dataTables_length"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">显示 </font></font><select size="1" name="DataTables_Table_1_length" aria-controls="DataTables_Table_1"><option value="10" selected="selected"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10</font></font></option><option value="25"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">25</font></font></option><option value="50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">50</font></font></option><option value="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100</font></font></option></select><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 页</font></font></label></div><div class="dataTables_filter" id="DataTables_Table_1_filter"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">搜索： </font></font><input type="text" aria-controls="DataTables_Table_1"></label></div><table class="mws-datatable-fn mws-table dataTable" id="DataTables_Table_1" style="text-align: center;" aria-describedby="DataTables_Table_1_info">
                 <thead>
                     <tr>
 						<th>ID</th>
@@ -17,7 +17,6 @@
 						<th>身份</th>
 						<th>注册日期</th>
 						<th>操作</th>
-
                     </tr>
                 </thead>
                <tbody role="alert" aria-live="polite" aria-relevant="all">

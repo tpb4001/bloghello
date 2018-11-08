@@ -11,8 +11,41 @@ use App\User;
 use Hash;
 use App\Models\Userdetail;
 use DB;
+use App\Models\Article;
 class UsersController extends Controller
 {
+    /**
+    *   管理员页面
+    */ 
+    public function Administrators()
+    {
+        $user_admin = User::where('Identity',1)->get();
+        return view('admin.users.Administrators',['title'=>'管理员','user_admin'=>$user_admin]);
+    }
+    /**
+    *   博主页面
+    */ 
+    public function Blogger()
+    {
+        $Blogger = User::where('Identity',2)->get();
+        return view('admin.users.Blogger',['title'=>'博主','Blogger'=>$Blogger]);
+    }
+    /**
+    *   博主个人文章
+    */ 
+    public function Particle($id)
+    {
+        $Particle = Article::where('uid',$id)->get();
+        return view('admin.users.Particle',['title'=>'个人文章','Particle'=>$Particle]);    
+    }
+    /**
+    *   普通用户页面
+    */ 
+    public function OrdinaryUser()
+    {
+        $OrdinaryUser = User::where('Identity',3)->get();
+        return view('admin.users.OrdinaryUser',['title'=>'普通用户','OrdinaryUser'=>$OrdinaryUser]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +54,8 @@ class UsersController extends Controller
     public function index()
     {
         //
-        $user = User::all();
-        return view('admin.users.index',['title'=>'用户列表','user'=>$user]);
+        // $user = User::all();
+        // return view('admin.users.index',['title'=>'用户列表','user'=>$user]);
     }
 
     /**
@@ -111,7 +144,7 @@ class UsersController extends Controller
         $user->Identity = $request->input('Identity');
         $user->upass = Hash::make($request->input('upass'));
         $res1 = $user->save();//bool
-        $id=$user->id;//获取最后插入的id号
+        $id = $user->id;//获取最后插入的id号
         $userdetail = new Userdetail;
         //头像修改
         if ($request->hasFile('avatar')) {

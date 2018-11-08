@@ -45,6 +45,7 @@ class TagsController extends Controller
         //将标签添加到数据库
         $tags = new Tags;
         $tags->tname = $request->input('tname','');
+        $tags->url = $request->input('url','');
         $tags->tagsclass = $request->input('tagsclass','');
         if ($tags->save()) {
             return redirect('/admin/tags')->with('success','添加成功');
@@ -90,6 +91,7 @@ class TagsController extends Controller
         //保存修改信息
         $tags = Tags::find($id);
         $tags->tname = $request->input('tname','');
+        $tags->url = $request->input('url','');
         $tags->tagsclass = $request->input('tagsclass','');
         if ($tags->save()) {
             return redirect('/admin/tags')->with('success','修改成功');

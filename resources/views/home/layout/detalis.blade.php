@@ -1,4 +1,6 @@
-<!doctype html>
+<!DOCTYPE html>
+</body>
+</html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
@@ -14,9 +16,12 @@
 <link rel="stylesheet" type="text/css" href="/HomeStyle/css/font-awesome.min.css">
 <link rel="apple-touch-icon-precomposed" href="images/icon.png">
 <link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/js/bootstrap.min.js">
 <script src="/HomeStyle/js/jquery-2.1.4.min.js"></script>
 <script src="/HomeStyle/js/nprogress.js"></script>
 <script src="/HomeStyle/js/jquery.lazyload.min.js"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!--[if gte IE 9]>
   <script src="/HomeStyle/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/HomeStyle/js/html5shiv.min.js" type="text/javascript"></script>
@@ -33,54 +38,26 @@
 	<nav class="navbar navbar-default" id="navbar">
 		<div class="container">
 			<div class="header-topbar hidden-xs link-border">
-				<ul class="site-nav topmenu">
-					@if(empty(session('uname')))
-						<li>
-							<a href="/login" rel="nofollow" >登录</a>
-						</li>
-						<li>
-							<a href="/login/create" title="注册" >注册</a>
-						</li>
-					@elseif(session('Identity') == 2)
-						<li>
-				  		<a href="/Bdetalis" >{{ session('uname') }}</a>
-					 	</li>
-						<li>
-							<a href="/login/esc" title="退出" >退出</a>
-						</li>
-					@else
-						<li>
-				  		<a href="/Pdetalis" >{{ session('uname') }}</a>
-					 	</li>
-						<li>
-							<a href="/login/esc" title="退出" >退出</a>
-						</li>
-					@endif
-				</ul>
 				勤记录 懂分享
 			</div>
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<h1 class="logo hvr-bounce-in"><a href="#" title="木庄网络博客"><img src="/HomeStyle/images/201610171329086541.png" alt="木庄网络博客"></a></h1>
+				<h1 class="logo hvr-bounce-in"><a href="/"><img src="/HomeStyle/images/201610171329086541.png" alt="木庄网络博客"></a></h1>
 			</div>
 		  <div class="collapse navbar-collapse" id="header-navbar">
-			<form class="navbar-form visible-xs" action="/Search" method="post">
-			  <div class="input-group">
-				<input type="text" name="keyword" class="form-control" placeholder="请输入关键字" maxlength="20" autocomplete="off">
-				<span class="input-group-btn">
-				<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
-				</span> </div>
-			</form>
 			<ul class="nav navbar-nav navbar-right">
-			  <li><a data-cont="木庄网络博客" title="木庄网络博客" href="index.html">首页</a></li>
-			  <li><a data-cont="列表页" title="列表页" href="list.html">列表页</a></li>
-			  <li><a data-cont="详细页" title="详细页" href="show.html">详细页</a></li>
-			  <li><a data-cont="404" title="404" href="404.html">404</a></li>
-			  <li><a data-cont="MZ-NetBolg主题" title="MZ-NetBolg主题" href="#" >MZ-NetBolg主题</a></li>
-			  <li><a data-cont="IT技术笔记" title="IT技术笔记" href="#" >IT技术笔记</a></li>
-			  <li><a data-cont="源码分享" title="源码分享" href="#" >源码分享</a></li>
-			  <li><a data-cont="靠谱网赚" title="靠谱网赚" href="#" >靠谱网赚</a></li>
-			  <li><a data-cont="资讯分享" title="资讯分享" href="#" >资讯分享</a></li>
+			  <li>
+			  	<a data-cont="Blog Hello" title="基本信息" href="/Pdetalis">基本信息</a>
+			  </li>
+			  <li>
+			  	<a data-cont="Blog Hello" title="关注" href="index.html">关注</a>
+			  </li>
+			  <li>
+			  	<a data-cont="Blog Hello" title="修改密码" href="/Pdetalis/{{ session('uname') }}/edit">修改密码</a>
+			  </li>
+			  <li>
+			  	<a data-cont="Blog Hello" title="返回首页" href="/">返回首页</a>
+			  </li> 
 			</ul>
 		  </div>
 		</div>
@@ -89,6 +66,21 @@
 <!-- 导航栏 结束 -->
 <!-- 内容 开始 -->
 	<section class="container">
+		<!-- 读取提示信息 开始 -->
+          @if (session('success'))
+          	<div class="alert alert-success" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  {{ session('success') }}
+			</div>
+          @endif
+
+          @if (session('error'))
+         	<div class="alert alert-danger" role="alert">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  {{ session('success') }}
+			</div>
+          @endif
+        <!-- 读取提示信息 结束 -->
 		@section('content')
 
 		@show

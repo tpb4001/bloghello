@@ -58,8 +58,8 @@
         	<tr>
         		<td>{{ $v->id }}</td>
         		<td>{{ $v->tname }}</td>
-        		<td><button type="button" class="{{ $v->tagsclass }}">{{ $v->tname }}</button></td>
-        		<td></td>
+        		<td><a href="http://{{ $v->url }}"><button type="button" class="{{ $v->tagsclass }}">{{ $v->tname }}</button></a></td>
+        		<td>{{ $v->url }}</td>
         		<td>
         			<a href="/admin/tags/{{ $v->id }}/edit" class="btn btn-warning">修改</a>
         			<form action="/admin/tags/{{ $v->id }}" method="post" style="display: inline-block;">

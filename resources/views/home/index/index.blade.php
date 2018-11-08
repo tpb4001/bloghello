@@ -8,7 +8,10 @@
 	<ol class="carousel-indicators">
 	  <li data-target="#focusslide" data-slide-to="0" class="active"></li>
 	  <li data-target="#focusslide" data-slide-to="1" class=""></li>
+	  <li data-target="#focusslide" data-slide-to="2" class=""></li>
+	  <li data-target="#focusslide" data-slide-to="3" class=""></li>
 	</ol>
+<!-- 轮播图开始 -->
 	<div class="carousel-inner" role="listbox">
 	  <div class="item active">
 	  <a href="#" target="_blank" title="木庄网络博客源码" draggable="false">
@@ -18,7 +21,16 @@
 	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
 	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
 	  </div>
+	  <div class="item">
+	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
+	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
+	  </div>
+	  <div class="item">
+	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
+	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
+	  </div>
 	</div>
+<!-- 轮播图 结束 -->
 	<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> </div>
   <article class="excerpt-minic excerpt-minic-index">
 		<h2><span class="red">【推荐】</span><a target="_blank" href="#" title="用DTcms做一个独立博客网站（响应式模板）" draggable="false">用DTcms做一个独立博客网站（响应式模板）</a>

@@ -33,7 +33,8 @@
 <link rel="stylesheet" type="text/css" href="/Background/css/mws-theme.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/themer.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/page_page.css">
-<title>BLOG-HELLO Admin - Icons</title>
+<link rel="stylesheet" type="text/css" href="/Background/css/menu-Twolevel.css">
+<title>Blog hello</title>
 
 </head>
 
@@ -74,8 +75,8 @@
                     </div>
                     <ul>
                       <li><a href="/admin/index/{{ $account->id }}">个人详情</a></li>
-                        <li><a href="/admin/index/{{ $account->id }}/edit">更改密码</a></li>
-                        <li><a href="/admin/login/esc">退出</a></li>
+                      <li><a href="/admin/index/{{ $account->id }}/edit">更改密码</a></li>
+                      <li><a href="/admin/login/esc">退出</a></li>
                     </ul>
                 </div>
             </div>
@@ -113,10 +114,17 @@
                 <ul>
                     <li>
                         <a href="#"><i class="icon-user"></i>用户管理</a>
-                        <ul>
-                            <li><a href="/admin/users">用户列表</a></li>
+                          <ul>
+                            <div id="menu-Twolevel">
+                            <a href="#"></i>用户列表</a>
+                            <ul>
+                              <li><a href="/admin/users/Administrators">管理员</a></li>
+                              <li><a href="/admin/users/Blogger">博主</a></li>
+                              <li><a href="/admin/users/OrdinaryUser">普通用户</a></li>
+                            </ul>
+                            </div>
                             <li><a href="/admin/users/create">添加用户</a></li>
-                        </ul>
+                          </ul>
                     </li>
                     <li>
                         <a href="#"><i class="icon-align-left"></i>类别管理</a>

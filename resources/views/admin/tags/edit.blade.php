@@ -11,9 +11,15 @@
                 {{ method_field('PUT') }}
         		<div class="mws-form-block">
         			<div class="mws-form-row">
-        				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标签名字</font></font></label>
+                        <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">标签名字</font></font></label>
+                        <div class="mws-form-item">
+                            <input type="text" class="medium" name="tname" value="{{ $data->tname }}">
+                        </div>
+                    </div>
+                    <div class="mws-form-row">
+        				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">URL地址</font></font></label>
         				<div class="mws-form-item">
-        					<input type="text" class="medium" name="tname" value="{{ $data->tname }}">
+        					<input type="text" class="medium" name="url" value="{{ $data->url }}">
         				</div>
         			</div>
         			<div class="mws-panel-content">

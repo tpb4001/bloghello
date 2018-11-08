@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Report;
-class ReportController extends Controller
+use App\User;
+use Hash;
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +17,34 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //用户举报列表页
-        $report = Report::all();
-        return view('admin.report.index',['title'=>'用户举报','report'=>$report]);
-        // dump(Report::with('getUser','getB','getT')->get());
+        //用户登录
+        return view('home.login.index');
     }
-
+    /**
+     *  验证登录信息
+     */
+    public function yz(Request $request)
+    {
+        $uname = $request->input('uname');
+        $upass = $request->input('upass');
+        // 查询数据库用户 
+        $user = User::where('uname',$uname)->first();
+        $Identity = $user->Identity;
+        // 判断密码错误
+        if ((!empty($user)) && (Hash::check($upass,$user['upass']))) {
+            session(['uname'=>$uname,'Identity'=>$Identity]);
+        } else {
+            echo "error";
+        }
+    }
+    /**
+     *  退出登录
+     */
+    public function esc(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +52,8 @@ class ReportController extends Controller
      */
     public function create()
     {
-        //
+        //用户注册
+        return view('home.login.create');
     }
 
     /**
@@ -41,6 +65,7 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
+        dump($request->all());
     }
 
     /**
@@ -51,9 +76,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        //文章详情
-        $data = Report::find($id);
-        return view('admin.report.show',['data'=>$data]);
+        //
     }
 
     /**
@@ -65,7 +88,6 @@ class ReportController extends Controller
     public function edit($id)
     {
         //
-        
     }
 
     /**
@@ -88,11 +110,6 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        //删除举报
-        if (Report::destroy($id)) {
-            return redirect('admin/report')->with('success','删除成功');
-        } else {
-            return back()->with('error','删除失败');
-        }
+        //
     }
 }
