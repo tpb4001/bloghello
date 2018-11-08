@@ -1,21 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Article;
-use App\Models\Articleinfo;
-use App\Models\Article_pl;
-use App\User;
-use App\Models\Link;
-use App\Models\Topic;
-use App\Models\Comment;
 use App\Models\Advert;
-
-class IndexController extends Controller
+class AdvertsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,18 +16,8 @@ class IndexController extends Controller
      */
     public function index()
     {
-        // 文章
-         $article = Article::all();
-         
-         // 友情链接
-         $link = Link::all();
-         // 话题
-         $topic = Topic::all();
-         // 广告
-         $advert = Advert::all();
-
-        //首页视图
-        return view('home.index.index',['article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert]);
+        $advert = Advert::all();
+        return view('admin.advert.index',['title'=>'浏览广告','advert'=>$advert]);
     }
 
     /**
@@ -45,7 +27,7 @@ class IndexController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.advert.create',['title'=>'广告添加']);
     }
 
     /**
@@ -56,7 +38,24 @@ class IndexController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $advert = new Advert;
+        $advert->url = $request->input('url');
+        $advert->aname = $request->input('aname');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $advert->image = $profile_path;
+        }
+        if($advert->save()) {
+          return redirect('/admin/advert')->with('success','添加成功');
+        } else {
+            return back()->with('error','添加失败');
+        } 
     }
 
     /**
@@ -67,11 +66,8 @@ class IndexController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
-        // 文章评论
-         $article_pl = Article_pl::where('aid',$id)->get();
-        // dump($article_pl);
-        return view('home.article.show',['article'=>$article,'article_pl'=>$article_pl]);
+
+
     }
 
     /**
@@ -105,6 +101,12 @@ class IndexController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Advert::destroy($id)){
+
+         return redirect('admin/advert')->with('success','删除成功');
+         }else{
+
+         return back()->with('error','删除失败');
+        }
     }
 }

@@ -43,15 +43,24 @@ class LinksController extends Controller
      */
     public function store(LinksStoreRequest $request)
     {
-        //
         $link = new link;
-        $link->lname = $request->input('lname','');
-        $link->url = $request->input('url','');
-        $link->status = $request->input('status',1);
-        if ($link->save()) {
-            return redirect('/admin/link')->with('success','添加成功');
+        $link->lname = $request->input('lname');
+        $link->url = $request->input('url');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $link->image = $profile_path;
+        }
+        $link->status = $request->input('status');
+        if($link->save()) {
+             return redirect('/admin/link')->with('success','添加成功');
         } else {
-            return back()->with('error','添加失败');
+             return back()->with('error','添加失败');
         }
       
     }
@@ -95,6 +104,16 @@ class LinksController extends Controller
         $link = Link::find($id);
         $link->lname = $request->input('lname');
         $link->url = $request->input('url');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $link->image = $profile_path;
+        }
         $link->status = $request->input('status');
         if ($link->save()) {
             return redirect('/admin/link')->with('success','修改成功');

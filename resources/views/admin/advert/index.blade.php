@@ -11,29 +11,25 @@
                             <thead>
                                 <tr>
 									<th>ID</th>
-									<th>链接名称</th>
-									<th>链接地址</th>
-									<th>链接logo</th>
-									<th>状态</th>
-									<th>注册日期</th>
+									<th>广告名称</th>
+									<th>广告地址</th>
+									<th>广告logo</th>
+									<th>添加日期</th>
 									<th>操作</th>
 
                                 </tr>
                             </thead>
                            <tbody role="alert" aria-live="polite" aria-relevant="all">
-								@foreach($link as $k => $v)
+								@foreach($advert as $k => $v)
                            		<tr class="odd">
                            			
                                     <td>{{$v->id}}</td>
-                                    <td>{{$v->lname}}</td>
+                                    <td>{{$v->aname}}</td>
                                     <td>{{$v->url}}</td>
                                     <td><img src="{{$v->image}}" alt="" width="80px"></td>
-                                    <td>{{$v->status}}</td>
                                     <td>{{$v->created_at}}</td>
                                     <td>
-										<a href="/admin/link/{{$v->id}}/edit" class="btn btn-warning">修改</a>
-										
-										<form action="/admin/link/{{ $v->id }}" method="post" style="display: inline-block">
+										<form action="/admin/advert/{{ $v->id }}" method="post" style="display: inline-block">
 											{{csrf_field()}}
 											{{method_field('DELETE')}}
 											<input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">

@@ -141,6 +141,9 @@
                         </ul>
                     </li>
                     <li>
+                        <a href=""><i class="icon-book"></i>系统公告</a>
+                    </li>
+                    <li>
                         <a href="#"><i class="icon-edit"></i>公告管理</a>
                         <ul>
                           <li><a href="/admin/notice">浏览公告</a></li>
@@ -152,6 +155,14 @@
                         <ul>
                           <li><a href="/admin/article">浏览文章</a></li>
                           <li><a href="/admin/article/create">添加文章</a></li>
+                          <li><a href="/admin/pinglun">浏览评论</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/topic"><i class="icon-book"></i>话题管理</a>
+                        <ul>
+                          <li><a href="/admin/topic">浏览话题</a></li>
+                          <li><a href="/admin/topic/create">添加话题</a></li>
                         </ul>
                     </li>
                     <li>
@@ -175,6 +186,13 @@
                         <ul class="closed" style="display: none;">
                           <li><a href="/admin/link">浏览链接</a></li>
                           <li><a href="/admin/link/create">添加链接</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="icon-pictures"></i>广告管理</a>
+                        <ul>
+                          <li><a href="/admin/advert">浏览广告</a></li>
+                          <li><a href="/admin/advert/create">添加广告</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -23,6 +23,10 @@ Route::post('/login/store','Home\LoginController@store');
 
 // 前台页面
 Route::get('/','Home\IndexController@index');
+// 文章详情
+Route::resource('/article','Home\IndexController');
+// 话题详情
+Route::resource('/topic','Home\TopicController');
 
 
 // 个人详情
@@ -68,12 +72,18 @@ Route::group(['middleware' => 'admin'],function()
 	Route::resource('/admin/link','Admin\LinksController');
 	// 文章管理
 	Route::resource('/admin/article','Admin\ArticleController');
+	// 文章评论
+	Route::resource('/admin/pinglun','Admin\Article_plController');
 	// 留言管理
 	Route::resource('/admin/message','Admin\MessageController');
 	// 用户举报
 	Route::resource('/admin/report','Admin\ReportController');
 	// 轮播图
 	Route::resource('/admin/image','Admin\ImageController');
+	// 话题管理
+	Route::resource('/admin/topic','Admin\TopicController');
+	// 广告管理
+	Route::resource('/admin/advert','Admin\AdvertsController');
 
 });
     

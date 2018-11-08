@@ -51,4 +51,8 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasOne('App\Models\article','aid');
     }
+    public function topicinfo()
+    {
+        return $this->hasOne('App\Models\topic','uid');
+    }
 }

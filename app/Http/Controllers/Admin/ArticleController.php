@@ -44,8 +44,8 @@ class ArticleController extends Controller
     public function store(Request $request)
     {   
         // 开启事务   
-        DB::beginTransaction();
-        dump($request->all());
+         DB::beginTransaction();
+        
         $article = new Article;
         $article->title  = $request->input('title');
         $article->uid  = $request->input('uid');
@@ -70,11 +70,11 @@ class ArticleController extends Controller
         if($res1 && $res2) {
             // 提交事务   
             DB::commit();
-            return redirect('/admin/article')->with('success','修改成功');
+          return redirect('/admin/article')->with('success','添加成功');
         } else {
             // 回滚事务  
             DB::rollBack();
-            return back()->with('error','修改失败');
+            return back()->with('error','添加失败');
         }
        
       
