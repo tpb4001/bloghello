@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    public $title = 'articles';
+    public $table = 'articles';
 
     public function articleinfo()
     {
         return $this->hasOne('App\Models\Articleinfo','aid');
+    }
+    public function article_pl()
+    {
+        return $this->hasOne('App\Models\Article_pl','aid');
     }
     public function abc()
     {

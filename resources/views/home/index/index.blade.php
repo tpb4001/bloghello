@@ -10,10 +10,12 @@
 	  <li data-target="#focusslide" data-slide-to="1" class=""></li>
 	</ol>
 	<div class="carousel-inner" role="listbox">
+
 	  <div class="item active">
 	  <a href="#" target="_blank" title="木庄网络博客源码" draggable="false">
 	  <img src="/HomeStyle/images//201610181557196870.jpg" alt="木庄网络博客源码" class="img-responsive" draggable="false"></a>
 	  </div>
+
 	  <div class="item">
 	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
 	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
@@ -35,20 +37,25 @@
 			<a href="#" title="资讯分享" draggable="false">资讯分享</a>                
 		</div>
   </div>
+  @foreach ($article as $k=>$v) 
   <!-- 文章内容 开始 -->
   	<article class="excerpt excerpt-1" style="">
-  		<a class="focus" href="#" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" draggable="false"><img class="thumb" data-original="images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: inline;" draggable="false"></a>
-		<header><a class="cat" href="#" title="MZ-NetBlog主题" draggable="false">MZ-NetBlog主题<i></i></a>
-			<h2><a href="#" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" draggable="false">用DTcms做一个独立博客网站（响应式模板）</a>
+  		<a class="focus" href="#" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="/HomeStyle/images/logo1.png" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
+		<header><a class="cat" href="#" title="MZ-NetBlog主题" draggable="false">BlogHello博客<i></i></a>
+			<h2><a href="/article/{{ $v->id }}" title="{{ $v->title }}" target="_blank" draggable="false">{{ $v->title }}</a>
 			</h2>
 		</header>
 		<p class="meta">
-			<time class="time"><i class="glyphicon glyphicon-time"></i> 2016-10-14</time>
-			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> 216</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment"></i> 4</a>
+			<time class="time"><i class="glyphicon glyphicon-time"></i> {{ $v->created_at }}</time>
+			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment"></i> 4</a>
 		</p>
-		<p class="note">用DTcms做一个独立博客网站（响应式模板），采用DTcms V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）</p>
+		<div style="height: 120px;overflow: hidden;">
+			{!! $v->articleinfo->article !!}
+			
+		</div>
 	</article>
   <!-- 文章内容 结束 -->
+  @endforeach
 </div>
 </div>
 <aside class="sidebar">
@@ -86,63 +93,37 @@
   </div>
 </div>
 <div class="widget widget_hot">
-	  <h3>最新评论文章</h3>
-	  <ul>            
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-			<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）" style="display: block;" draggable="false">
-			</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-				2016-11-01
-			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
+	  <h3>话题讨论</h3>
+	  <ul> 
+	  	    @foreach ($topic as $k=>$v)       
+			<li><a title="{{ $v->title }}" href="/topic/{{ $v->id }}" draggable="false"><span class="thumbnail">
+				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="{{ $v->title }}" style="display: block;" draggable="false">
+			</span><span class="text">{{ $v->title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+				{{ $v->created_at }}
+			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>{{ $v->path }}</span></a></li>
+			@endforeach
 
 	  </ul>
  </div>
- <div class="widget widget_sentence">    
+ <div class="widget widget_sentence">
+ 	<h3>广告</h3>
+ 	 @foreach ($advert as $k=>$v)   
+	<a href="{{ $v->url }}" target="_blank" rel="nofollow" title="{{ $v->aname }}" draggable="false">
+	<img style="width: 100%" src="{{ $v->image }}" alt="{{ $v->aname }}" draggable="false"></a>
+	@endforeach
 	<a href="#" target="_blank" rel="nofollow" title="专业网站建设" draggable="false">
 	<img style="width: 100%" src="/HomeStyle/images//201610241224221511.jpg" alt="专业网站建设" draggable="false"></a>    
  </div>
  <div class="widget widget_sentence">    
-	<a href="#" target="_blank" rel="nofollow" title="MZ-NetBlog主题" draggable="false">
-	<img style="width: 100%" src="/HomeStyle/images/ac.jpg" alt="MZ-NetBlog主题" draggable="false"></a>    
+	<a href="#" target="_blank" rel="nofollow" title="BlogHello" draggable="false">
+	<img style="width: 100%" src="/HomeStyle/images/logo4.png" alt="BlogHello" draggable="false"></a>    
  </div>
 <div class="widget widget_sentence">
   <h3>友情链接</h3>
   <div class="widget-sentence-link">
-	<a href="#" title="网站建设" target="_blank" draggable="false">网站建设</a>&nbsp;&nbsp;&nbsp;
+  	@foreach($link as $k => $v)
+	<a href="{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;
+	@endforeach
   </div>
 </div>
 </aside>
