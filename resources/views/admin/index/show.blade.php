@@ -12,7 +12,7 @@
         		<input type="hidden" name="show" value="show">
         		<div class="mws-form-inline">
         			<div class="mws-form-row" style="width: 200px;height: 200px; display: block; margin-left: auto; margin-right: auto;">
-                    	<span class="thumbnail"><img src="{{ $data->userinfo->avatar or '/Background/example/cyan_hawk.jpg'}}" style="width:200px;height: 200px;" alt=""></span>
+                    	<span class="thumbnail"><img src="{{ $data->userinfo->avatar }}" style="width:200px;height: 200px;" alt=""></span>
                     </div>
                     <div class="mws-form-row">
         				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">头像</font></font></label>

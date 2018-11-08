@@ -86,4 +86,3 @@ Route::group(['middleware' => 'admin'],function()
 	Route::resource('/admin/advert','Admin\AdvertsController');
 
 });
-    

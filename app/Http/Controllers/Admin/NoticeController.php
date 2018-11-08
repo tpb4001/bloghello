@@ -39,7 +39,7 @@ class NoticeController extends Controller
      */
     public function store(Request $request)
     {
-        new users;
+        
         $notice = new Notice;
         $notice->title = $request->input('title','');
         $notice->content = $request->input('content','');

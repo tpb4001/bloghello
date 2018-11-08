@@ -4,36 +4,28 @@
 	<section class="container">
 <div class="content-wrap">
 <div class="content">
-  <div id="focusslide" class="carousel slide" data-ride="carousel">
-	<ol class="carousel-indicators">
-	  <li data-target="#focusslide" data-slide-to="0" class="active"></li>
-	  <li data-target="#focusslide" data-slide-to="1" class=""></li>
-	  <li data-target="#focusslide" data-slide-to="2" class=""></li>
-	  <li data-target="#focusslide" data-slide-to="3" class=""></li>
-	</ol>
-<!-- 轮播图开始 -->
-	<div class="carousel-inner" role="listbox">
-
-	  <div class="item active">
-	  <a href="#" target="_blank" title="木庄网络博客源码" draggable="false">
-	  <img src="/HomeStyle/images//201610181557196870.jpg" alt="木庄网络博客源码" class="img-responsive" draggable="false"></a>
-	  </div>
-
-	  <div class="item">
-	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
-	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
-	  </div>
-	  <div class="item">
-	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
-	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
-	  </div>
-	  <div class="item">
-	  <a href="#" target="_blank" title="专业网站建设" draggable="false">
-	  <img src="/HomeStyle/images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive" draggable="false"></a>
-	  </div>
+	<div id="focusslide" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			
+			<li data-target="#focusslide" data-slide-to="0" class="active"></li>
+			@for($i=1; $i <= $lbt; $i++)
+			<li data-target="#focusslide" data-slide-to="{{ $i }}"	></li>
+			@endfor
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<a href="#" target="_blank" title="" draggable="false">
+				<img src="/HomeStyle/images/logo6	.png" alt="" class="img-responsive" draggable="false"></a>
+			</div>
+			@foreach($image as $k=>$v)
+			<div class="item">
+				<a href="#" target="_blank" title="{{ $v->iname }}" draggable="false">
+				<img src="{{ $v->img }}" style="width:820px;height:200px;border-radius:0px;" alt="{{ $v->iname }}" class="img-responsive" draggable="false"></a>
+			</div>
+			@endforeach
+		</div>
+		<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> 
 	</div>
-<!-- 轮播图 结束 -->
-	<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> </div>
   <article class="excerpt-minic excerpt-minic-index">
 		<h2><span class="red">【推荐】</span><a target="_blank" href="#" title="用DTcms做一个独立博客网站（响应式模板）" draggable="false">用DTcms做一个独立博客网站（响应式模板）</a>
 		</h2>
@@ -72,28 +64,25 @@
 </div>
 <aside class="sidebar">
 <div class="fixed">
-  <div class="widget widget-tabs">
-	<ul class="nav nav-tabs" role="tablist">
-	  <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">统计信息</a></li>
-	  <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
-	</ul>
-	<div class="tab-content">
-	  <div role="tabpanel" class="tab-pane contact active" id="notice">
-		<h2>日志总数:
-			  888篇
-		  </h2>
-		  <h2>网站运行:
-		  <span id="sitetime">88天 </span></h2>
-	  </div>
-		<div role="tabpanel" class="tab-pane contact" id="contact">
-		  <h2>QQ:
-			  <a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="QQ:" draggable="false"></a>
-		  </h2>
-		  <h2>Email:
-		  <a href="#" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" data-original-title="#" draggable="false"></a></h2>
-	  </div>
+	<div class="widget widget-tabs">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">公告</a></li>
+			<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane contact active" id="notice">
+				<h4 style="text-align: center;">{!! $ljg->title !!}</h4>
+				<h5>{!! $ljg->content !!}</h5>
+			</div>
+			<div role="tabpanel" class="tab-pane contact" id="contact">
+				<h2>QQ:1079271294
+				<a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="QQ:" draggable="false"></a>
+				</h2>
+				<h2>Email:1079271294@qq.com
+				<a href="#" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" data-original-title="#" draggable="false"></a></h2>
+			</div>
+		</div>
 	</div>
-  </div>
   <div class="widget widget_search">
 	<form class="navbar-form" action="/Search" method="post">
 	  <div class="input-group">

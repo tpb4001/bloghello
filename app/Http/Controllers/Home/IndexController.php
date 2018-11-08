@@ -14,7 +14,9 @@ use App\Models\Link;
 use App\Models\Topic;
 use App\Models\Comment;
 use App\Models\Advert;
-
+use App\Models\Notice;
+use App\Models\Image;
+>>>>>>> origin/ljg
 class IndexController extends Controller
 {
     /**
@@ -25,17 +27,20 @@ class IndexController extends Controller
     public function index()
     {
         // 文章
-         $article = Article::all();
-         
-         // 友情链接
-         $link = Link::all();
-         // 话题
-         $topic = Topic::all();
-         // 广告
-         $advert = Advert::all();
-
+        $article = Article::all();
+        // 友情链接
+        $link = Link::all();
+        // 话题
+        $topic = Topic::all();
+        // 广告
+        $advert = Advert::all();
+        //轮播图
+        $image = Image::all();
+        $lbt = count($image);
+        // 公告
+        $ljg = Notice::orderBy('created_at','desc')->first();
         //首页视图
-        return view('home.index.index',['article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert]);
+        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert]);
     }
 
     /**
