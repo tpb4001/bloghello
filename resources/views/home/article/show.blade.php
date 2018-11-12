@@ -7,22 +7,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>show</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content=""> 
 <link rel="stylesheet" type="text/css" href="/HomeStyle/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/HomeStyle/css/nprogress.css">
 <link rel="stylesheet" type="text/css" href="/HomeStyle/css/style.css">
+ <link rel="stylesheet" type="text/css" href="/HomeStyle/css/pl.css">
 <link rel="stylesheet" type="text/css" href="/HomeStyle/css/font-awesome.min.css">
 <link rel="apple-touch-icon-precomposed" href="/HomeStyle/images/icon.png">
 <link rel="shortcut icon" href="/HomeStyle/images/favicon.ico">
 <script src="/HomeStyle/css/jquery-2.1.4.min.js"></script>
 <script src="/HomeStyle/css/nprogress.js"></script>
 <script src="/HomeStyle/css/jquery.lazyload.min.js"></script>
+<script src="/HomeStyle/js/pl.js"></script>
 <!--[if gte IE 9]>
 <script src="/HomeStyle/css/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="/HomeStyle/css/html5shiv.min.js" type="text/javascript"></script>
 <script src="/HomeStyle/css/respond.min.js" type="text/javascript"></script>
 <script src="/HomeStyle/css/selectivizr-min.js" type="text/javascript"></script>
-<![endif]-->
+<![endif]
 <!--[if lt IE 9]>
 /background//HomeStyle/js/<script>window.location.href='upgrade-browser.html';</script>
 <![endif]-->
@@ -78,7 +80,7 @@
 	  </span> <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="来源：bloghello博客"><i class="glyphicon glyphicon-globe"></i> bloghello博客</span> <span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="MZ-NetBlog主题"><i class="glyphicon glyphicon-list"></i> <a href="#" title="MZ-NetBlog主题" >BlogHello</a></span> <span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量：219"><i class="glyphicon glyphicon-eye-open"></i> 219</span> <span class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="评论量"><i class="glyphicon glyphicon-comment"></i> {{ $article->articleinfo->path }}</span> </div>
   </header>
   <article class="article-content">
-	<p><img data-original="/HomeStyle/images/201610181557196870.jpg" src="/HomeStyle/images/201610181557196870.jpg" alt="" /></p>
+	<p><img data-original="/HomeStyle/images/logo3.png" src="/HomeStyle/images/logo3.png" alt="" /></p>
 	<p>{!! $article->articleinfo->article !!}</p>
 	
 	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
@@ -105,13 +107,14 @@
   <div class="title" id="comment">
 	<h3>评论</h3>
   </div>
-  <!-- <div id="respond">
-		<form id="comment-form" name="comment-form" action="" method="POST">
+  <div id="respond">
+		<form id="comment-form" name="comment-form" action="/pinglun" method="POST">
+			{{ csrf_field() }}
 			<div class="comment">
-				<input name="" id="" class="form-control" size="22" placeholder="您的昵称（必填）" maxlength="15" autocomplete="off" tabindex="1" type="text">
-				<input name="" id="" class="form-control" size="22" placeholder="您的网址或邮箱（非必填）" maxlength="58" autocomplete="off" tabindex="2" type="text">
+				<input type="hidden" name="aid" value="{{ $article->id}}">
+				<input type="hidden" name="uname" value="{{ session('uname') }}">
 				<div class="comment-box">
-					<textarea placeholder="您的评论或留言（必填）" name="comment-textarea" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+					<textarea placeholder="说点什么吧（登录即可评论）" name="pinglun" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
 					<div class="comment-ctrl">
 						<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
 						<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>
@@ -121,27 +124,8 @@
 			</div>
 		</form>
 		
-	</div> -->
-	<div class="comment-text">
-            <textarea maxlength="2000" placeholder="说点什么吧~~" class="mousetrap" id="saytext" name="saytext"></textarea>
-            <div class="comment-tools">
-                <!-- <div class="majia pull-left">
-                    <a href="javascript:void(0)" id="set_nick">
-                        <img src="http://bcdn5.blogchina.com/images/majiagrey.png" alt="1"/>
-                    </a>
-                    <div class="dropdown nicheng" >
-                        <input class="dropdown-toggle majiaon" maxlength="10" id="get_nick" readonly="true" placeholder="可使用马甲发言" value="" aria-expanded="false">
-                        <ul class="dropdown-menu nick" role="menu" aria-labelledby="dLabel">
-                        </ul>
-                    </div>
-                </div> -->
-                <input type="button" name="commit" value="发 表" class="btn btn-info pull-right sub_btn" data-disable-with="提交中..." id="form_commit">
-                <div class="emoji pull-right">
-                    <a class="emotion" href="javascript:;"><i class="fa fa-smile-o"></i></a>
-                </div>
-            </div>
-            
-        </div>
+	</div>
+
   <div id="postcomments" style="margin-top: 50px;">
 
 	<ol id="comment_list" class="commentlist">  
@@ -154,6 +138,7 @@
 					<span class="time">({{ $v->created_at }})</span><br>
 					{{ $v->pinglun }}
 				</p>
+				
 			</div>
 		</li>
 		@endforeach
@@ -184,7 +169,7 @@
 		  <h2>Email:
 		  <a href="mailto:577211782@qq.com" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" draggable="false" data-original-title="Email:577211782@qq.com">577211782@qq.com</a></h2>
 	  </div>
-	</div>
+	</div> 
   </div>
   <div class="widget widget_search">
 	<form class="navbar-form" action="/Search" method="post">
@@ -197,49 +182,15 @@
   </div>
 </div>
 <div class="widget widget_hot">
-	  <h3>最新评论文章</h3>
-	  <ul>
-		
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
-<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
-<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-</span><span class="text">用DTcms做一个独立博客网站（响应式模板）</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
-2016-11-01
-</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
+	 <h3>此博主其他文章</h3>
+	 
+	<ul>
+
+	<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="#" ><span class="thumbnail">
+	<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
+	</span><span class="text"></span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+	2016-11-01
+	</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span></a></li>
 
 	  </ul>
   </div>

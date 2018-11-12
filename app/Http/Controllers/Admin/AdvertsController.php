@@ -78,7 +78,8 @@ class AdvertsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Advert::find($id);
+        return view('admin.advert.edit',['title'=>'广告修改','data'=>$data]);
     }
 
     /**
@@ -91,6 +92,24 @@ class AdvertsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $advert = Advert::find($id);
+        $advert->url = $request->input('url');
+        $advert->aname = $request->input('aname');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $advert->image = $profile_path;
+        }
+        if($advert->save()) {
+          return redirect('/admin/advert')->with('success','修改成功');
+        } else {
+            return back()->with('error','修改失败');
+        } 
     }
 
     /**

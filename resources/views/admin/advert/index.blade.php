@@ -29,6 +29,7 @@
                                     <td><img src="{{$v->image}}" alt="" width="80px"></td>
                                     <td>{{$v->created_at}}</td>
                                     <td>
+                                        <a href="/admin/advert/{{$v->id}}/edit" class="btn btn-warning">修改</a>
 										<form action="/admin/advert/{{ $v->id }}" method="post" style="display: inline-block">
 											{{csrf_field()}}
 											{{method_field('DELETE')}}

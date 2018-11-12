@@ -25,6 +25,8 @@ Route::post('/login/store','Home\LoginController@store');
 Route::get('/','Home\IndexController@index');
 // 文章详情
 Route::resource('/article','Home\IndexController');
+// 文章评论
+Route::resource('/pinglun','Home\Article_plController');
 // 话题详情
 Route::resource('/topic','Home\TopicController');
 
