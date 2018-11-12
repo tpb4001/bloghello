@@ -15,7 +15,7 @@
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
 				<a href="#" target="_blank" title="" draggable="false">
-				<img src="/HomeStyle/images/logo6	.png" alt="" class="img-responsive" draggable="false"></a>
+				<img src="/HomeStyle/images/logo6.png" alt="" class="img-responsive" draggable="false"></a>
 			</div>
 			@foreach($image as $k=>$v)
 			<div class="item">
@@ -73,7 +73,7 @@
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane contact active" id="notice">
-				<h4 style="text-align: center;">{!! $ljg->title !!}</h4>
+				<h4 style="text-align: center;">{{ $ljg->title }}</h4>
 				<h5>{!! $ljg->content !!}</h5>
 			</div>
 			<div role="tabpanel" class="tab-pane contact" id="contact">
