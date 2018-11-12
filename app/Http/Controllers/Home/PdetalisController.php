@@ -60,7 +60,7 @@ class PdetalisController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $name
      * @return \Illuminate\Http\Response
      */
     public function edit($name)

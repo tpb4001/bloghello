@@ -1,13 +1,13 @@
 @extends('home.layout.detalis')
 @section('Dh')
 	<li>
-		<a data-cont="Blog Hello" title="基本信息" href="/Pdetalis">基本信息</a>
+		<a data-cont="Blog Hello" title="基本信息" href="/Bdetalis">基本信息</a>
 	</li>
 	<li>
 		<a data-cont="Blog Hello" title="关注" href="index.html">关注</a>
 	</li>
 	<li>
-		<a data-cont="Blog Hello" title="修改密码" href="/Pdetalis/{{ session('uname') }}/edit">修改密码</a>
+		<a data-cont="Blog Hello" title="修改密码" href="/Bdetalis/{{ session('uname') }}/edit">修改密码</a>
 	</li>
 	<li>
 		<a data-cont="Blog Hello" title="返回首页" href="/">返回首页</a>

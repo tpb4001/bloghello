@@ -33,16 +33,9 @@
 	</article>
   <div class="title">
 	<h3>最新发布</h3>
-	<div class="more">                
-			<a href="#" title="MZ-NetBlog主题" draggable="false">MZ-NetBlog主题</a>                
-			<a href="#" title="IT技术笔记" draggable="false">IT技术笔记</a>                
-			<a href="#" title="源码分享" draggable="false">源码分享</a>                
-			<a href="#" title="靠谱网赚" draggable="false">靠谱网赚</a>                
-			<a href="#" title="资讯分享" draggable="false">资讯分享</a>                
-		</div>
   </div>
-  @foreach ($article as $k=>$v) 
   <!-- 文章内容 开始 -->
+  @foreach ($article as $k=>$v) 
   	<article class="excerpt excerpt-1" style="">
   		<a class="focus" href="#" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="/HomeStyle/images/logo1.png" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
 		<header><a class="cat" href="#" title="MZ-NetBlog主题" draggable="false">BlogHello博客<i></i></a>
@@ -54,14 +47,23 @@
 			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment"></i> 4</a>
 		</p>
 		<div style="height: 120px;overflow: hidden;">
-			{!! $v->articleinfo->article !!}
-			
+			{!! $v->articleinfo->article !!}	
 		</div>
 	</article>
-  <!-- 文章内容 结束 -->
   @endforeach
+  <!-- 文章内容 结束 -->
 </div>
+<div id="fy" style="width: 600px;height: 50px;" >
+	{!! $article->render() !!}
 </div>
+<script type="text/javascript">
+	$(function(){
+		$('.pagination').removeAttr('style') ;
+		$('.pagination').attr('style','padding-top: 0px; padding-left: 0px;') ;
+	});
+</script>
+</div>
+
 <aside class="sidebar">
 <div class="fixed">
 	<div class="widget widget-tabs">
@@ -121,7 +123,7 @@
  </div>
 <div class="widget widget_sentence">
   <h3>友情链接</h3>
-  <div class="widget-sentence-link">
+  <div class="widget-sentence-link" style="height: 140px;">
   	@foreach($link as $k => $v)
 	<a href="{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;
 	@endforeach

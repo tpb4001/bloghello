@@ -6,11 +6,12 @@
         <span>浏览文章</span>
     </div>
     <div class="mws-panel-body no-padding">
-        <table class="mws-table">
+        <table class="mws-table" style="text-align: center;">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>标题</th>
+                    <th>类别</th>
                     <th>作者</th>
                     <th>来源</th>
                     <th>文章状态</th>
@@ -25,10 +26,11 @@
                 <tr>
                     <td>{{ $v->id }}</td>
                     <td width="120px">{{ $v->title }}</td>
+                    <td width="60px">{{ $v->cates->cname }}</td>
                     <td width="70px">{{ $v->auth }}</td>
-                    <td>{{ $v->copyform }}</td>
-                    <td>{{ $v->status }}</td>
-                    <td>{{ $v->articleinfo->image }}</td>
+                    <td width="50px">{{ $v->copyform }}</td>
+                    <td>{{ $v->status ? '展示' : '下架' }}</td>
+                    <td>{{ $v->articleinfo->image or '无图片' }}</td>
                     <td>{{ $v->abc->uname }}</td>
                     <td>{{ $v->created_at }}</td>
 
@@ -44,6 +46,9 @@
                 @endforeach
             </tbody>    
         </table>
+        <div id="page_page">
+            {!! $article->appends($request)->render() !!}
+        </div>
     </div>
 </div>
 

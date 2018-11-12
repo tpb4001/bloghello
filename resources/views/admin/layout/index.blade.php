@@ -65,7 +65,7 @@
             
               <!-- User Photo -->
               <div id="mws-user-photo">
-                  <img src="{{ $data->userinfo->avatar }}" alt="用户头像">
+                  <img src="" alt="用户头像">
                 </div>
                 
                 <!-- Username and Functions -->
@@ -116,7 +116,7 @@
                         <a href="#"><i class="icon-user"></i>用户管理</a>
                           <ul>
                             <div id="menu-Twolevel">
-                            <a href="#"></i>用户列表</a>
+                            <a href="/admin/users"></i>用户列表</a>
                             <ul>
                               <li><a href="/admin/users/Administrators">管理员</a></li>
                               <li><a href="/admin/users/Blogger">博主</a></li>

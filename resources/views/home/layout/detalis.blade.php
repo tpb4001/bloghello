@@ -44,22 +44,15 @@
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
 				<h1 class="logo hvr-bounce-in"><a href="/"><img src="/HomeStyle/images/201610171329086541.png" alt="木庄网络博客"></a></h1>
 			</div>
-		  <div class="collapse navbar-collapse" id="header-navbar">
-			<ul class="nav navbar-nav navbar-right">
-			  <li>
-			  	<a data-cont="Blog Hello" title="基本信息" href="/Pdetalis">基本信息</a>
-			  </li>
-			  <li>
-			  	<a data-cont="Blog Hello" title="关注" href="index.html">关注</a>
-			  </li>
-			  <li>
-			  	<a data-cont="Blog Hello" title="修改密码" href="/Pdetalis/{{ session('uname') }}/edit">修改密码</a>
-			  </li>
-			  <li>
-			  	<a data-cont="Blog Hello" title="返回首页" href="/">返回首页</a>
-			  </li> 
-			</ul>
-		  </div>
+		 	<!-- 导航栏 开始 -->
+		  	<div class="collapse navbar-collapse" id="header-navbar">
+				<ul class="nav navbar-nav navbar-right">
+				@section('Dh');
+				  
+				@show
+				</ul>
+		  	</div>
+		 	<!-- 导航栏 结束 -->
 		</div>
 		</nav>
 	</header>

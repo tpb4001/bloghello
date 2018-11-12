@@ -17,6 +17,18 @@
     				</div>
     			</div>
                 <div class="mws-form-row">
+                    <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类别选择</font></font></label>
+                    <div class="mws-form-item">
+                        <select class="large" name="cid" style="width: 55%;">
+                            @foreach($cates as $k=>$v)
+                            <option value="{{ $v->id }}">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $v->cname }}</font></font>  
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="mws-form-row">
                     <label class="mws-form-label">文章作者</label>
                     <div class="mws-form-item">
                         <input type="text" class="small" name="auth">
@@ -40,6 +52,7 @@
 				 	<!-- 加载编辑器的容器 -->
 				    <script id="container" name="article" type="text/plain" class="small">
 				    </script>
+                    <!-- 加载编辑器的容器 结束-->
     				</div>
     			</div>
     		<div class="mws-button-row">

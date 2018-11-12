@@ -16,6 +16,10 @@ class Article extends Model
     {
         return $this->hasOne('App\Models\Article_pl','aid');
     }
+    public function cates()
+    {
+        return $this->hasOne('App\Models\Cates','id','cid');
+    }
     public function abc()
     {
         return $this->hasOne('App\User','id','uid');

@@ -28,15 +28,14 @@ Route::resource('/article','Home\IndexController');
 // 话题详情
 Route::resource('/topic','Home\TopicController');
 
-
-// 个人详情
-	// 密码验证
-	Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
+// 修改密码
+Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
+// 个人详情	
 Route::resource('/Pdetalis','Home\PdetalisController');
 // 博主详情
-// Route::controller('/Bdetalis/{name}','Home\BdetalisController');
-
-
+Route::resource('/Bdetalis','Home\BdetalisController');
+	// 博主文章管理
+	Route::resource('/detalis/article','Home\ArticleController');
 
 
 

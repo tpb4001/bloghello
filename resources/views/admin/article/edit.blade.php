@@ -17,6 +17,18 @@
     					<input type="text" class="small" name="title" value="{{ $data->title }}">
     				</div>
     			</div>
+                <div class="mws-form-row">
+                    <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">类别选择</font></font></label>
+                    <div class="mws-form-item">
+                        <select class="large" name="cid" style="width: 55%;">
+                            @foreach($cates as $k=>$v)
+                            <option value="{{ $v->id }}">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $v->cname }}</font></font>  
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
     			<div class="mws-form-row">
     				<label class="mws-form-label">文章内容</label>
     				<div class="mws-form-item">
