@@ -1,0 +1,3750 @@
+XB.namespace('bbs_forum');
+//赵晓飞js查看全部众筹的记录
+$(function() {
+	var alreadyNum= $("#alreadyNum").val();
+	var commNum= $("#commNum").val();
+	var size=600/commNum;
+	var sizewidth;
+	if(alreadyNum*size>600){
+		sizewidth=600;
+	}else{
+		sizewidth=size*alreadyNum;
+	}
+	$(".bbs_mpbar").css("width", sizewidth);
+	});
+function showsendMsg(){
+	var crowdfundingrecord= $("#crowdfundingrecord").val();
+    var data=crowdfundingrecord.substring(0,crowdfundingrecord.length-1);
+	var dataobject= $.parseJSON(data);
+	var html2='';
+	html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+	$.each(dataobject,function(i, item) {
+		/*if(i==0)
+			return;
+		title=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("span").eq(item.reason-1).attr("title");
+		src=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("img").eq(item.reason-1).attr("src");*/
+		if(item.avatar=="images/tx_100.jpg"){
+			item.avatar=basePath+item.avatar;
+		}
+		html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.zhName+'</a></span> <span class="bbs_mgnc5">'+item.amount/100+'</span><span class="bbs_mgnc4">'+item.createtimeStr+'</span></li>'
+	});
+	html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+	$.popwin(
+		 html2, {
+     bg: true,title: "查看全部"
+     });
+}
+//查看群赏记录
+function showShangsendMsg(){
+	var rewardrecord= $("#rewardrecord").val();
+	var giftimgPath=$("#giftimgPath").val();
+	var giftName=$("#giftName").val();
+    var data=rewardrecord.substring(0,rewardrecord.length-1);
+	var dataobject= $.parseJSON(data);
+	var html2='';
+	html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+	$.each(dataobject,function(i, item) {
+		if(item.avatar=="images/tx_100.jpg"){
+			item.avatar=basePath+item.avatar;
+		}
+		html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.zhName+'</a></span> <span class="bbs_mgnc5">领取了'+item.number+'个</span><span class="bbs_mgnc3"><span><img src="'+giftimgPath+'"/></span><span class="bbs_mgnred">'+giftName+'</span></span><span class="bbs_mgnc4">'+item.createtimeStr+'</span></li>'
+	});
+	html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+	$.popwin(
+		 html2, {
+     bg: true,title: "查看全部"
+     });
+}
+$(".bbs_quns").live("click",function(){
+	var createusername=$("#createusername").val();
+	var giftName=$(this).attr("giftName");
+	$.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpt">恭喜您，获得</div><div class="bbs_dpc"><span>【'+createusername+'】</span>赏赐的<em>'+giftName+' * 1</em></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_giftconfirm">确&nbsp;&nbsp;定</a></div></div></div>', {
+		bg: true,
+		title: "领取奖励"
+	});
+});
+$(".bbs_giftconfirm").live("click",function(){
+	var tiezitid=$("#tiezitid").val();
+	var tiezifid=$("#tiezifid").val();
+	$.post(basePath+"giftshow.do", {method:"receiveCrowdRewardGift",tid:tiezitid,fid:tiezifid},function(data){
+		if(data.r==200){
+		$.popwin.remind('<div class="popwin_success">参与成功</div>',null, {delay:3000,bar:false,btnclose: false	 });	
+		     $(".popwin_pbn").hide();
+		     window.location.href= basePath + 'xile/thread-'+tiezitid+'.html';
+		}else if(data.r==404){
+			popError("查不到帖子记录");
+		}else if(data.r==405){
+			popError("请在最近发言的楼层领取");
+		}else if(data.r==406){
+			popError("帖子不是群赏贴");
+		}else if(data.r==407){
+			popError("帖子中没有群赏基本信息ID");
+		}else if(data.r==408){
+			popError("查不到群赏基本信息");
+		}else if(data.r==409){
+			popError("群赏状态为不可领奖状态");
+		}else if(data.r==410){
+			popError("群赏已结束");
+		}else if(data.r==411){
+			popError("礼物已领完");
+		}else if(data.r==412){
+			popError("用户已领过该礼物");
+		}else if(data.r==413){
+			popError("回复楼层数不够不能领奖");
+		}else if(data.r==501){
+			popError("更新群赏基本信息失败");
+		}else if(data.r==502){
+			popError("添加群赏礼物领取记录失败");
+		}
+	});
+});
+//众筹支付
+$("#bbs_zcprimary").live("click",function(){
+	var tid=$("#tiezitid").attr("value");
+	$.post(basePath+"giftshow.do", {method:"getNounce"},function(data){
+		 if (data.r == 403) {            //未登录
+                window.location.href = data.loginUrl;
+            } else if (data.r == 500){
+                popError("服务器数据出错了!");
+            } else if(data.r == 200){
+                var nonce = data.nonce;
+                var passwd=$(".pswd_input").val();
+                
+                if($.trim(passwd) == ""){
+                	popError("请输入支付密码！");
+                    return false;
+                }else if($.trim(passwd).length < 6){
+                	popError("请输入正确格式的密码！");
+                    return false;
+                }
+                var key = CryptoJS.enc.Utf8.parse(nonce);
+                var pswd = CryptoJS.enc.Utf8.parse(passwd);
+                var transPswd = CryptoJS.AES.encrypt(pswd, key, {iv: key, mode: CryptoJS.mode.CBC});
+                var password = transPswd.toString();
+            	var fee=$(".price_input").val();
+                $.post(basePath+"giftshow.do", {method:"joinCrowdFunding",password:password,fee:fee,tid:tid,nonce:nonce},function(data){
+                	if(data.r == 200){
+                    			$.popwin.remind('<div class="popwin_success">参与成功</div>',null, {delay:3000,bar:false,btnclose: false	 });	
+                    		     $(".popwin_pbn").hide();
+                    		     $(".bbs_mrebackb").hide();
+                    		     $(".bbs_mrebackd").show();
+                    		     window.location.href= basePath + 'xile/thread-'+tid+'.html';
+                    } else if(data.r == 404){
+                    	 $.popwin.remind('<div class="">帖子不存在</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 405){
+                    	 $.popwin.remind('<div class="">帖子类型不正确</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 406){
+                    	 $.popwin.remind('<div class="">帖子中无法获取众筹基本信息ID</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 407){
+                    	 $.popwin.remind('<div class="">无法获取众筹基本信息</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 408){
+                    	 $.popwin.remind('<div class="">众筹已结束</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 501){
+                    	 $.popwin.remind('<div class="">参与众筹支付失败</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    	 $(".popwin_pbn").hide();
+                    } else if(data.r == 555){
+                    	 $.popwin.remind('<div class="">服务器出问题了，下次再试哦~</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                    }
+                });
+            }
+	});
+});
+//女神是否接受表白
+function biaobaiClick(bb_value){
+	  if(bb_value=="1"){
+		   $.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpt">您要接受楼主的表白吗？</div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm biaobaiQr" accept="true">确&nbsp;&nbsp;定</a></div></div></div>', {
+				bg: true,
+				title: "友情提示"
+			});
+	   }else  if(bb_value=="0"){
+		   $.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpt">您要拒绝楼主的表白吗？</div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm biaobaiQr" accept="false">确&nbsp;&nbsp;定</a></div></div></div>', {
+				bg: true,
+				title: "友情提示"
+			});
+	   }
+};
+$(".biaobaiQr").live("click",function(){
+	var tid=$("#tiezitid").attr("value");
+	var accept=$(this).attr("accept");
+	$.post(basePath+"giftshow.do", {method:"feedbackConfession",tid:tid,accept:accept},function(data){
+		 if (data.r == 403) {            //未登录
+               window.location.href = data.loginUrl;
+           } else if (data.r == 404){
+        	   $.popwin.remind('<div class="popwin_success">参与成功</div>',null, {delay:3000,bar:false,btnclose: false	 });
+           } else if (data.r == 405){
+        	   $.popwin.remind('<div class="popwin_success">该贴不是表白贴</div>',null, {delay:3000,bar:false,btnclose: false	 });
+           } else if (data.r == 406){
+        	   $.popwin.remind('<div class="popwin_success">该贴没有表白记录ID</div>',null, {delay:3000,bar:false,btnclose: false	 });
+           } else if (data.r == 407){
+        	   $.popwin.remind('<div class="popwin_success">该贴没有表白记录</div>',null, {delay:3000,bar:false,btnclose: false	 });
+           } else if (data.r == 408){
+        	   $.popwin.remind('<div class="popwin_success">您不是被表白的女神，无权处理该贴</div>',null, {delay:3000,bar:false,btnclose: false	 });
+           } else if (data.r == 200){
+        	   $.popwin.remind('<div class="popwin_success">操作成功</div>',null,{onclose: function(){ window.location.href=window.location.href;}});	
+           }
+	});
+});
+
+$(".bbs_bbzc").live("click",function(){
+	var tieziaid=$("#tieziaid").attr("value");
+	var cfid=$(this).attr("cfid");
+	var islike=$(this).attr("islike");
+	$.post(basePath+"goddess/forumservlet", {method:"doLikeConfession",aid:tieziaid,cfid:cfid,islike:islike},function(data){
+		if (data.r == 40111) {            //未登录
+			window.location.href = data.loginUrl;
+		} else if (data.r == 40002){
+			$.popwin.remind('<div class="popwin_success">参数缺失</div>',null, {delay:3000,bar:false,btnclose: false	 });
+		} else if (data.r == 400110){
+			$.popwin.remind('<div class="popwin_success">操作失败</div>',null, {delay:3000,bar:false,btnclose: false	 });
+		} else if (data.r == 200){
+			var likenum=data.likeNum;
+			$(".bbs_likenum").text(likenum);
+			$(".bbs_dislikenum").text(data.dislikeNum);
+			$.popwin.remind('<div class="popwin_success">操作成功</div>',null,{delay:3000,bar:false,btnclose: false	 });
+		}
+	});
+});
+
+
+XB.bbs_forum = {
+		currentUid : -1,	//currentUid	为登录用户的Uid
+		userLevel  : -1,
+		
+		blockReply : false,
+		blockPost  : false,
+		isNewWin   : false,
+		
+	    ////讨论区主页 开始
+		
+		//保存公告栏
+		saveNoticeForMain : function(aid,mid,noticeText){
+			$.post(basePath+"goddess/forumservlet", {
+	        	method:"SaveNoticeForMain",
+	        	aid:aid,
+	        	mid:mid,
+	        	noticeText:noticeText
+	        },function(data){
+	        	if(data.r == 200){
+	        		popSuccess("保存成功！");
+	        		noticeText = noticeText.replace("\n","<br/>");
+	        		$(".tsite_g1b_notice").html(noticeText);
+	        	}else if(data.r == 403){
+	        		popError("权限不足！");
+	        	}else{
+	        		popError("保存失败！");
+	        	}
+	        });
+		},
+
+		
+		//保存推荐帖子列表
+		saveRecTidListForMain : function(aid,mid,tidList){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"SaveRecTidListForMain",
+				aid:aid,
+	        	mid:mid,
+	        	tidList:tidList
+	        },function(data){
+	        	if(data.r == 200){
+	        		popSuccess("保存成功！");
+	        		XB.bbs_forum.getModuleInfo(aid,mid);
+	        	}else if(data.r == 403){
+	        		popError("权限不足！");
+	        	}else{
+	        		popError("保存失败！");
+	        	}
+	        });
+		},
+		
+		//列出讨论区——>分类——>分类信息：版块公告，版主列表
+		getModuleInfo:function(aid,mid){
+	        $.post(basePath+"goddess/forumservlet", {
+	        	method:"GetModuleInfo",
+	        	aid:aid,
+	        	mid:mid
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 //版块公告信息
+	        		 $(".tsite_g1b_notice").html(data.notice);
+	        		 //版主列表
+	        		 $(".tsite_apdrs_admin_list").html(XB.bbs_forumformatter.formatAdminListItems(data));
+	        		 //帖子推荐列表
+	         		$(".tsite_g2b_rectidlist").html(XB.bbs_forumformatter.formatRecTidListItems(data));
+	             }
+	         });
+	    },
+	    
+	    /*过几秒提示自动消失 obj是jquery对象，time是延迟时间，单位ms*/	
+	    gt_dis:function(obj,time){	
+	    	setTimeout(function(){obj.hide();},time);	
+	    },
+	    /*调用示例*/
+	    /*gt_dis($(".gt_btds"),2000);*/	
+	    
+	    //加载手机端讨论区——>帖子列表。
+	    listTopicsForMob:function(aid, mid, digest, nowPage){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"ListTopics",
+	    		aid:aid,
+	    		mid:mid,
+	    		digest:digest,
+	    		nowPage:nowPage
+	        },
+	        function (data) {
+	        	var append_html = '';
+	        	data = $.parseJSON(data);
+	        	if (data.r == 200) {
+	        		if(data.c > 0){
+	        			append_html = XB.bbs_forumformatter.formatTopicItemsForMob(data);	
+	        			$(".gt_blist").attr("nowPage",nowPage);
+	        			XB.bbs_forum.gt_dis($(".gt_btds"),300);
+	        			$('.gt_blist').append(append_html);
+	        		}
+	        	}else{
+	        		$(".gt_btds").html('<p class="gt_btdp">加载失败，请稍候再试……</p>');
+	        	}
+	        });
+	    },
+	    
+	    //2013.06.05新增讨论区一期功能：为管理员增加帖子列表的删除功能
+		//列出讨论区管理员页面——>帖子列表
+	    listTopicsForAdmin:function(aid,nowPage){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"ListTopics",
+	    		aid:aid,
+	    		mid:0,
+	    		digest:0,
+	    		nowPage:nowPage
+	        },
+	        function (data) {
+	        	if (data.r == 200) {
+	        		$(".tsite_atcon").html(XB.bbs_forumformatter.formatForumTopicItemsForAdmin(data));
+	        		//分页
+	        		var pageHtml = formatPageHTMLForForum(data.nowPage, data.totalPage);
+	                $(".tsite_pages_managepage").find(".op_page").remove();
+	                $(".tsite_pages_managepage").prepend(pageHtml);
+	                $(".op_page a").bind("click", function () {
+	                    var tarPage = $(this).attr("data_page");
+	                    if(tarPage == ""){
+	                   	 	tarPage = $(this).parents(".tsite_pages_managepage").find(".tsite_pgin").attr("value");
+	                    }
+	                    tarPage = new Number(tarPage);
+	                    if(tarPage <= data.totalPage && tarPage >= 1){
+	                    	XB.bbs_forum.listTopicsForAdmin(aid, tarPage+"");
+	                    }
+	                });
+	        	}
+	        });
+	    },
+	    
+	    //列出搜索结果页面——>帖子列表
+	    listTopicsForSearch:function(aid,searchType,q,nowPage){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"ListSearchTopicList",
+	    		aid:aid,
+	    		searchType:searchType,
+	    		q:q,
+	    		nowPage:nowPage
+	        },
+	        function (data) {
+	        	if (data.r == 200) {
+	        		$(".tsite_ba1a_search_nodata").hide();
+	        		$(".tsite_ba1a_search_hasdata").show();
+	        		$(".tsite_ba1a_search_content").html('"'+data.q.overFlowText(20)+'"');
+	        		$(".tsite_ba1a_search_num").html(data.c);
+	        		if(data.c > 0){
+	        			$(".tsite_atcon").html(XB.bbs_forumformatter.formatForumTopicItems(0,data));
+	        			//分页
+	        			var pageHtml = formatPageHTMLForForum(data.nowPage, data.totalPage);
+	        			$(".tsite_pages_searchpage").find(".op_page").remove();
+	        			$(".tsite_pages_searchpage").prepend(pageHtml);
+	        			$(".op_page a").bind("click", function () {
+	                        var tarPage = $(this).attr("data_page");
+	                        if(tarPage == ""){
+	                       	 	tarPage = $(this).parents(".tsite_pages_searchpage").find(".tsite_pgin").attr("value");
+	                        }
+	                        tarPage = new Number(tarPage);
+	                        if(tarPage <= data.totalPage && tarPage >= 1){
+	                        	XB.bbs_forum.listTopicsForSearch(aid,searchType,q,tarPage+"");
+	                        }
+	                    });
+	        		}
+	        	}else{
+	        		$(".tsite_ba1a_search_hasdata").hide();
+	        		$(".tsite_ba1a_search_nodata").show();
+	        	}
+	        });
+	    },
+	    
+	    ////我的帖子 开始
+	    
+	    //列出我的帖子列表，format调用的方法和listTopics一样，依然是formatForumTopicItems
+	    listTopicsByUid:function(aid, uid, type, nowPage){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetTopicListByUid",
+				aid:aid,
+				uid:uid,
+				type:type,
+	    		nowPage:nowPage
+			}, function(data) {
+				if (data.r == 200) {
+					//type是类型，1表示我发出的
+//					if(type == 1 && uid == XB.bbs_forum.currentUid)
+//						type = 3;
+					$(".tsite_atcon").html(XB.bbs_forumformatter.formatForumTopicItems(0, data, type));
+					//分页
+	        		var pageHtml = formatPageHTMLForForum(data.nowPage, data.totalPage);
+	        		if(data.isAdmin == 3){//超级管理员
+	        			$(".tisite_rebn").remove();
+	        			$(".tsite_apt1").prepend('<input type="checkbox" class="tisite_remck">');
+	        			$(".tisite_rexcon").prepend('<div class="tisite_rebn"><span><label><input type="checkbox" class="tisite_reall">&nbsp;&nbsp;全部选中</label></span> <span class="tisite_rede"><input type="button" class="tisite_redel" value="删除选中"></span> </div>');
+	        		}
+	                $(".tsite_pages_mypage").find(".op_page").remove();
+	                $(".tsite_pages_mypage").prepend(pageHtml);
+	                $(".op_page a").bind("click", function () {
+	                    var tarPage = $(this).attr("data_page");
+	                    if(tarPage == ""){
+	                    	 tarPage = $(this).parents(".tsite_pages_mypage").find(".tsite_pgin").attr("value");
+	                    }
+	                    tarPage = new Number(tarPage);
+	                    if(tarPage <= data.totalPage && tarPage >= 1){
+//	                    	popError(aid +";"+ uid +";"+ type + ";"+ tarPage)
+	                    	XB.bbs_forum.listTopicsByUid(aid,uid,type, tarPage+"");
+	                    }
+	                });
+				}
+			});
+	    },
+	    
+	    //加载手机端讨论区——>我的帖子列表。
+	    listTopicsByUidForMob:function(aid, uid, type, nowPage){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"GetTopicListByUid",
+				aid:aid,
+				uid:uid,
+				type:type,
+	    		nowPage:nowPage
+	        },
+	        function (data) {
+	        	var append_html = '';
+	        	data = $.parseJSON(data);
+	        	//type是类型，1表示我发出的
+//				if(type == 1 && uid == XB.bbs_forum.currentUid)
+//					type = 3;
+	        	if (data.r == 200) {
+	        		if(data.c > 0){
+	        			append_html = XB.bbs_forumformatter.formatTopicItemsForMob(data);	
+	        			$(".gt_blist").attr("nowPage",nowPage);
+	        			XB.bbs_forum.gt_dis($(".gt_btds"),300);
+	        			$('.gt_blist').append(append_html);
+	        		}else{
+	        			$(".gt_btds").html('<p class="gt_btdp">已经没有更多了</p>');
+	        		}
+	        	}else{
+	        		$(".gt_btds").html('<p class="gt_btdp">加载失败，请稍候再试……</p>');
+	        	}
+	        });
+	    },
+	    
+	    //取未读帖子回复个数
+	    getMyUnreadTopic:function(aid){
+	    	$.post(basePath+"goddess/forumservlet", {
+	        	method:"GetMyUnreadTopicNum",
+	        	aid:aid
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 var count = data.UnreadNum;
+//	        		 popError(count);
+	        		 if(count >0){
+	        			 $(".tsite_apddspn").show();
+	        		 }else{
+	        			 $(".tsite_apddspn").hide();
+	        		 }
+	             }
+	         });
+	    },
+	    //取未读帖子回复个数。
+	    getMyUnreadTopicNum:function(aid){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetMyUnreadTopicNum",
+				aid:aid
+			}, function(data) {
+				if (data.r == 200) {
+					if(data.UnreadNum > 0)
+						$(".tsite_apth_label_my_unreadnum").html("("+data.UnreadNum+")");
+				}
+			});
+	    },
+	    
+	    ////写新帖 开始
+	    
+	    //写新帖——>列出选择的模块分类
+	    listModulesForEditor:function(aid,mid){//传入mid来定位下拉框的选中
+	        $.post(basePath+"goddess/forumservlet", {
+	        	method:"ListModulesForEditor",
+	        	aid:aid
+	        },
+	         function (data) {
+	        	if(typeof data != 'object'){
+	        		data = $.parseJSON(data);
+	        	}
+	        	 if (data.r == 200) {
+	        		 $(".tsite_fc1a").html(XB.bbs_forumformatter.formatForumModulesForEditor_items(data));
+//	        		 $(".tsite_fc1a")[0].selectedIndex = mid-1;//设置选中的mid 修改为如下：
+	        		 $("#tsite_fc1a_selector").val(mid);	   //设置Select的Value值为mid的项选中
+	             }
+	         });
+	    },
+	    //写新帖——>发布新帖
+	    postTopic:function(tg,aid,module, title, content,atUidList){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"PostTopic",
+	    		aid:aid,
+	        	module:module,
+	        	title:title,
+	        	content:content,
+	        	atUidList:atUidList
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 //TODO 在所有弹框的地方试试popSuccess等,熟悉熟悉base.js。 这里改为3秒后消失就更好了。
+	        		 popSuccess("发布成功！");
+	        		 window.setTimeout(function(){
+	        			 var tid = data.tid;
+	        			 XB.bbs_forum.blockPost = false;
+	        			 $(tg).removeClass("tsite_bfdis").addClass("tsite_post_topic_button");
+	            		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+	        		 	}, 1500);
+	             }else{
+	            	 XB.bbs_forum.blockPost = false;
+	            	 $(tg).removeClass("tsite_bfdis").addClass("tsite_post_topic_button");
+	            	 if(data.r == 400999){
+	            		 popFail("字数太长，发布失败！");
+	            	 }else if(data.r == 909){
+	            		 popError("您发帖的次数过快，请稍后再尝试！");
+	            	 }else if(data.r == 908){
+	            		 popError("请勿发送相同的帖子！");
+	            	 }else if(data.r == 403){
+	                 	popFail("您已被禁言！");
+	                 }else if(data.r == 40003){
+	                 	popFail("标题不能为空！");
+	                 }else if(data.r == 40111){
+	                 	popFail("用户未登录，发布失败");
+	                 }else if(data.r == 11111){
+	                 	popFail("论坛暂未开放，敬请期待！");
+	                 }else{
+	            		 popFail("发布失败！r="+data.r);
+	            	 }
+	             }
+	         });
+	    },
+	    
+	    //手机端写新帖——>发布新帖
+	    postTopicMob:function(tg,aid,module, title, content){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"PostTopic",
+	    		aid:aid,
+	        	module:module,
+	        	title:title,
+	        	content:content
+	        },
+	         function (data) {
+	        	data = $.parseJSON(data);
+	        	 if (data.r == 200) {
+	        		 window.setTimeout(function(){
+	        			 var tid = data.tid;
+	        			 XB.bbs_forum.blockPost = false;
+	        			 $(tg).removeClass("gt_bns2").addClass("tsite_mob_post_topic_button");
+	            		 window.location.href='/mobile/'+data.gamename+'/forum/detail?id='+tid;
+	        		 	}, 1500);
+	             }else{
+	            	 XB.bbs_forum.blockPost = false;
+	            	 $(tg).removeClass("gt_bns2").addClass("tsite_mob_post_topic_button");
+	            	 $(tg).val("发送");
+	            	 if(data.r == 400999){
+	            		 $(".gt_bnts").html("字数太长，发布失败！");
+	            	 }else if(data.r == 909){
+	            		 $(".gt_bnts").html("您发帖的次数过快，请稍后再尝试！");
+	            	 }else if(data.r == 908){
+	            		 $(".gt_bnts").html("请勿发送相同的帖子！");
+	            	 }else if(data.r == 403){
+	            		 $(".gt_bnts").html("您已被禁言！");
+	                 }else if(data.r == 40003){
+	                	 $(".gt_bnts").html("标题不能为空！");
+	                 }else{
+	                	 $(".gt_bnts").html("发布失败！");
+	            	 }
+	             }
+	         });
+	    },
+	    
+	    ////帖子详情 开始
+	    //获取帖子详情中,尾部回帖,我的名片;
+	    getMyNameCard:function(aid,tid){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"GetMyNameCard",
+	    		aid:aid,
+	    		tid:tid
+	        },function (data) {
+	        	 if (data.r == 200) {
+	        		 $(".tsite_reply_topic_namecard").html(XB.bbs_forumformatter.formatForumUserNameCard(data.namecard));
+	             }
+	         });
+	    },
+	    
+	    //手机端获得帖子内容：
+	    getTopicDetailContent_mob:function(aid,tid,onlyLooklzUid,nowPage,fid,isAutoScroll){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"GetReplyListByTid",
+	    		aid:aid,
+	        	tid:tid,
+	        	replyUid:onlyLooklzUid,	//只看楼主
+	        	nowPage:nowPage
+	        },function (data) {
+	        	var data = $.parseJSON(data);
+	        	 if (data.r == 200){
+	        		 var userLevel = XB.bbs_forum.userLevel;
+	        		 $(".tsite_bc").attr("nowPage",nowPage);
+	        		 XB.bbs_forum.gt_dis($(".gt_btds"),300);
+	       			 $(".tsite_bc").append(XB.bbs_forumformatter.formatTopicDetailContent_Mob_Items(data, userLevel));
+//	       			 reloadBDShare();			//2013.02.28增加功能：加载百度分享.
+	       			/*
+	                $(".op_page").die("click");
+	               	$(".op_page").live("click", function (){
+	                        var tarPage = $(this).attr("data_page");
+	                        tarPage = new Number(tarPage);
+	                        if(tarPage <= data.totalPage && tarPage >= 1){
+	                       	 	XB.bbs_forum.getTopicDetailContent_mob(aid,tid,onlyLooklzUid,tarPage+"",fid,isAutoScroll);
+//	                       	 XB.bbs_forum.fe_scroll(true,null,null,1);		//翻页跳页面首部。
+	                        }
+	                 });
+	                 */
+	                 /*
+	                 if(nowPage == 1){			//第一页，加载这些回复很赞的功能.
+	                	 XB.bbs_forum.getAwardsList(aid,tid);
+	      				 XB.bbs_forum.getHotFavReplyForTopic(aid,tid);
+	      			 }
+	                  */
+	                 if(isAutoScroll){//如果外部没有指定scroll，则本函数处理scroll，开始计算定位到相应的楼层焦点。
+	                	 var pageSize = data.pageSize;
+	                	 var to_fid = (data.nowPage -1)*pageSize + 1;
+	                	 if(Math.ceil(fid/pageSize) == data.nowPage){
+	                		 to_fid = fid;
+	                	 }
+	                	 setTimeout(function(){
+	                		 XB.bbs_forum.fe_scroll(null,"topic_floor_"+to_fid,null,1);
+	                	 },500);
+	                 }
+	             }else if(data.r == -404){
+	            	 
+	             }else{
+	            	 $(".gt_btds").html('<p class="gt_btdp">加载失败，请稍候再试……</p>');
+	             }
+	         });
+	    },
+	    
+	    //获取帖子详情的：被赞最多的前x个回复
+	    getHotFavReplyForTopic:function(aid,tid){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"GetHotFavReplyForTopic",
+	    		aid:aid,
+	        	tid:tid
+	        },
+	         function (data) {
+	        	 if (data.r == 200 && data.c > 0) {
+	        		 var userLevel = XB.bbs_forum.userLevel;
+	        		 $("#topic_floor_1").after(XB.bbs_forumformatter.formatHotFavReplyContentItems(data, userLevel));
+	        		 if(userLevel == -1 || XB.bbs_forum.currentUid == -1){
+//	        			 $(".tsite_bc5").remove();//游客身份，把 tsite_bc5 remove
+	        			 $(".tsite_bc5b").remove();//游客身份，把 tsite_bc5b remove
+	        		 }
+	             }
+	         });
+	    },
+	    
+	    //删除帖子
+	    deleteTopic:function(aid,tid,fid,reason,tg,callback){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"DeleteTopic",
+	    		aid:aid,
+	        	tid:tid,
+	        	fid:fid,
+	        	reason:reason
+	        },
+	         function (data) {
+	        	if(data.r == 400131){
+	        		popError("帖子已锁定！");
+	        	}else{
+	        		callback(aid,tg,data);
+	        	}
+	         });
+	    },
+	    //帖子详情页删除按钮的callback
+	    deleteTopicForDetailCallBack:function(aid,tg,data){
+	    	var fid = $(tg).parents(".tsite_bcli_floorId_area").attr("fid");
+	    	if (data.r == 200) {
+	    		if(fid == 1)
+	    			window.location.href= basePath + 'xile/forum-'+aid+'-'+data.mid+'.html';
+	    		else{
+	    			$(tg).parents(".tsite_bcli_item").remove();
+	    			////解决赞区域和普通区域的删除的同步删问题。
+	    			if($("#fav_topic_floor_"+fid)){
+	    				$("#fav_topic_floor_"+fid).remove();
+	    			}
+	    			if($("#topic_floor_"+fid)){
+	    				$("#topic_floor_"+fid).remove();
+	    			}
+	    		}
+	        }else if(data.r == 403){
+	        	popError("权限不足！");
+	        }else{
+	        	popError("删除出错，请联系管理员！");
+	        }
+	    },
+	    //管理员页面，删除帖子的callback
+	    deleteTopicForAdminCallBack:function(aid,tg,data){
+	    	if(data.r == 200){
+	    		//window.location.href = '/forum/manage?aid='+aid;
+	    		$(tg).parents(".tisite_rexcon").find('tr[tid='+data.tid+']').remove();
+	    	}else{
+	    		popError("帖子tid="+data.tid+" 删除出错，请联系管理员");
+	    	}
+	    },
+	    //回复帖子
+	    replyTopic:function(tg,aid,tid,content,mode,fid,atUidList){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"ReplyTopic",
+	    		aid:aid,
+	        	tid:tid,
+	        	content:content,
+	        	mode:mode,
+	        	fid:fid,
+	        	atUidList:atUidList
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 popSuccess("回复成功！");
+	        		 //延迟跳转
+	        		 window.setTimeout(function(){
+//	        			 window.location.href= data.url;
+	        			 var toPage = data.lastPageNum;											//待跳转的页面Num
+	        			 var mode = $(tg).attr("mode");				//mode
+	        			 if(mode == "edit"){
+	        				 toPage = $(".op_page").find(".mc_Pagcur").attr("data_page");		//如果是编辑模式，则本页面内跳转
+	        			 }
+	        			 window.location.href = basePath + 'xile/thread-'+tid+'--'+(data.fid-1)+'.html';
+	        			 $(".tsite_bc7_ref").hide();											//引用框hide
+	        			 $('#editor').val("");													//编辑框清空
+	        			 $('#randcode').val("");
+	        			 $('#searchAt').val("");
+	        			 $('#editor').focus();													//编辑框focus
+	        			 $(tg).attr("mode","reply");					//mode恢复为一开始的reply mode
+	        			 $(".tsite_qrtnp_tip_list").html("");
+	        			 $(".tsite_qrat_add_list").html("");
+	        			 $('#randimg').trigger("click");
+	        			 if(mode == "edit"){
+	        				 XB.bbs_forum.fe_scroll(null,"tsite_bc5b1_edit_scroll_clazz",null,1);	//定位到某个ID处
+	        			 }else{
+	        				 XB.bbs_forum.fe_scroll(null,null,true,1000);							//定位到页面尾部
+	        			 };
+	        			 XB.bbs_forum.blockReply = false;
+	        			 $(tg).removeClass("tsite_bcdis").addClass("tsite_bc7e1a2_reply_topic");
+	        		 }, 1500);
+	             }else{
+	            	 XB.bbs_forum.blockReply = false;
+	            	 $(tg).removeClass("tsite_bcdis").addClass("tsite_bc7e1a2_reply_topic");
+	            	 if(data.r == 400999){
+	                	 popFail("字数太长，发布失败！");
+	                 }else if(data.r == 908){
+	                	 popFail("请勿重复发送同样的内容！");
+	    			 }else if(data.r == 909){
+	    				 popFail("您回复的次数过快，喝杯水再来！");
+	    			 }else if(data.r == 40003){
+	    				 $(".tsite_bc7w4").html("没写内容是不能发布的吆！").show();
+	    			 }else if(data.r == 400131){
+	    				 popError("帖子已被锁住，无法回复");
+	    			 }else if(data.r == 403){
+	    				 popFail("您已被禁言！");
+	                 }else if(data.r == 300123){
+	                	 $(".tsite_bc7w4").html("回复字数太少！").show();
+	                 }else if(data.r == 11111){
+	                 	popFail("论坛暂未开放，敬请期待！");
+	                 }else{
+//	                	 popError("回复失败！");//TODO 加上删除出错的提醒
+	                 }; 
+	             }
+	         });
+	    },
+	    //手机端-回复/引用帖子
+	    replyTopicMob:function(tg,aid,tid,content,mode,fid){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"ReplyTopic",
+	    		aid:aid,
+	        	tid:tid,
+	        	content:content,
+	        	mode:mode,
+	        	fid:fid
+	        },
+	         function (data) {
+	        	data = $.parseJSON(data);
+	        	 if (data.r == 200) {
+	        		 //延迟跳转
+	        		 window.setTimeout(function(){
+	        			 window.location.href= "/mobile"+ data.url+"&f="+data.fid;
+	        			 XB.bbs_forum.blockReply = false;
+//	        			 $(tg).removeClass("gt_bns2").addClass("gt_bns1_reply_topic");
+	        		 }, 1500);
+	             }else{
+	            	 XB.bbs_forum.blockReply = false;
+	            	 $(tg).removeClass("gt_bns2").addClass("gt_bns1_reply_topic").val("发送");
+	            	 if(data.r == 400999){
+	            		 $(".gt_bnts").html("字数太长，发布失败！");
+	                 }else if(data.r == 908){
+	                	 $(".gt_bnts").html("请勿重复发送同样的内容！");
+	    			 }else if(data.r == 909){
+	    				 $(".gt_bnts").html("您回复的次数过快，喝杯水再来！");
+	    			 }else if(data.r == 40003){
+	    				 $(".gt_bnts").html("没写内容是不能发布的吆！");
+	    			 }else if(data.r == 400131){
+	    				 $(".gt_bnts").html("帖子已被锁住，无法回复");
+	    			 }else if(data.r == 403){
+	    				 $(".gt_bnts").html("您已被禁言！");
+	                 }else{
+//	                	 popError("回复失败！");//TODO 加上删除出错的提醒
+	                 }; 
+	             }
+	         });
+	    },
+	    //编辑主帖
+	    editMainTopic:function(aid,tid,mid,title,content,atUidList){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"EditMainTopic",
+	    		aid:aid,
+	        	tid:tid,
+	        	mid:mid,
+	        	title:title,
+	        	content:content,
+	        	atUidList:atUidList
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 //延迟跳转
+	        		 popSuccess("修改成功！");
+	        		 window.setTimeout(function(){
+	        			 window.location.href= data.url;
+	        		 	}, 1500);
+	             }else if(data.r == 400999){
+	            	popFail("字数太长，发布失败！");
+	             }else if(data.r == 403){
+	            	popFail("您已被禁言！");
+	             }else{
+	            	 //TODO 加上删除出错的提醒
+	             }
+	         });
+	    },
+	    //管理员加精/取消加精功能
+	    addOrCancleDigest:function(tg,aid,tid,digest,digestCash,reason){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"AddOrCancleDigestOrTop",
+	    		aid:aid,
+	        	tid:tid,
+	        	digest:digest,
+	        	digestCash:digestCash,
+	        	reason:reason
+	        },
+	         function (data) {
+	        	 if (data.r == 200) {
+	        		 popSuccess("成功！");
+	        		 $(".tsite_bcrz").find(".tsite_bc2b3").attr("digest",digest);
+	        		 var tip_text = (digest == 1) ? '[精<em class="tsite_bcadd">+'+digestCash+'</em>]':'';
+	        		 $(".tsite_bcrz").find(".tsite_bc2b3_digest").html(tip_text);
+	             }else if(data.r == 40081){
+	            	 popError("帖子已加精！");
+	             }else if(data.r == 40002){
+	            	 popError("参数不合法！");
+	             }else{
+	            	 popError("操作失败！");
+	             }
+	         });
+	    },
+	    //置顶/取消置顶
+	    addOrCancleTop:function(aid,tid,top){
+	    	$.post(basePath+"goddess/forumservlet", {
+	    		method:"AddOrCancleDigestOrTop",
+	    		aid:aid,
+	        	tid:tid,
+	        	top:top
+	        },
+	         function (data) {
+	        	if (data.r == 200) {
+		       		$(".tsite_bcrz").find(".tsite_bc2b3").attr("top",top);
+		       		var tip_text = (top == 0) ? '':'[顶]';
+		       		$(".tsite_bcrz").find(".tsite_bc2b3_top").text(tip_text);
+		       		popSuccess("成功！");
+	            }else if(data.r == 403){
+	            	popError("您没有该权限！");
+	            }else if(data.r == 4001110){
+	            	$.popwin.remind("本分类置顶帖个数最多为5个，不能再置顶了。",function(){}, {bar:false,btnclose: false});
+	            }else if(data.r == 4001111){
+	            	$.popwin.remind("全区置顶帖个数最多为15个，不能再置顶了。",function(){}, {bar:false,btnclose: false});
+	            }else if(data.r == 40081){
+	           	 	popError("帖子置顶/取消置顶操作重复！");
+	            }else if(data.r == 40002){
+	           	 	popError("参数不合法！");
+	            }else{
+	           	 	popError("操作失败！r="+data.r);
+	            }
+	         });
+	    },
+	    
+	    //赞回复或取消赞回复
+		//act="addfav"表示赞，act="canclefav"表示取消赞
+		addOrCanclefavReply:function(aid,tg, act, callback){
+			var tid = $(tg).attr("data_tid");
+			var fid = $(tg).attr("data_fid");
+			$.post(basePath+"goddess/forumservlet", {
+				method:"AddOrCanclefavReply",
+				aid:aid,
+				tid:tid,
+				fid:fid,
+				act:act
+			},function(data){
+				if (data.r == "40111"){
+					XB.auth.login.popLoginWin();
+				}else if (data.r == "400131"){
+					popError("帖子已锁住！");
+				}else{
+					callback(tg, data, act, tid, fid);
+				}
+			});
+		},
+		
+		//讨论区帖子详情页中，对回复楼，赞或取消赞的回调函数
+		addOrCanclefavReplyCallbackInForumTopicDetail:function(tg, data, act, tid, fid){
+			if (data.r == 200){
+				var count = new Number($(".data_favCount_" + tid + "_" + fid).html());
+				if (act == "addfav"){
+					count++;
+					$(tg).removeClass("tsite_ki9c").addClass("tsite_ki9d");
+				}else if (act == "canclefav"){
+					popSuccess("取消成功",1000);
+					count--;
+					$(tg).removeClass("tsite_ki9d").addClass("tsite_ki9c");
+				}
+				$(".data_favCount_" + tid + "_" + fid).html(count);
+			}else{
+				if (act == "addfav"){
+					popError("点赞失败！code=" + data.r);
+				}else{
+					popError("取消赞失败！code=" + data.r);
+				}
+			}
+		},
+		
+		addOrCancleLock:function(tg,aid,tid,lockflag,reason){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"AddOrCancleLock",
+				aid:aid,
+				tid:tid,
+				lockflag:lockflag,
+				reason:reason
+			},function(data){
+				if (data.r == "40111"){
+					XB.auth.login.popLoginWin();
+				}else if (data.r == 200) {
+		       		if(lockflag == 1){//锁
+		       			$(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag",1);
+		       			$(".tsite_bdz").hide();
+		       		}else{
+		       			$(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag",0);
+		       			$(".tsite_bdz").show();
+		       		}
+		       		var tip_text = (lockflag == 0) ? '':'[锁]';
+		       		$(".tsite_bcrz").find(".tsite_bc2b3_lockflag").text(tip_text);
+		       		popSuccess("成功！");
+	            }else if(data.r == 403){
+	            	popError("您没有该权限！");
+	            }else{
+	            	popError("失败！r="+data.r);
+	            }
+			});
+		},
+		
+		//后台管理员发码功能
+		addActCodeByAdmin:function(aid,uid,prizeNameAndNum, callback){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"AddActCodeByAdmin",
+				aid:aid,
+				uid:uid,
+				prizeNameAndNum:prizeNameAndNum
+			},function(data){
+				if (data.r == "40111"){
+					XB.auth.login.popLoginWin();
+				}else if(data.r == "403"){
+					popError("您没有该权限！");
+				}else if(data.r == 300){
+					popError("请选择礼包。");
+				}else if(data.r == 200){
+					popSuccess("加入发码。",1000);
+				}else{
+					popError("出错。");
+				}
+			});
+		},
+		
+		//获得活动类型以及发码
+		getPrizesListByAdmin:function(aid,actId){
+			$.post(basePath+"goddess/forumservlet", {method:"GetPrizesListByAdmin",aid:aid,actId:actId},function (data) {
+		        if (data.r == 200) {
+		        	data.typeItems = $.parseJSON(data.typeItems);
+		        	var codeHtml = '<div class="tsite_fmi">'+
+		        				   '	<span>活动类型：</span>'+
+		        				   '	<span>'+
+		        				   '		<select class="tsite_fmic">'+
+		        				   '			<option class="tsite_fmic_select" actId="-1">选择活动类型</option>';
+		        	$.each(data.typeItems, function (i, item) {
+		        		codeHtml +='			<option class="tsite_fmic_select" actId="'+item.actId+'">'+item.actName+'</option>';
+		        	});
+		        		codeHtml +='		</select>'+
+		        				   '	</span>'+
+		        				   '</div>';
+		        	data.items = $.parseJSON(data.items);
+		    		$.each(data.items, function (i, item) {
+		    			codeHtml += '<div class="tsite_fmi">'+
+				                	'	<span class="tsite_fm1"><label><input type="checkbox" class="tsite_fm1_prizeName" value="'+item.prizeId+'"/>礼包名:'+item.prizeName+'</label></span>'+
+				                	'	<span class="tsite_fm3">数量:</span><span class="tsite_fm4"><input type="text" class="tsite_fm4_text"/></span>'+
+				                	'</div>';
+		            });
+		    		$(".tsite_fm_codelist").html(codeHtml);
+		    		$('.tsite_fmic_select[actId='+actId+']').attr("selected","selected");
+		        }
+		     });
+		},
+		
+		
+		//杨力的js
+		//获得某个tid下的打赏列表。
+		getAwardsList:function(aid,tid){
+			//送礼
+		     $.post(basePath+"giftshow.do",{
+	                method:"getMyGift",
+	            	type:1
+	         },function(data){
+	        	if(data.r == 200){
+	        		var html = '';
+	        		html+='<ul>';
+	        		$.each(data.giftArray,function(i,n){
+	        			html += '<li><span class="bbs_mgpli1" value="'+n.giftCommId+'"><img src="'+basePath+n.giftIcon_s+'"/><i title="已有数量" value='+n.giftCount+'>'+n.giftCount+'</i></span> <span class="bbs_mgpli2">'+n.giftName+'</span> <span class="bbs_mgpli3">'+(n.giftPrice*0.01).toFixed(2)+'元</span> </li>';
+	        		});
+	        		html+='</ul>'
+	        			$(".bbs_mposr").find(".bbs_mgfpop").find(".bbs_mgplist").html(html);
+	        	}
+	        });
+			
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetAwardsList",
+				aid:aid,
+				tid:tid,
+				awardType:2
+			},function (data) {
+		        if (data.r == 200 && data.c > 0) {
+		        	var html = '';
+		        	var title,src;
+		        	$("#bbs_hudong").html(data.c-1);
+		        	//popError(data.items);
+		        	data.items = $.parseJSON(data.items);
+		        	html+='<ul>';
+					$.each(data.items,function(i, item) {
+						if(i>2||i==0)
+							return;
+						var blusergrade=$("#blusergrade").val();
+						/*if(blusergrade==0){
+							title=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("span").eq(item.reason-1).attr("title");
+							src=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("img").eq(item.reason-1).attr("src");
+						}else if(blusergrade==1){
+						}*/
+						title=$(".bbs_dzlist").find("span").eq(item.reason-1).attr("title");
+						src=$(".bbs_dzlist").find("img").eq(item.reason-1).attr("src");
+						
+						html += '<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.imageS+'" /></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span> <span class="bbs_mgnc3"><span><img src="'+src+'" /></span><span class="bbs_mgnred">'+title+'</span></span><span class="bbs_mgnc4">'+item.awardTimeStr+'</span></li>'
+					});
+					html+='</ul>';
+		        	$(".bbs_mgnbb").html(html);
+		        	//查看全部互动
+		        	$(".bbs_mgnallbb").click(function(){
+		        		var html2='';
+		        		html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+		        		$.each(data.items,function(i, item) {
+		        			if(i==0)
+		        				return;
+		        			/*title=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("span").eq(item.reason-1).attr("title");
+		        			src=$(".bbs_mgpsendbn0").parents(".bbs_mgpc").find("img").eq(item.reason-1).attr("src");*/
+		        			title=$(".bbs_dzlist").find("span").eq(item.reason-1).attr("title");
+							src=$(".bbs_dzlist").find("img").eq(item.reason-1).attr("src");
+		        			html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.imageS+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span> <span class="bbs_mgnc3"><span><img src="'+src+'"></span><span class="bbs_mgnred">'+title+'</span></span><span class="bbs_mgnc4">'+item.awardTimeStr+'</span></li>'
+		        		});
+		        		html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+		        	 $.popwin(
+		        			 html2, {
+		                 bg: true,title: "查看全部"
+		                 });
+		        	})
+		        }
+		        else if(data.c==0)
+	        	{
+	        	$("#bbs_hudong").parents(".bbs_mgn").hide();
+	        	}
+		     });
+			//送礼
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetAwardsList",
+				aid:aid,
+				tid:tid,
+				awardType:1
+			},function (data) {
+		        if (data.r == 200 && data.c > 0) {
+		        	var html = '';
+		        	var title,src;
+		        	$("#bbs_songli").html(data.c-1);
+		        	//popError(data.items);
+		        	data.items = $.parseJSON(data.items);
+		        	html+='<ul>';
+					$.each(data.items,function(i, item) {
+						if(i>2||i==0)
+							return;
+//						title=$(".bbs_mgpsendbn1").parents(".bbs_mgpc").find(".bbs_mgpli2").eq(item.reason).text();
+//						src=$(".bbs_mgpsendbn1").parents(".bbs_mgpc").find("img").eq(item.reason).attr("src");
+						html += '<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.imageS+'" /></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span> <span class="bbs_mgnc2 bbs_mgnred">'+item.score+'个'+item.gift.giftName+'</span><span class="bbs_mgnc3"><span><img src="'+basePath+item.gift.giftIcon_s+'" /></span></span><span class="bbs_mgnc4">'+item.awardTimeStr+'</span></li>'
+					});
+					html+='</ul>';
+		        	$(".bbs_mgnaa").html(html);
+		        	//查看全部送礼
+		        	$(".bbs_mgnallaa").click(function(){
+		        		var html2='';
+		        		html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+		        		$.each(data.items,function(i, item) {
+		        			if(i==0)
+		        				return;
+		        			title=$(".bbs_mgpsendbn1").parents(".bbs_mgpc").find(".bbs_mgpli2").eq(item.reason).text();
+		        			src=$(".bbs_mgpsendbn1").parents(".bbs_mgpc").find("img").eq(item.reason).attr("src");
+		        			html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.imageS+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span> <span class="bbs_mgnc2 bbs_mgnred">'+item.score+'个'+item.gift.giftName+'</span><span class="bbs_mgnc3"><span><img src="'+basePath+item.gift.giftIcon_s+'"></span></span><span class="bbs_mgnc4">'+item.awardTimeStr+'</span></li>'
+		        		});
+		        		html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+		        	 $.popwin(
+		        			 html2, {
+		                 bg: true,title: "查看全部"
+		                 });
+		        	})
+		        }
+		        else if(data.c==0)
+	        	{
+	        	$("#bbs_songli").parents(".bbs_mgn").hide();
+	        	}
+		     });
+		},
+		//群赏倒计时
+		rewardtime:function(intDiff,startTime){
+        	var ctime=parseInt($("#shangcurrenttime").attr("value"));
+			var currenttime=ctime;
+			var tt=startTime+intDiff-currenttime;
+			var getStatus=$("#getStatus").val();
+        	if(currenttime-startTime >=intDiff || getStatus > 0){
+    		    $("#rewardtime").html("群赏已结束");
+    		    $("#rewardnum").html('');
+    		   /* $(".bbs_mptl").hide();*/
+        	}else{
+			var day = Math.floor(tt / (60 * 60 * 24)),
+			hour=Math.floor(tt / (60 * 60)) - (day * 24),
+			minute=Math.floor(tt / 60) - (day * 24 * 60) - (hour * 60),
+			second=Math.floor(tt) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);//时间默认值	
+			if (minute <= 9) minute = '0' + minute;
+			if (second <= 9) second = '0' + second;
+			if(day<=0)day='0';
+		    $("#rewardtime").html("还剩"+day+"天"+hour+'小时'+minute+'分'+second+'秒');
+		    if(intDiff<=0)
+			{
+			return;
+			}
+		    window.setInterval(function(){
+    			if(intDiff > 0){
+    				tt--;
+    				day = Math.floor(tt/ (60 * 60 * 24));
+    				hour = Math.floor(tt / (60 * 60)) - (day * 24);
+    				minute = Math.floor(tt/ 60) - (day * 24 * 60) - (hour * 60);
+    				second = Math.floor(tt) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+    				if (minute <= 9) minute = '0' + minute;
+    				if (second <= 9) second = '0' + second;
+    			}
+    			if(day<0) day = '0';
+    			$("#rewardtime").html("还剩"+day+"天"+hour+'小时'+minute+'分'+second+'秒');
+    			}, 1000);
+        	}
+		},
+		//众筹倒计时
+		crowdFundingtime:function(intDiff,startTime){
+        	var ctime=parseInt($("#currenttime").attr("value"));
+        	var currenttime=ctime/1000;
+			var tt=startTime+intDiff-currenttime;
+        	var getStatus=$("#getStatus").val();
+        	if(currenttime-startTime>=intDiff || getStatus>0){
+    		    $("#crowdFundingtime").html("众筹已结束");
+    		    $("#crowdFundingnum").html('');
+    		    $(".bbs_zongchou").hide();//隐藏众筹按钮
+        	}else{
+        		$(".bbs_zongchou").show();
+    			var day = Math.floor(tt/ (60 * 60 * 24)),
+    		    hour=Math.floor(tt / (60 * 60)) - (day * 24),
+    			minute=Math.floor(tt/ 60) - (day * 24 * 60) - (hour * 60),
+    			second=Math.floor(tt) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);//时间默认值	
+    			if (minute <= 9) minute = '0' + minute;
+    			if (second <= 9) second = '0' + second;
+    			if(day<0) day = '0';
+    		    $("#crowdFundingtime").html("还剩"+day+"天"+hour+'小时'+minute+'分'+second+'秒');
+    		    if(intDiff<=0)
+    			{
+    			return;
+    			}
+    			window.setInterval(function(){
+    			if(intDiff > 0){
+    				tt--;
+    				day = Math.floor(tt/ (60 * 60 * 24));
+    				hour = Math.floor(tt / (60 * 60)) - (day * 24);
+    				minute = Math.floor(tt/ 60) - (day * 24 * 60) - (hour * 60);
+    				second = Math.floor(tt) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+    				if (minute <= 9) minute = '0' + minute;
+    				if (second <= 9) second = '0' + second;
+    			}
+    			if(day<0) day = '0';
+    			$("#crowdFundingtime").html("还剩"+day+"天"+hour+'小时'+minute+'分'+second+'秒');
+    			}, 1000);
+        	}
+        	
+		},
+		
+		//索要取得待付金额
+		/*getBackPrice:function(){
+			var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+    		$.post(basePath+"giftshow.do",{
+    			method:"backDoApply",
+    			tid:tid
+    			},function(data){
+    				popError(data)
+    			if(data.r==200){
+    				
+    				return data.backPrice;
+    			}
+    		});
+		},
+		*/
+		/*--------------------朝拜 start--------------------------*/
+		//朝拜记录	
+		getChaobaiList:function(){
+			var goddess_uid=$("#goddess_uid").attr("value");
+			var king_uid=$("#king_uid").attr("value");
+			$.post(basePath+"giftshow.do", {
+				method:'getChaobaiRecordList',
+				goddess_uid:goddess_uid,
+				need_process:false,
+				king_uid:king_uid
+				},function(data){
+					if (data.r == 200 && data.count > 0) {
+			        	var html = '';
+			        	$("#bbs_cbsz").html(data.count-1);
+			        	html+='<ul>';
+			        	$.each(data.list,function(i, list) {
+							if(i>2||i==0)
+								return;
+							html += '<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+list.cb_uid+'" target="_blank"><img src="'+list.cb_avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+list.cb_uid+'" target="_blank">'+list.cb_username+'</a></span> <span class="bbs_mgnc3"><span><img src="'+basePath+list.chaoBaiIcon+'"></span><span class="bbs_mgnred">'+list.chaoBaiName+'</span></span><span class="bbs_mgnc4">'+list.cb_time+'</span></li>'
+						});
+						html+='</ul>';
+			        	$(".bbs_mgncbsz").html(html);
+			        	//查看全部
+			        	$(".bbs_mgnallcbsz").click(function(){
+			        		var html2='';
+			        		html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+			        		$.each(data.list,function(i, list) {
+			        			if(i==0)
+			        				return;
+			        			html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+list.cb_uid+'" target="_blank"><img src="'+list.cb_avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+list.cb_uid+'" target="_blank">'+list.cb_username+'</a></span> <span class="bbs_mgnc3"><span><img src="'+basePath+list.chaoBaiIcon+'"></span><span class="bbs_mgnred">'+list.chaoBaiName+'</span></span><span class="bbs_mgnc4">'+list.cb_time+'</span></li>'
+			        		});
+			        		html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+			        	 $.popwin(
+			        			 html2, {
+			                 bg: true,title: "查看全部"
+			                 });
+			        	});
+			        }
+			        else if(data.count==0){
+			        	$(".bbs_m_cbsz").hide();
+		        	}
+			});	
+		},
+		/*--------------------朝拜 end--------------------------*/
+		/*--------------------女神送装晒start--------------------------*/
+		getGoddessShowList:function(){
+			var tid=$("#sztiezitid").attr("value");
+			var aid=$("#sztieziaid").attr("value");
+			//女神晒贴页面操作判断
+			var bbs_rank;	
+			$.post(basePath+"goddess/forumservlet", {method:"queryKouBaiOrLockStatusInShowClothes",aid:aid,tid:tid},function(data){
+				bbs_rank=data.gradeGap;//等级差
+				var canlock=data.canlock;//是否能加锁
+				var canunlock=data.canunlock;//是否能解锁
+				var isCut=data.isCut;//是否能剪彩
+				var isKouBai=data.isKouBai;//是否能叩拜
+				var isLessThanSixHours=data.isLessThanSixHours;//女神晒装是否已满6小时
+				//女神晒装是否已满6小时
+				if(canlock){//有加锁时间 能加锁
+					if(canunlock){//加锁时间未截止
+						//送装者
+						$(".bbs_jiasuo").show();//红色加锁
+						$(".bbs_jiesuo").show();//红色解锁
+						//非女神其他人
+						$(".bbs_jiancai2").show();//灰色剪彩
+						$(".bbs_koubai").show();$(".bbs_kb2").show();//灰色叩拜
+						$(".bbs_kb1").hide();
+						$(".imgAll").attr("passImg","0");
+					}else{
+						if(bbs_rank>0&&isKouBai){//非送装者&&非女神&&相应守护等级小于送装者
+							$(".bbs_koubai").show();$(".bbs_kb1").show();//红色叩拜
+							$(".bbs_kb2").hide();
+							$(".imgAll").attr("passImg","1");
+						}
+					}
+				}else{//无加锁时间  不能加锁
+					if(isLessThanSixHours&&isCut){//女神晒装未满6小时&&未剪彩
+						//送装者
+						$(".bbs_jiancai").show();//红色剪彩
+						$(".bbs_jiasuo").show();//红色加锁
+						//非女神其他人
+						$(".bbs_jiancai2").show();//灰色剪彩
+						$(".bbs_koubai").show();$(".bbs_kb2").show();//灰色叩拜
+						$(".bbs_kb1").hide();
+						$(".imgAll").attr("passImg","0");
+					}else{
+						if(bbs_rank>0&&isKouBai){//非送装者&&非女神&&相应守护等级小于送装者
+							$(".bbs_koubai").show();$(".bbs_kb1").show();//红色叩拜
+							$(".bbs_kb2").hide();
+							$(".imgAll").attr("passImg","1");
+						}
+					}
+				}
+				
+				
+				
+				/*if(canlock){
+					$(".bbs_jiasuo").show();
+					$(".jiasuo").show();
+				}
+				if(canunlock){
+					$(".bbs_jiesuo").show();
+					$(".jiesuo").show();
+				}
+				if(isCut){
+					$(".bbs_jiancai").show();
+					$(".bbs_jiancai2").show();
+				}
+				if(isKouBai){
+					$(".bbs_koubai").show();
+					$(".bbs_kb1").show();
+					$(".bbs_kb2").hide();
+				}else{
+					$(".bbs_koubai").show();
+					$(".bbs_kb2").show();
+					$(".bbs_kb1").hide();
+				}*/
+				
+			});
+			//叩拜记录
+			$.post(basePath+"giftshow.do", {
+				method:"getKoubaiRecordList",
+				tid:tid
+				},function(data){
+					if (data.r == 200 && data.count > 0) {
+			        	var html = '';
+			        	var koubaidz='';
+			        	$("#bbs_kbcount").html(data.count);
+			        	//popError(data.items);
+			        	/*data.list = $.parseJSON(data.list);*/
+			        	html+='<ul>';
+						$.each(data.list,function(i, item) {
+							if(i>1)
+								return;
+							if(item.koubai_id==1){
+								koubaidz="深深鞠了一躬";
+							}else if(item.koubai_id==2){
+								koubaidz="单膝跪地";
+							}else if(item.koubai_id==3){
+								koubaidz="五体投地";
+							}else if(item.koubai_id==4){
+								koubaidz="作了一个揖";
+							}
+							if(item.avatar=="images/tx_30.jpg"){
+								item.avatar=basePath+item.avatar;
+							}
+							html += '<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span><span class="bbs_mgnc7">为了查看女神晒图，向送装者<em>'+koubaidz+'！</em></span><span class="bbs_mgnc4">'+item.koubai_time+'</span></li>'
+						});
+						html+='</ul>';
+			        	$(".bbs_mgnkb").html(html);
+			        	//查看全部
+			        	$(".bbs_kblookall").click(function(){
+			        		var html2='';
+			        		html2+='<div class="popwin_con"><div class="bbs_dpop2"><div class="bbs_dpn"><div class="bbs_mgnc"><ul>';
+			        		$.each(data.list,function(i, item) {
+			        			if(item.koubai_id==1){
+									koubaidz="深深鞠了一躬";
+								}else if(item.koubai_id==2){
+									koubaidz="单膝跪地";
+								}else if(item.koubai_id==3){
+									koubaidz="五体投地";
+								}else if(item.koubai_id==4){
+									koubaidz="作了一个揖";
+								}
+			        			if(item.avatar=="images/tx_30.jpg"){
+									item.avatar=basePath+item.avatar;
+								}
+			        			html2 +='<li><span class="bbs_mgnc1"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank"><img src="'+item.avatar+'"></a></span> <span class="bbs_mgnc2"><a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a></span><span class="bbs_mgnc7">为了查看女神晒图，向送装者<em>'+koubaidz+'！</em></span><span class="bbs_mgnc4">'+item.koubai_time+'</span></li>'
+			        		});
+			        		html2+='</ul></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm bbs_qbqr">确&nbsp;&nbsp;定</a></div></div></div>';
+			        	 $.popwin(
+			        			 html2, {
+			                 bg: true,title: "查看全部"
+			                 });
+			        	});
+			        }
+			        else if(data.count==0){
+			        	$(".bbs_looklist").hide();
+		        	}
+			});
+			//送装晒贴叩拜
+			$(".kouBai").live("click",function(){
+			$.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dmts1">您的守护<span>等级差小于等于3</span>必须采取“<span>深深鞠了一躬</span>”</div><div class="bbs_dmts1">您的守护<span> 等级差大于3小于等于5</span>必须采取“<span>单膝跪拜</span>”</div><div class="bbs_dmts1">您的守护<span>等级差大于5</span>必须采取“<span>五体投地</span>”</div><div class="bbs_dmlist"><ul><li title="深深鞠了一躬"><img src="'+basePath+'images/bbs_images/bbs_act8.png"></li><li title="单膝跪地"><img src="'+basePath+'images/bbs_images/bbs_act9.png"></li><li title="五体投地"><img src="'+basePath+'images/bbs_images/bbs_act10.png"></li><li title="作揖" style="display:none;"><img src="'+basePath+'images/bbs_images/bbs_act11.png"></li></ul></div></div><div class="bbs_dmtime">您已经叩拜成功，请耐心等待<span>5</span>秒</div> <div class="bbs_dpbns"><a href="javascript:void(0)" class="bbs_dmbn1 bbs_dmbnds" >叩&nbsp;&nbsp;拜</a><a href="javascript:void(0)" class="bbs_dmbn2" id="bbs_kpqx">取&nbsp;&nbsp;消</a></div></div></div>', {
+		         bg: true,btnclose: false,title: "叩拜"
+		         });
+			});
+			$(".bbs_dmlist li").live("click",function(){
+			 $(".bbs_dmlist li").removeClass("bbs_dmlisec");	
+			 $(this).addClass("bbs_dmlisec");
+			
+			});
+			$(".bbs_dmlist li").live("click", function() {
+				
+				var bbs_dmindex = $(this).index();
+					
+				if (bbs_rank<=3) {
+					if(bbs_dmindex==0 || bbs_dmindex==3){	
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1").hide();
+						$(".bbs_dmbn1:visible").removeClass("bbs_dmbnds").attr("id","bbs_kb");
+					}else{
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1:eq(0)").show();
+						$(".bbs_dmbn1:visible").addClass("bbs_dmbnds").attr("id","");
+					}
+				}
+				if (bbs_rank>3 && bbs_rank<=5) {
+					if(bbs_dmindex==1){	
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1").hide();
+						$(".bbs_dmbn1:visible").removeClass("bbs_dmbnds").attr("id","bbs_kb");				
+					}else{
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1:eq(1)").show();
+						$(".bbs_dmbn1:visible").addClass("bbs_dmbnds").attr("id","");
+					}
+				}
+				if (bbs_rank>5) {
+					if(bbs_dmindex==2){	
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1").hide();
+						$(".bbs_dmbn1:visible").removeClass("bbs_dmbnds").attr("id","bbs_kb");				
+					}else{
+						$(this).parents('.bbs_dpop').find(".bbs_dmts1:eq(2)").show();
+						$(".bbs_dmbn1:visible").addClass("bbs_dmbnds").attr("id","");
+					}
+				}
+				
+				$(".bbs_dmbn1:visible").attr("kbid",bbs_dmindex+1);
+			
+				$(".bbs_dmlist li").removeClass("bbs_dmlisec");
+				$(this).addClass("bbs_dmlisec");
+			});
+			//确认叩拜
+			$("#bbs_kb").live("click",function(){
+				var koubai_id=$(this).attr("kbid");
+				$.post(basePath+"giftshow.do", {method:"orz",tid:tid,koubai_id:koubai_id},function(data){
+					if(data.r==200){
+						$.popwin.hide();
+						$(".bbs_koubai").hide();
+						popSuccess("叩拜成功！");
+						window.location.href= basePath + 'xile/thread-'+tid+'.html';
+					}else if(data.r==403){
+						popError("请登录");
+					}else if(data.r==404){
+						popError("非法帖子");
+					}else if(data.r==405){
+						popError("您已叩拜过了");
+					}else if(data.r==407){
+						popError("以您的等级，无须行礼");
+					}else if(data.r==601){
+						popError("必须鞠躬或者作揖");
+					}else if(data.r==602){
+						popError("必须单膝跪拜");
+					}else if(data.r==603){
+						popError("必须五体投地");
+					}
+				});
+			});
+			$("#bbs_kpqx").live("click",function(){
+				$.popwin.hide();
+			});
+		},
+		
+		//对tid进行打赏
+		addAward:function(tg,aid,tid,score,reason){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"AddAward",
+				aid:aid,
+				tid:tid,
+				score:score,
+				reason:reason
+			},function (data) {
+		        if (data.r == 200) {
+		        	window.setTimeout(function(){
+//		        		$(tg).addClass("tsite_kgds_addAward_btn");
+		        		XB.bbs_forum.getAwardsList(aid,tid);
+		        		popSuccess("打赏成功！");
+		        	}, 500);
+		        }else{
+		        	$(tg).addClass("tsite_kgds_addAward_btn");
+		        	if(data.r == 40002){
+			        	popError("参数不合法！");
+			        }else if(data.r == 40311){
+			        	if(score > 0)
+			        		popError('该用户今日被打赏 “奖励” 额度已满，您可选择打赏0乐豆表示支持或反对！');
+			        	if(score < 0)
+			        		popError('该用户今日被打赏 “反对” 额度已满，您可选择打赏0乐豆表示支持或反对！');
+			        }else if(data.r == 40361){
+			        	var that = tg;
+			        	var remainScore = 50 - data.remain;
+			    		popConfirm('被打赏每日“奖励”额度为50，该用户已被打赏'+data.remain+'，继续打赏只加剩余的'+remainScore+'乐豆，是否继续？', function(){
+			    			XB.bbs_forum.addAward(that,aid, tid,remainScore,reason);
+			    		});
+			        }else if(data.r == 40301){
+			        	var that = tg;
+			        	var remainScore = -10 - data.remain;
+			    		popConfirm('被打赏每日“反对”额度为-10，该用户已被打赏'+data.remain+'，继续打赏只扣剩余的'+remainScore+'乐豆，是否继续？', function(){
+			    			XB.bbs_forum.addAward(that,aid, tid,remainScore,reason);
+			    		});
+			        }else if(data.r == 40081){
+			        	popError("您已打赏过本帖，不能继续打赏o(>﹏<)o");
+			        }else if(data.r == 400132){
+			        	popError("亲，不能给自己打赏哦！");
+			        }else{
+			        	popError("失败！r="+data.r);
+			        }
+		        }
+		    });
+		},
+		
+		//获得用户的打赏分值等信息。
+		getAwardToday:function(tg,aid,tid){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetAwardToday",
+				aid:aid,
+				tid:tid
+			},function (data) {
+		        if (data.r == 200) {
+		        	var tsite_xstr=$(tg).parents(".tsite_bcli").find(".tsite_bc1a1 a").text();
+		        	$.popwin(XB.bbs_forumformatter.formatAwardPopWin(data), {bg: true,title: "打赏给 "+tsite_xstr,btnclose: false});
+		        	$.Placeholder.init();
+		        	$(".tsite_xsef2").hide();
+		        }else if(data.r == 40002){
+		        	popError("参数不合法！");
+		        }else if(data.r == 403){
+		        	popError("社区等级10级以上才可以使用打赏功能哦！");
+		        }else if(data.r == 40081){
+		        	popError("您已打赏过本帖，不能继续打赏o(>﹏<)o");
+		        }else if(data.r == 400132){
+		        	popError("亲，不能给自己打赏哦！");
+		        }else{
+		        	popError("失败！ r="+data.r);
+		        }
+		    });
+		},
+		
+		getAdvertiseForMain : function(aid){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetAdvertiseForMain",
+				aid:aid
+			},function (data) {
+		        if (data.r == 200) {
+		        	var html = '';
+		        	data.items = $.parseJSON(data.items);
+		        	var yzBaseUrl=$("#yzBaseUrl").val();
+		        	var yzBaseimgurl=yzBaseUrl+'/IBS/SHW/forumPicture/';
+		        	html += '<div class="tsite_hb">';
+					$.each(data.items,function(i, item) {
+						html += '<div class="tsite_hbc"><a target="_blank" href="'+item.url+'"><img src="'+yzBaseimgurl+item.image+'" width="1200"  height="100"/></a></div>';
+					});
+					html += '</div>';
+					html += '<div class="tsite_hbn">';
+					html += 	'<ul class="tsite_hbcn">';
+					$.each(data.items,function(i, item) {
+						html += '<li><span>●</span></li>';
+					});
+					html += 	'</ul>'+
+							'</div>';
+					if(data.items.length > 0)
+		        	$(".tsite_hbw_ads").html(html);
+		        	
+		        	$('.tsite_hbc').soChange({//对象指向层，层内包含图片及标题
+						thumbObj:'.tsite_hbcn span',
+						thumbNowClass:'on'
+					});
+		        }
+		    });
+		},
+		
+		getHotTopicListForMain : function(aid,type){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetHotTopicListForMain",
+				aid:aid,
+				type:type
+			},function (data) {
+		        if (data.r == 200) {
+		        	var html = '';
+		        	data.items = $.parseJSON(data.items);
+		        	html+='<ul>';
+					$.each(data.items,function(i, item) {
+						html += '<li class="tsite_y2a2a"><span>&gt;&gt;</span><a href="xile/thread-'+item.tid+'.html" target="_blank" title="'+item.title+'">'+item.title+'</a></li>';
+					});
+					html+='</ul>';
+		        	$(".tsite_y2a2_hotTidlist").html(html);
+		        }
+		    });
+		},
+		
+		getHotAwardsListForMain : function(aid,type){
+			$.post(basePath+"goddess/forumservlet", {
+				method:"GetHotAwardsListForMain",
+				aid:aid,
+				type:type
+			},function (data) {
+		        if (data.r == 200) {
+		        	var html = '';
+		        	var htmlli ='';
+		        	data.items = $.parseJSON(data.items);
+		        	htmlli+='<div class="bbs_mtpli"><ul>';
+					$.each(data.items,function(i, item) {
+						if(i == 0){
+							var reason = "周心动指数";
+							if(type == "beAwarded")
+								reason = "周人气指数";
+							html+='<div class="bbs_mtp1">'+
+				                  '<div class="bbs_mtpx"><a target="_blank" href="'+basePath+'user.do?method=home&uid='+item.uid+'"><img src="'+item.avatar+'"  /></a></div>'+
+				                  '<div class="bbs_mtpr">'+
+				                  ' <div class="bbs_mtpr1"><a target="_blank" href="'+basePath+'user.do?method=home&uid='+item.uid+'">'+item.username+'</a></div>'+
+			                      '<div class="bbs_mtpr2"><span>'+reason+'：</span>'+item.num+'</div>'+
+			                      ' </div>'+
+			                      ' </div>';
+						}else{
+							htmlli+='<li><span class="bbs_mtplp1"><a target="_blank" href="'+basePath+'user.do?method=home&uid='+item.uid+'"><img src="'+item.avatar+'"  /></a></span> <span  class="bbs_mtplp2"><a target="_blank" href="'+basePath+'user.do?method=home&uid='+item.uid+'">'+item.username+'</a></span> <span class="bbs_mtplp3">'+item.num+'</span> </li>'
+						}
+					});
+					htmlli+='</ul></div>'
+		        	$(".tsite_y2d2_hotaward").html(html+htmlli);
+		        }
+		    });
+		},
+		
+		////-------------------------util 方法开始--------------------------------------------
+		
+	    //登录弹框，调用铁扣的。
+	    popUpLoginWin:function(){
+	    	$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="'+loginUrl+'">点击去登录&gt;&gt;</a></div>',null, { bar:false, btnclose: false });
+//	    	$.popwin.remind("用户未登录！请登录",function(){}, {bar:false,btnclose: false});
+//	    	XB.auth.login.popLoginWin();
+	    },
+	    
+	    /*滚动到底部*/
+		scrollWindow:function(){
+		  document.documentElement.scrollTop = document.body.scrollHeight;
+		  document.body.scrollTop = document.body.scrollHeight;
+		},
+		
+		//DEMO: 
+		//XB.bbs_forum.fe_scroll(true,null,null,1000); /*跳到页面头部*/
+		//XB.bbs_forum.fe_scroll(null,null,true,1000);/*跳到页面底部*/
+		//XB.bbs_forum.fe_scroll(null,"asdasd",null,1000);	/*跳到指定ID的元素头部*/
+		fe_scroll:function(top,tsid,tbotm,speed){
+			$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+			if(top){
+				$body.animate({scrollTop:0}, speed);
+				return false;
+			}
+		if(tsid){
+//				$body.animate({scrollTop:$('#'+tsid).offset().top-85}, speed);
+//				$body.animate({scrollTop:85}, speed);
+				$(window).scrollTop($('#'+tsid).offset().top - 85); 
+				return false;
+		}
+			if(tbotm){
+				var tbot=$(document).height()-$(window).height();
+				if(tbot<0){tbot=0;}
+				$body.animate({scrollTop:tbot}, speed);
+				return false;
+			}
+		},
+		
+		 //@功能 监测键盘事件：
+		 watchSearchAtInput:function (elementId,reqAction) {
+			 var id;
+		     $('#' + elementId).focus(function () {
+		    	var k = "";
+		    	var d = new Date("January 1,1970"),
+		    	d2, k2;
+		    	$('#' + elementId).keyup(function (e) {
+		    	/*字母数字退格delete、空格、回车键*/
+			    	if (e.keyCode >= 48 && e.keyCode <= 90 || e.keyCode == 8 || e.keyCode == 46 || e.keyCode == 32 || e.keyCode == 13) {
+			    		k = $(this).val();
+			    		if(k == '' || k == '输入Ta的昵称'){
+//			    			$(".tsite_qrtnp_tip_list").html('');
+			    		}
+			    		d = new Date();
+			    	}
+		    	})
+//		    	.keydown(function (e) {
+//		    		$(".ts").hide();
+//		    	})
+		    	;
+			    /*设置不间断监测*/
+			    id = setInterval(function () {
+			    	d2 = new Date();
+			    	/*如果输入框内容有变化且大于时间间隔，则发送一次请求*/
+			    	if (k2 != k && d2.getTime() - d.getTime() > 800){
+			    		k2 = k;
+			    		reqAction(k2);
+			    	}
+			    }, 500);
+		     });
+		     /*失去焦点的时候清除监测函数*/
+		     $('#' + elementId).blur(function () {
+		    	 clearInterval(id);
+		    	 id = null;
+		     });
+		},
+		
+		////-------------------------util 方法结束--------------------------------------------
+		
+		//发起@请求。
+		searchAt : function(s) {
+			if(s == "输入Ta的昵称") {
+				return;
+			}
+//			if(s.strLen() >= 2) {
+//				XB.bbs_forum.fillSearchAtContent(s);
+//			}
+			XB.bbs_forum.fillSearchAtContent(s);
+	    },
+	    
+	    fillSearchAtContent : function(name) {
+			$.post("space/search", {
+				method:"searchUserForHint",
+				username:name,
+	            pageSize:5
+	        }, function(data){
+				if(data.r == 200) {
+					if(data.c <= 0) {
+						$(".tsite_qrtnp_tip_list").html('');
+					} else {
+						var html = "";
+						data.items = $.parseJSON(data.items);
+				        $.each(data.items, function (i, item) {
+				        	html += '<a href="javascript:void(0)" class="tsite_qrtni" uid="'+item.uid+'">'+item.username+'</a>';
+				        });
+						$(".tsite_qrtnp_tip_list").html(html);
+						$(".tsite_qrtnp_tip_list").show();
+					}
+				}
+			}, "json");
+		},
+		
+		selectItem : function(event) {  
+	        var keyCode;
+			var ask_tindex = null;
+			var ask_tsindex = null;
+			var ask_tnum = $(".tsite_qrtn").find(".tsite_qrtni").length;
+	            if (window.event) {
+	                keyCode = event.keyCode;
+	            } else {
+	                keyCode = event.which;
+	            }
+	            if(keyCode == 13) {//ENTER
+	            	if ($(".tsite_qrtnic").length > 0) {
+	            		var uid = $(".tsite_qrtnic").attr("uid");
+	    				$(".tsite_qrat").append('<a href="javascript:void(0)" class="tsite_qti" uid="'+uid+'">@'+$(".tsite_qrtnic").text()+'</a>');	     
+	    				$(".tsite_qrtn").hide();
+	    				$(".tsite_qrtnic").remove(); 
+	            	}
+	            }
+	            if (keyCode == 38) {//UP
+	                if ($(".tsite_qrtnic").length > 0) {
+	                    ask_tindex = $(".tsite_qrtni").index($(".tsite_qrtnic")[0]);
+	                    ask_tsindex = (ask_tindex > 0) ? ask_tindex - 1 : ask_tnum - 1;						
+	                    $(".tsite_qrtni").removeClass("tsite_qrtnic");
+	                    $(".tsite_qrtni").eq(ask_tsindex).addClass("tsite_qrtnic");
+						event.stopImmediatePropagation();
+	                } else {
+	                    $(".tsite_qrtni:last").addClass("tsite_qrtnic");
+	                }
+	            }
+	            if (keyCode == 40) {//DOWN
+	                if ($(".tsite_qrtnic").length > 0) {						
+	                    ask_tdindex = $(".tsite_qrtni").index($(".tsite_qrtnic")[0]);
+	                    ask_twindex = (ask_tdindex < ask_tnum - 1) ? ask_tdindex + 1 : 0;
+	                    $(".tsite_qrtni").removeClass("tsite_qrtnic");
+	                    $(".tsite_qrtni").eq(ask_twindex).addClass("tsite_qrtnic");
+						event.stopImmediatePropagation();
+	                } else {
+	                    $(".tsite_qrtni:first").addClass("tsite_qrtnic");
+	                }
+
+	            }       
+	    },
+	    
+	    //init函数
+	    init:function(aid){
+	    	var curUid = XB.bbs_forum.currentUid;
+	    	var aid = aid;
+	    	
+	    	//绑定：讨论区——>点击导航栏某个分类——>展示分类下的帖子列表。
+	    	$(".tsite_apseci").live("click", function(){
+	    		var mid = $(this).attr("mid");
+	    		$(this).parents(".tsite_aplist").find(".tsite_apth_mid").attr("mid",mid);//更新mid
+	    		window.location.href = basePath + 'forum-'+aid+'-'+mid+'.html';
+	    	});
+	    	//绑定：讨论区——>点击全部/精华——>展示帖子列表。
+	    	$(".tsite_apthc_label_main").live("click", function() {
+	    		var mid = $(this).parents(".tsite_aplist").find(".bbs_mytables").attr("mid");
+	    		var digest = $(this).attr("digest");
+	    		if(digest == 1){
+	    			window.location.href = basePath +'xile/forum?aid='+aid+'&mid='+mid+'&digest=1';
+	    		}else{
+	    			window.location.href = basePath + 'xile/forum-' + aid+'-'+mid+'.html';
+	    		}
+	    	});
+	    	//权限管理
+	    	$(".tsite_goto_mytopics").live("click",function(){
+//	    		window.location.href = basePath +'forum/my?aid='+aid;
+	    		if(curUid>0){
+	    			window.location.href = basePath +'forum/my?aid='+aid;
+	    		}else{
+	    			XB.bbs_forum.popUpLoginWin();
+	    		}
+	    	});
+	    	//权限管理
+	    	$(".tsite_goto_posttopic").live("click",function(){
+	    		if(curUid > 0){
+	    			window.open(basePath + 'forum/post?aid='+aid);
+	    		}
+	    		else{
+	    			XB.bbs_forum.popUpLoginWin();
+	    		}
+//	    		window.location.href = basePath + 'forum/post?aid='+aid;
+//	    		window.open(basePath + 'forum/post?aid='+aid);
+	    	});
+	    	//各个分类下点发帖
+	    	$(".tsite_goto_posttopicWithMid").live("click",function(){
+	    		if(curUid > 0){
+//	    			var mid = $(this).parents(".tsite_aplist").find(".tsite_apth_mid").attr("mid");
+	    			window.open(basePath + 'forum/post?aid='+aid);
+	    		}
+	    		else{
+	    			XB.bbs_forum.popUpLoginWin();
+	    		}
+//	    		window.location.href = basePath + 'forum/post?aid='+aid;
+//	    		window.open(basePath + 'forum/post?aid='+aid);
+	    	});
+	    	//绑定：讨论区——>我的帖子——>点击查看我发起/回复/全部帖子——>展示帖子列表。
+	    	$(".tsite_apth_label_my").live("click", function() {
+	    		var type = $(this).attr("type");
+	    		var uid = $(this).parents(".tsite_apth_toUid").attr("uid");
+	    		XB.bbs_forum.listTopicsByUid(aid, uid, type, 1);
+	    	});
+	    	//绑定：讨论区——>发新帖——>点击发帖
+	    	$(".tsite_post_topic_button").live("click", function() {
+	    		if(XB.bbs_forum.blockPost)
+	    			return;
+	    		//获取下拉框的索引值，两种方案都可以： $("#tsite_fc1a_selector")代表的是选择器选择id=tsite_fc1a_selector的元素。
+	    		//var module = $(this).parents(".tsite_con").find("#tsite_fc1a_selector")[0].selectedIndex +1;
+	    		var mid = $(this).parents(".tsite_con").find("#tsite_fc1a_selector").attr("value");
+	    		var title = $(this).parents(".tsite_con").find(".tsite_fc2a").val();
+	    		title = $.trim(title);
+	    		var content = $(this).parents(".tsite_con").find(".tsite_feditor").val();
+	    		content = editor.html();
+//	    		popError("mid="+mid+"; title="+title+"; content="+content);
+	    		if(mid == 0){
+	    			popError("请选择分类！");
+	    			return;
+	    		}
+	    		if(title == "请输入不超过30字的文章标题" || $.trim(title) == ""){
+	    			popError("文章标题不能为空，请输入标题！");
+	    			return;
+	    		}
+	    		if(content == ""){
+//	    			popError("文章内容不能为空，请输入内容！");
+	    			popError("文章内容不能为空，请输入内容！");
+	    			return;
+	    		}
+	    		//@的人列表
+				var atUidList = "";
+				if($(this).parents(".tsite_con").find(".tsite_qrat_add_list").find(".tsite_qti").length > 15){
+					popError("您@的人太多了！");
+					return;
+				}
+				$(this).parents(".tsite_con").find(".tsite_qrat_add_list").find(".tsite_qti").each(function(index,element){
+					atUidList += $(element).attr("uid") +",";
+				});
+	    		XB.bbs_forum.blockPost = true;
+	    		$(this).addClass("tsite_bfdis").removeClass("tsite_post_topic_button");
+	    		XB.bbs_forum.postTopic(this,aid, mid, title, content,atUidList);
+	    	});
+	    	
+	    	//绑定：手机端讨论区——>发新帖——>点击发帖
+	    	$(".tsite_mob_post_topic_button").live("click", function() {
+	    		$(".gt_bnts").html("");
+	    		if(XB.bbs_forum.blockPost)
+	    			return;
+	    		//获取下拉框的索引值，两种方案都可以： $("#tsite_fc1a_selector")代表的是选择器选择id=tsite_fc1a_selector的元素。
+	    		//var module = $(this).parents(".tsite_con").find("#tsite_fc1a_selector")[0].selectedIndex +1;
+	    		var mid = $("#tsite_fc1a_selector").attr("value");
+	    		var title = $(".tsite_fc2a").val();
+	    		title = $.trim(title);
+	    		var content = $(".tsite_feditor").val();
+//	    		popError("mid="+mid+"; title="+title+"; content="+content);
+	    		if(mid == 0){
+	    			$(".gt_bnts").html("请选择分类！");
+	    			return;
+	    		}
+	    		if(title == "输入标题，不超过30个字" || $.trim(title) == ""){
+	    			$(".gt_bnts").html("文章标题不能为空，请输入标题！");
+	    			return;
+	    		}
+	    		if(content == ""){
+	    			$(".gt_bnts").html("文章内容不能为空，请输入内容！");
+	    			return;
+	    		}
+	    		XB.bbs_forum.blockPost = true;
+	    		$(this).val("发送中...");
+	    		$(this).addClass("gt_bns2").removeClass("tsite_mob_post_topic_button");
+	    		XB.bbs_forum.postTopicMob(this,aid, mid, title, content);
+	    	});
+	    	
+	    	//绑定：讨论区——>编辑帖子后——>点击发帖
+	    	$(".tsite_edit_topic_button").live("click", function() {
+	    		//获取下拉框的索引值，两种方案都可以： $("#tsite_fc1a_selector")代表的是选择器选择id=tsite_fc1a_selector的元素。
+	    		//var mid = $(this).parents(".tsite_con").find("#tsite_fc1a_selector")[0].selectedIndex +1;
+	    		var tid = $(this).attr("tid");
+//	    		var mid = $(this).parents(".tsite_con").find(".tsite_fc1a")[0].selectedIndex +1;
+	    		var mid = $(this).parents(".tsite_con").find("#tsite_fc1a_selector").attr("value");
+	    		var title = $(this).parents(".tsite_con").find(".tsite_fc2a").val();
+	    		title = $.trim(title);
+	    		var content = $(this).parents(".tsite_con").find(".tsite_feditor").val();
+	    		content = editor.html();
+//	    		popError("tid="+tid+"; mid="+mid+"; title="+title+"; content="+content);
+	    		if(mid == 0){
+	    			popError("请选择分类！");
+	    			return;
+	    		}
+	    		if(title == "请输入不超过30字的文章标题" || $.trim(title) == ""){
+	    			popError("文章标题不能为空，请输入标题！");
+	    			return;
+	    		}
+	    		if(content == ""){
+//	    			popError("文章内容不能为空，请输入内容！");
+	    			popError("文章内容不能为空，请输入内容！");
+	    			return;
+	    		}
+	    		//@的人列表
+				var atUidList = "";
+				if($(this).parents(".tsite_con").find(".tsite_qrat_add_list").find(".tsite_qti").length > 15){
+					popError("您@的人太多了！");
+					return;
+				}
+				$(this).parents(".tsite_con").find(".tsite_qrat_add_list").find(".tsite_qti").each(function(index,element){
+					atUidList += $(element).attr("uid") +",";
+				});
+	    		XB.bbs_forum.editMainTopic(aid,tid, mid, title, content,atUidList);
+	    	});
+	    	//绑定：删除帖子、回复
+	    	$(".tsite_bc5b1_delete").live("click", function() {
+	            var lockflag = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag");
+	    		if(lockflag == 1){
+	    			popError("帖子已锁住！");
+	    			return;
+	    		}
+	    		var placeholderHtml = '请输入操作原因，50个字以内';
+	    		if(XB.bbs_forum.userLevel >= 2){
+	    			placeholderHtml = '请勿灌水！';
+	    		}
+	    		var html = '<div class="popwin_con"><div class="tsite_u"><div class="tsite_u2"><div class="tsite_u2a">操作原因:</div><div class="tsite_u2b"><textarea class="tsite_u2bn tsite_u2bn_reason" maxlength="50" placeholder="'+placeholderHtml+'"></textarea></div><div class="rs_clear"></div></div><div class="tsite_x3c"><div class="tsite_x3c1"><input type="button" class="tsite_bc5b1_delete_btn"></div><div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div><div class="rs_clear"></div></div></div></div>';
+	    		$.popwin(html,{bg: true,title: "删除操作",btnclose: false});
+	    		var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		var fid = $(this).parents(".tsite_bcli_floorId_area").attr("fid");
+	    		//绑定删除评论按钮
+	    		var that = this;
+	    		$(".tsite_bc5b1_delete_btn").die("click");
+	        	$(".tsite_bc5b1_delete_btn").live("click",function() {
+	        		var reason = $(this).parents(".tsite_u").find(".tsite_u2bn_reason").val();
+	        		if($.trim(reason) == ""){
+	        			var placeholder = $(this).parents(".tsite_u").find(".tsite_u2bn_reason").attr("placeholder");
+	        			if($.trim(placeholder) == "请勿灌水！"){
+	        				reason = placeholder;
+	        			}else{
+	        				$(".tsite_u2bn_reason").addClass("tsite_u2err");
+	       			 		return;
+	        			}
+	   			 	}
+//	        		popError("tid="+tid+"; fid="+fid+";reason="+reason);
+	        		popConfirm("&nbsp删除后将无法恢复，是否确认删除？", function(){
+	        			$(this).removeClass("tsite_bc5b1_delete_btn");
+	        			XB.bbs_forum.deleteTopic(aid, tid,fid,reason, that, XB.bbs_forum.deleteTopicForDetailCallBack);
+	        		});
+	        	});
+	    	});
+	    	
+	    	//绑定：管理员帖子列表页面删除按钮
+	    	$(".tisite_redel").live("click",function() {
+	    		var that = this;
+	    		//绑定删除评论按钮
+	    		if($('input[class="tisite_remck"]:checked').length > 0){
+	    			popConfirm("&nbsp删除后将无法恢复，是否确认删除？", function(){
+	    				$('input[class="tisite_remck"]:checked').each(function(){
+	    					var tid = $(this).parents("td").find(".tsite_apt1").attr("tid");
+	    					var fid = 1;
+//	    					popError("tid="+tid+"; fid="+fid);
+	    					XB.bbs_forum.deleteTopic(aid, tid,fid,"请勿灌水！" ,that, XB.bbs_forum.deleteTopicForAdminCallBack);
+	    				});
+	    			});
+	    		}else{
+	    			popError("请先选择帖子");
+	    		}
+	    	});
+	    	//绑定：回复帖子。     2013.11.13停用验证码功能。
+	    	$(".tsite_bc7e1a2_reply_topic").live("click", function() {
+	    		if (XB.bbs_forum.blockReply){
+	    			return;
+	    		}
+	    		var content = $(this).parents(".tsite_bc7z").find(".tsite_fedibbs_mrepbntor").val();
+	    		content = editor.html();
+//	    		var verifyCodeContent = $(this).parents(".tsite_bc7z").find(".tsite_bc7w1a").val();
+	    		$(".tsite_bc7w4").html("").hide();
+	    		if(content == ''){
+	    			$(".tsite_bc7w4").html("没写内容是不能发布的吆！").show();
+	    			return;
+//	    		}else if(verifyCodeContent == ''){
+//					$(".tsite_bc7w4").html("你还没填写验证码吆！").show();
+//					return;
+				}
+	    		//-------------------------------------------------------------------------------
+	    		var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				var mode = $(this).attr("mode");
+				var fid = '-1';
+				if(mode == "edit"){
+					fid = $(".tsite_bc7_ref").attr("fid");
+				}else{
+					fid = $(".tsite_bc7_ref").attr("refid");
+				}
+				//@的人列表
+				var atUidList = "";
+				if($(this).parents(".tsite_bc7z").find(".tsite_qrat_add_list").find(".tsite_qti").length > 15){
+					popError("您@的人太多了！");
+					return;
+				}
+				$(this).parents(".tsite_bc7z").find(".tsite_qrat_add_list").find(".tsite_qti").each(function(index,element){
+					atUidList += $(element).attr("uid") +",";
+				});
+//				popError("tid="+tid+"; content="+content+"; mode="+mode+"; fid="+fid+",atUidList="+atUidList);
+				XB.bbs_forum.blockReply = true;
+				$(this).addClass("tsite_bcdis").removeClass("tsite_bc7e1a2_reply_topic");
+				XB.bbs_forum.replyTopic(this,aid,tid,content,mode,fid,atUidList);
+				//-------------------------------------------------------------------------------
+				///底下是验证码，只需要把上面那坨放下来就可以。
+//	    		var that = this;
+//	    		if(verifyCodeContent.length == 4) {
+//					$.post('util/forum/verify', {randimg:verifyCodeContent}, function(data ) {
+//						if(data.r == 200) {
+//							
+//						} else {
+//			    			$(".tsite_bc7w4").html("输入错误，请重新输入！").show();
+//			    			return;
+//						}
+//					});
+//				} else {
+//	    			$(".tsite_bc7w4").html("输入错误，请重新输入！！").show();
+//	    			return;
+//				}
+	    	});
+	    	//绑定：引用帖子
+	    	$(".tsite_bc5b1_refer").live("click", function() {
+	    		$(this).parents(".tsite_bcz").find(".tsite_bc7e1a2_reply_topic").attr("mode","refer");	//编辑器模式改为refer模式
+	    		var fid = $(this).parents(".tsite_bcli_floorId_area").attr("fid");
+	    		var floorContent = $(this).parents(".tsite_bcrz").find(".tsite_bc3b_tcontent").text();
+	    		$(".tsite_bc7_ref").attr("refid",fid);
+	    		var str = '引用 '+(fid-1)+' 楼';
+	    		$(".tsite_bc7bbs_pop_nortextt").text(str);
+//	    		var text1 = floorContent.overFlowText(20);
+//	    		popError(typeof text1);
+	    		var text1 = floorContent.overFlowText(80)+"";
+	    		$(".tsite_bc7zct").text(str);
+	    		$(".tsite_bc7zcn").text(text1);
+	    		$(".tsite_bc7_ref").show();
+	    		$(this).parents(".tsite_bcz").find(".tsite_feditor").val("");
+//	    		popError("fid="+fid);
+	    	});
+	    	//TODO： 点了引用再点了编辑的联动没实现，同样，点了编辑，再点引用的联动没实现
+	    	//绑定：编辑回复帖
+	    	$(".tsite_bc5b1_edit_on_reply").live("click", function() {
+	    		var lockflag = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag");
+	    		if(lockflag == 1){
+	    			popError("帖子已锁住！");
+	    			return;
+	    		}
+	    		var content = $(this).parents(".tsite_bcrz").find(".tsite_bc3b_tcontent").html();
+	    		$(this).parents(".tsite_bcz").find(".tsite_feditor").val(content);						//编辑器内容为回复内容
+	    		editor.html(content);						//编辑器内容为回复内容
+	    		$(this).parents(".tsite_bcz").find(".tsite_bc7e1a2_reply_topic").attr("mode","edit");	//编辑器模式改为edit模式
+	    		var fid = $(this).parents(".tsite_bcli_floorId_area").attr("fid");
+	    		$(".tsite_bc7_ref").attr("fid",fid);
+	    		$(".tsite_bc7_ref").hide();
+	    		$(".tsite_bcli_floorId_area").removeAttr("id");						 
+	    		$(this).parents(".tsite_bcli_floorId_area").attr("id","tsite_bc5b1_edit_scroll_clazz");
+	    	});
+	    	//绑定：编辑主帖
+	    	$(".tsite_bc5b1_edit_on_topic").live("click", function() {
+//	    		var content = $(this).parents(".tsite_bcrz").find(".tsite_bc3b_tcontent").html();
+//	    		var module = "";
+//	    		var title = "";
+	    		var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		if(curUid > 0){
+	    			var lockflag = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag");
+	    			if(lockflag == 1){
+	        			popError("帖子已锁住！");
+	        			return;
+	        		}	
+	    			//TODO 在上线的时候，或者下一次版本内外更新的时候，改为以'/'开头的
+	    			window.location.href = basePath + "forum/edit?id="+tid;
+	    		}else{
+	    			XB.bbs_forum.popUpLoginWin();
+	    		}
+	    	});
+	    	//只看楼主
+	    	$(".fe_bbsa_list_creator").live("click", function() {
+	    		var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		var onlyLooklzUid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("createUid");
+	    		//延迟函数
+	    		window.setTimeout(function(){
+	    			window.location.href = basePath +'xile/forum/detail?id='+tid+'&isLz='+onlyLooklzUid;
+	    		}, 1000);
+	    	});
+	    	//查看全部
+	    	$(".fe_bbsb_list_all").live("click", function() {
+	    		var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		//延迟函数
+	    		window.setTimeout(function(){
+	    			window.location.href = basePath + 'xile/thread-'+tid+'.html';
+	    		}, 1000);
+	    	});
+	    	//绑定：管理员加精功能
+	    	$(".tsite_kadd_AddOrCancleDigest").live("click",function(){
+	    		var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		var digest = $(this).attr("digest");
+	    		if(digest == 1){
+	    			var digestCash = $(this).parents(".tsite_u").find(".tsite_fm4_num").val();
+	        		if(isNaN(digestCash) || $.trim(digestCash) == ""){
+	        			popError("请输入正确的分值！");
+	        		}else if(digestCash < 20 || digestCash > 100){
+	        			popError("请输入20 - 100之间的分值！");
+	        		}else{
+	        			var reason = $(this).parents(".tsite_u").find(".tsite_u2bn_reason").val();
+	       			 	if($.trim(reason) == ""){
+	       			 		$(".tsite_u2bn_reason").addClass("tsite_u2err");
+	       			 		return;
+	       			 	}
+	        			$(this).removeClass("tsite_kadd_AddOrCancleDigest");
+	        			XB.bbs_forum.addOrCancleDigest(this,aid,tid,digest,digestCash,reason);
+	        		}
+	    		}else{
+	    			XB.bbs_forum.addOrCancleDigest(this,aid,tid,digest);
+	    		}
+	    	});
+
+	    	//绑定：管理员置顶/取消置顶功能
+	    	$(".tsite_bc5b1_AddOrCancleTop").live("click",function(){
+	    		var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+	    		var top = $(this).attr("top");
+	    		XB.bbs_forum.addOrCancleTop(aid,tid,top);
+	    	});
+	    	
+	    	/*回复按钮点击页面滚动到底部*/
+	    	$(".tsite_scroll_to_end").live("click",function(){
+	    		var lockflag = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag");
+	    		if(lockflag == 1){
+	    			return;
+	    		}
+	    		XB.bbs_forum.scrollWindow();
+	    		$("#editor").focus();
+	    		$(".tsite_bc7w4").html("").hide();
+	    	});
+	    	//绑定：点击回复按钮
+	    	$(".tsite_apdrsbn_replytopic").live("click",function(){
+	    		$(this).parents(".bbs_wrap").find(".tsite_bc7e1a2_reply_topic").attr("mode","reply");	//编辑器模式改为edit模式
+	    		$(".tsite_bc7_ref").hide();
+	    	});
+	    	//绑定：点击登录
+	    	$(".tsite_detail_login").live("click",function(){
+	    		XB.bbs_forum.popUpLoginWin();
+	    	});
+	    	
+	    	//绑定：修改版块公告
+	    	$(".tsite_g3a_save_notice_btn").live("click",function(){
+	    		var mid = $(".tsite_aplist").find(".tsite_apth_mid").attr("mid");
+	    		var noticeText = $(this).parents(".tsite_g3_notice").find(".tsite_g3_notice_text").val();
+//	    		popError(aid + " " + mid +" "+noticeText);
+	    		XB.bbs_forum.saveNoticeForMain(aid, mid, noticeText);
+	    	});
+	    	
+	    	//绑定：修改版主推荐
+	    	$(".tsite_g3a_save_rectidlist_btn").live("click",function(){
+	    		var mid = $(".tsite_aplist").find(".tsite_apth_mid").attr("mid");
+	    		var tidList = "[";
+	    		var tidListClazz = $(this).parents(".tsite_g4_rectidlist").find(".tsite_g4a1");
+	            $(tidListClazz).each(function(){
+					var name = $.trim($(this).find(".tsite_g4a1a").val());
+					var tid = $.trim($(this).find(".tsite_g4a1b").val());
+					var str = '{"name":"'+name+'","tid":"'+tid+'"},';
+					if(name != "" && tid != "" && name != "输入帖子名称" && tid != "帖子ID")
+						tidList = tidList.concat(str);
+				});
+	            tidList = tidList.substring(0, tidList.lastIndexOf(","));
+	            tidList = tidList.concat("]");
+	    		XB.bbs_forum.saveRecTidListForMain(aid, mid, tidList);
+	    	});
+	    	
+	    	//绑定：点击编辑出现弹框
+	    	$(".tsite_ged2").live("click",function(){
+	    		var length = $('.tsite_g2b_rectidlist a').length;
+	    		var html = '<div class="popwin_con">'+
+	    				   '	<div class="tsite_g4 tsite_g4_rectidlist">'+
+	    				   '		<div class="tsite_g4a">';
+	    					for(i = 0 ; i < 9 ; i++){
+	    						var tidname = '';
+	    						var tid = '';
+	    						if(i < length){
+	    							tidname = $('.tsite_g2b_rectidlist a:eq('+i+')').text();
+	    							tid = $('.tsite_g2b_rectidlist a:eq('+i+')').attr("tid");
+	    						}
+	    						html += '<div class="tsite_g4a1">'+
+	    									'<input type="text" class="tsite_g4a1a" value="'+tidname+'" placeholder="输入帖子名称"/>'+
+	    									'<input type="text" class="tsite_g4a1b" value="'+tid+'" placeholder="帖子ID"/>'+
+	    								'</div>';
+	    					}
+	    			html +=				'<div class="rs_clear"></div>'+
+	    				   '		</div>'+
+	    				   '		<div class="tsite_g3a">'+
+	    				   '			<input type="button" class="tsite_g3a_save_rectidlist_btn"/>'+
+	    				   '			<a class="tsite_g3a_cancel" href="javascript:void(0);">取消修改</a>'+
+	    				   '			<div class="rs_clear"></div>'+
+	    				   '		</div>'+
+	    				   '	</div>'+
+	    				   '</div>';
+		    	$.popwin(html, {bg: true,title: "推荐编辑",btnclose: false});	
+	    		$.Placeholder.init();
+		    });
+	    	
+	    	//绑定讨论区帖子回复中赞/取消赞(喜欢)的按钮
+			$(".tsite_ki9c").unbind("click");
+			$(".tsite_ki9c").live("click",function(){
+				var fid = $(this).attr("data_fid");
+				XB.bbs_forum.addOrCanclefavReply(aid,$('.tsite_forum_fav_fid_'+fid), "addfav", XB.bbs_forum.addOrCanclefavReplyCallbackInForumTopicDetail);
+			});
+			$(".tsite_ki9d").unbind("click");
+			$(".tsite_ki9d").live("click",function(){
+				var fid = $(this).attr("data_fid");
+				XB.bbs_forum.addOrCanclefavReply(aid,$('.tsite_forum_fav_fid_'+fid), "canclefav", XB.bbs_forum.addOrCanclefavReplyCallbackInForumTopicDetail);					 
+			});
+			
+			 $(".tsite_kredp").live("click",function() {
+				 var uid = $(this).attr("data_replyuid");
+				 var html = '';
+				 html += '<div class="popwin_con">'+
+				 		 '	<div class="tsite_fm">'+
+				 		 '		<div class="tsite_fm_codelist">';
+				 XB.bbs_forum.getPrizesListByAdmin(aid,0);
+				 html += '		</div>'+
+				 	     '		<div class="tsite_fmbn"><input type="button" class="tsite_kredp_add_actcode_btn" uid="'+uid+'" value="确定"/><input type="button" value="取消" class="tsite_fmbnc"/></div>'+
+				 		 '	</div>'+
+				 		 '</div>';
+		         $.popwin(html, {bg: true,title: "发码", btnclose: false });
+		      });
+
+			 $(".tsite_fmbnc").live("click",function() {$.popwin.hide();});
+			 
+			 //绑定发码
+			 $(".tsite_kredp_add_actcode_btn").live("click",function(){
+				 var uid = $(this).attr("uid");
+				 var prizeNameAndNum = [];//复选框 checkbox
+				 $('input[class="tsite_fm1_prizeName"]:checked').each(function(){
+					 var num = $(this).parents(".tsite_fmi").find(".tsite_fm4_text").val();
+					 if(num.trim() == ""){
+						 popError("请输入数量。");
+						 return;
+					 }
+					 prizeNameAndNum.push("{\"prizeId\":" + $(this).val()+",\"prizeNum\":"+num+"}");
+				 });
+				 prizeNameAndNum = "["+prizeNameAndNum + "]";
+				 XB.bbs_forum.addActCodeByAdmin(aid,uid, prizeNameAndNum);
+			 });
+			 
+			 //绑定选择活动
+			 $(".tsite_fmic_select").unbind("click");
+			 $(".tsite_fmic_select").live("click",function(){
+				 var actId = $(this).attr("actId");
+				 XB.bbs_forum.getPrizesListByAdmin(aid,actId);
+			 });
+			 
+//			 $(".tsite_fmic").unbind("change");
+//			 $(".tsite_fmic").live("change",function(){
+//				 var actId = $(".tsite_fmic option:selected").attr("actId");
+//				 XB.bbs_forum.getPrizesListByAdmin(aid,actId);
+//			 });
+			 
+			 //绑定锁帖：
+			 $(".tsite_kadd_addLock").live("click",function(){
+				 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				 var reason = $(this).parents(".tsite_u").find(".tsite_u2bn_reason").val();
+				 if($.trim(reason) == ""){
+					 $(".tsite_u2bn_reason").addClass("tsite_u2err");
+					 return;
+				 }
+				 $(this).removeClass("tsite_kadd_addLock");
+				 XB.bbs_forum.addOrCancleLock(this,aid,tid,1,reason);
+			 });
+			 
+			 //绑定解锁：
+			 $(".tsite_kadd_cancelLock").live("click",function(){
+				 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				 XB.bbs_forum.addOrCancleLock(this,aid,tid,0);
+			 });
+			 
+			 //绑定打赏的弹窗
+			 $(".tsite_kgds_addAward").live("click",function() {
+				 var tid = $(this).parents(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				 XB.bbs_forum.getAwardToday(this,aid,tid);
+			 });
+			 
+			 //绑定打赏的按钮。
+			 $(".tsite_kgds_addAward_btn").live("click",function(){
+				 $(this).parents(".tsite_x3").find(".tsite_x3a4_img").hide();
+				 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				 var score = $(this).parents(".tsite_x3").find(".tsite_xsc").text();
+				 var reasonSelect = $(this).parents(".tsite_x3").find(".tsite_xsc2_reason").text();
+				 score = new Number(score) + 0;
+				 var reason = "";
+				 if(isNaN(score)){
+					 $(this).parents(".tsite_x3").find(".tsite_x3a4_score").show();
+					 return;
+				 }
+				 if(reasonSelect == "选择原因"){
+					 $(this).parents(".tsite_x3").find(".tsite_x3a4_reason").show();
+					 return;
+				 }else if(reasonSelect == "自定义"){
+					 var reasonWrite = $(this).parents(".tsite_x3").find(".tsite_x3by").val();
+					 reason = reasonWrite;
+					 if($.trim(reason) == "" || $.trim(reason) == "请输入不超过30字的打赏原因，自定义原因只对16级以上用户开放 (￣w￣)~*"){
+						 $(this).parents(".tsite_x3").find(".tsite_x3by").addClass("tsite_x3bz");
+						 return;
+					 }
+				 }else{
+					 reason = reasonSelect;
+				 }
+				 $(this).removeClass("tsite_kgds_addAward_btn");
+				 XB.bbs_forum.addAward(this,aid,tid,score,reason);
+			 });
+			 
+			 //绑定首页热帖的切换
+			 $(".tsite_y2c1_hot").live("click",function() {
+				 var type = $(this).attr("type");
+				 if(type == "award" || type == "beAwarded"){
+					 XB.bbs_forum.getHotAwardsListForMain(aid,type);
+				 }else if(type == "day" || type == "week" || type == "digest"){
+					 XB.bbs_forum.getHotTopicListForMain(aid,type);
+				 }
+			 });
+			 
+			 $(".op_page_go_btn").live("click",function(){
+				 var tarPage = $(this).attr("data_page");
+	             if(tarPage == ""){
+	             	tarPage = $(this).parents(".tsite_pages_bottom").find(".tsite_pgin").attr("value");
+	             }
+	             if(tarPage == undefined){
+	             	tarPage = $(this).parents(".tsite_pages_up").find(".tsite_pgin").attr("value");
+	             }
+	             tarPage = new Number(tarPage);
+	             if(tarPage == 0)
+	            	 return;
+	             var totalPage = $(this).attr("data_totalPage");
+	             if(tarPage <= 1)
+	            	 tarPage = 1;
+	             if(tarPage >= totalPage)
+	            	 tarPage = totalPage;
+	             var link = $(this).attr("data_link");
+	             if(tarPage <= totalPage && tarPage >= 1){
+	            	 window.location.href = link+"-"+tarPage+".html";
+	             }
+			 });
+			 
+			 $(".op_page_go_btn_url_notrewrite").live("click",function(){
+				 var tarPage = $(this).attr("data_page");
+	             if(tarPage == ""){
+	             	tarPage = $(this).parents(".tsite_pages_bottom").find(".tsite_pgin").attr("value");
+	             }
+	             if(tarPage == undefined){
+	             	tarPage = $(this).parents(".tsite_pages_up").find(".tsite_pgin").attr("value");
+	             }
+	             tarPage = new Number(tarPage);
+	             if(tarPage == 0)
+	            	 return;
+	             var totalPage = $(this).attr("data_totalPage");
+	             if(tarPage <= 1)
+	            	 tarPage = 1;
+	             if(tarPage >= totalPage)
+	            	 tarPage = totalPage;
+	             var link = $(this).attr("data_link");
+	             if(tarPage <= totalPage && tarPage >= 1){
+	            	 window.location.href = link+"&p="+tarPage;
+	             }
+			 });
+			 
+			 //绑定帖子列表页是否新窗口打开
+			 $('input[name="tsite_apthca_nwin"]').live("click",function(){
+				var checked = $('input[name="tsite_apthca_nwin"]:checked').val();
+				var isNewWin = false;
+				if(checked == "on"){
+					isNewWin = true;
+				}
+				$.post(basePath+"goddess/forumservlet", {
+					method:"SaveSessionForNewWin",
+					aid:aid,
+		        	isNewWin:isNewWin
+		        },function(data){
+		        	if(data.r == 200){
+		        		if(isNewWin == true){//如果定义了新窗口打开
+		        			XB.bbs_forum.isNewWin = true;
+		        	    	$(".tsite_apt1 a").attr("target","_blank");
+		        	    }else{
+		        	    	XB.bbs_forum.isNewWin = false;
+		        	    	$(".tsite_apt1 a").removeAttr("target");
+		        	    }
+		        	}else{}
+		        });
+			 });
+			 
+			 /*2014-06-10 update 主题站帖子详情 批量删除弹框*/
+			 /*checkbox 批删*/
+			 $(".tsite_bcpdel").live("click",function(){
+				 var html = '<div class="popwin_con"><div class="tsite_x3"><div class="tsite_x3ar"><div class="tsite_x3a1">操作原因:</div><div class="tsite_x3ap"><textarea class="tsite_x3by" placeholder="请勿灌水！"></textarea></div><div class="rs_clear"></div></div><div class="tsite_x3c"><div class="tsite_x3c1"><input type="button" class="tsite_x3c1_del_all_btn"/></div><div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div><div class="rs_clear"></div></div></div></div>';
+			     $.popwin(html, {bg: true,title: "批量删除",btnclose: false});
+			     $.Placeholder.init();
+			  });
+			 $(".tsite_x3c1_del_all_btn").live("click",function(){
+				 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+				 var reason = $(this).parents(".tsite_x3").find(".tsite_x3by").val();
+				 if(reason == ""){
+					 reason = "请勿灌水！";
+				 }
+				 popConfirm("&nbsp删除后将无法恢复，是否确认删除？", function(){
+					 $('input[class="tsite_bcpdck"]:checked').each(function(){
+						 var fid = $(this).attr("fid");
+						 XB.bbs_forum.deleteTopic(aid, tid,fid,reason, this, XB.bbs_forum.deleteTopicForDetailCallBack);
+					 });
+	 			});
+			 });
+			 $(".tsite_x3c2 a").live("click",function(){
+				 $.popwin.hide();
+			 });
+			 $(".tsite_set_24_hottopics").live("click",function(){
+				 $.popwin('<div class="popwin_con"><div class="tsite_g3 tsite_g3_notice"><textarea class="tsite_g3_rec24_text"></textarea><div class="tsite_g3a"><input type="button" class="tsite_g3a_save_rec24_btn"/><a class="tsite_g3a_cancel" href="javascript:void(0);">取消修改</a><div class="rs_clear"></div></div></div></div>', {
+			    		bg: true,title: "24小时热帖推荐编辑，格式为tid1,tid2"
+			     });
+			    $(".tsite_g3_rec24_text").val($(".tsite_g1b_notice").text());
+			    $(".tsite_g3a_save_rec24_btn").live("click",function(){
+			    	var tidList = $(".tsite_g3_rec24_text").val();
+			    	$.post(basePath+"goddess/forumservlet", {
+			        	method:"SaveRec24ForMain",
+			        	aid:aid,
+			        	tidList:tidList
+			        },function(data){
+			        	if(data.r == 200){
+			        		popSuccess("保存推荐成功！");
+			        	}else if(data.r == 403){
+			        		popError("权限不足！");
+			        	}else{
+			        		popError("保存失败！");
+			        	}
+			        });
+			    });
+			 });
+	    }
+};
+
+$(function () {
+	if($(".tsite_pgin").text()){
+		$(".op_page_go_btn").attr("data_page",$(".tsite_pgin").text());
+	}
+	
+	/*换色*/
+	if($(".tsite_atcon").hasClass("bbs_mytables")){
+        $(".tsite_atcon").find("tr:even").not(":first").addClass("bbs_moodtr");			
+      }
+	
+	/*以下是tsite.js的内容*/
+	/*签到弹框*/
+	$(".tsite_signin").live("click",function(){
+	 $.popwin('<div class="popwin_con"><div class="ac_popw"><div class="ac_popwt">恭喜获得<span>3</span>乐豆,你已连续签到<span>5</span>天，明天可领<span>6</span>乐豆</div><div class="ac_popwt2">第二关：大家来吐槽！免费获得抽奖机会！</div><div class="ac_popws"><div class="ac_popw1">今日话题：<a href="#">为什么寻宝网黑压压的全是怀光...</a></div></div><div class="ac_popwa"><a href="#" class="guide_gobns">马上闯关</a></div></div></div>', {
+	         bg: true,title: "恭喜完成第一关！"
+	         });
+	 $(this).hide().prev(".sign_2btn").show();	
+	});	   
+	
+	function fe_scroll(top,tsid,tbotm,speed){
+	$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+	if(top){$body.animate({scrollTop:0}, speed);
+	return false;
+	}
+	if(tsid){$body.animate({scrollTop:$("#"+tsid).offset().top}, speed);
+	return false;
+	}
+	if(tbotm){
+	var tbot=$(document).height()-$(window).height();
+	if(tbot<0){tbot=0}
+	$body.animate({scrollTop:tbot}, speed);
+	return false;
+	}
+	}
+
+	//fe_scroll(true,null,null,1000); /*跳到页面头部*/
+	//fe_scroll(null,null,true,1000);/*跳到页面底部*/
+	//fe_scroll(null,"asdasd",null,1000);	/*跳到指定ID的元素头部*/	   
+			   
+			   
+
+	/*主题站首页讨论区图片压缩*/
+	if($(".dy_tfcli").length>0){	
+	$(".dy_tfcli img").each(function(){
+	var tisite_pw=$(this).attr("width");
+	var tisite_ph=$(this).attr("height");
+	var tisite_pmax=80;
+	if(tisite_pw>tisite_ph){
+		$(this).attr("height",tisite_pmax);
+		$(this).attr("width",tisite_pw*tisite_pmax/tisite_ph);
+		}
+	if(tisite_pw<=tisite_ph){
+		$(this).attr("width",tisite_pmax);
+		$(this).attr("height",tisite_ph*tisite_pmax/tisite_pw);	
+		}								 
+	})
+	}   
+			   
+			   
+			   
+			   
+	//搜索选择	
+	if($(".fe_tsisec").length>0){		   
+	$(".fe_tsisec").live("click",function(){
+	$(this).next(".fe_tsisepop").toggle();	
+										   
+	 })
+	$(".fe_tsisepop a").live("click",function(){
+			$(this).parents(".fe_tsisepop").prev(".fe_tsisec").html($(this).text());	
+			$(this).parents(".fe_tsisepop").hide();									   
+	 })   
+	}
+
+
+
+
+	/*排行榜切换*/
+	$(".tsite_phl span").live("click",function(){	
+	$(".tsite_phl span").removeClass("tsite_tabc")
+	$(this).addClass("tsite_tabc");
+	})
+
+
+	/*切换配置使用*/
+	if($(".tsite_show").length>0 && $(".tsite_changeDiv").length>0){		
+		$('.tsite_show div.tsite_changeDiv').soChange({//对象指向层，层内包含图片及标题
+			thumbObj:'.tsite_show .tsite_changea2 span',
+			thumbNowClass:'on'
+		});
+	}
+
+
+	//说说详情 查看原图
+	$(".fe_showspic").live("mouseenter",function(){
+	$(this).find(".fe_showspt").show();									 
+	})
+
+	$(".fe_showspic").live("mouseleave",function(){
+	$(this).find(".fe_showspt").hide();									 
+	})
+
+
+
+	if($(".tsite_dtshli").length>0 ){
+	ResizeImages(203,136,$(".tsite_dtshli"));
+	$(".tsite_dtshli").live("click",function(){	
+	$(".tsite_dtshli").find(".tsite_dtshmk").removeClass("tsite_dtshmkc");
+	$(this).find(".tsite_dtshmk").addClass("tsite_dtshmkc");
+	popError("选中,加载左边数据");
+	})
+
+	}
+
+
+	//我的帖子
+
+	if($(".tsite_apth").length>0 ){
+	$(".tsite_apth span").live("click",function(){
+	$(".tsite_apth span").removeClass("tsite_apthc");
+	$(this).addClass("tsite_apthc");
+	})
+	}
+
+	//讨论区选择
+	$(".tsite_apseci").live("click",function(){
+		$(".tsite_apseci").removeClass("tsite_apsecur");	
+		$(".tsite_apseci").removeClass("tsite_apbno");	
+		$(this).prev(".tsite_apseci").addClass("tsite_apbno");					 
+	$(this).addClass("tsite_apsecur");
+	})
+
+    //互动送礼收起案展开
+	//杨力的js
+	$(".bbs_mgnr1").live("click",function(){
+		$(this).hide();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnr2").show();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnc").hide();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnall").hide();
+		
+		$(this).parents(".bbs_mplist").find(".bbs_mgnr2").show();
+		$(this).parents(".bbs_mplist").find(".bbs_mgnc").hide();
+		$(this).parents(".bbs_mplist").find(".bbs_mgnall").hide();
+	})
+	$(".bbs_mgnr2").live("click",function(){
+		$(this).hide();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnr1").show();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnc").show();
+		$(this).parents(".bbs_mgn").find(".bbs_mgnall").show();
+		
+		$(this).parents(".bbs_mplist").find(".bbs_mgnr1").show();
+		$(this).parents(".bbs_mplist").find(".bbs_mgnc").show();
+		$(this).parents(".bbs_mplist").find(".bbs_mgnall").show();
+	})
+	
+	//互动
+	$(".bbs_mgpsendbn0").live("click",function(){
+		 var value=0;
+		 value=$(this).parents(".bbs_mgpc").find(".bbs_mgplic").attr("value");	
+		 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+		 if(value!=undefined)
+			 {
+			 $.post(basePath+"goddess/forumservlet",{
+				 method:"AddAward",
+				 aid:aid,
+				 tid:tid,
+				 type:2,
+			     num:1,
+			     id:value
+			 },function(data){
+				 if(data.r==200){
+					 popSuccess("互动成功！");
+					 window.setTimeout(function(){
+	            		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+	        		 	}, 1500);
+				 }
+			 });
+			 }
+		 else popError("请先选择互动类型。");
+	})
+	
+	//取消修改
+	 $(".tsite_g3a_cancel").live("click",function(){
+		 $.popwin.hide();
+	 });
+	
+	//赠送按钮
+	$(".bbs_mgpsendbn1").live("click",function(){
+		 var value= parseInt($(this).parents(".bbs_mgpc").find(".bbs_mgpsendp").attr("value"));//购买个数
+		 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+		 var id = $(this).parents(".bbs_mgpc").find(".bbs_mgplic").attr("value");	//礼物id 
+		 var num= parseInt($(this).parents(".bbs_mgpc").find(".bbs_mgplic").find("i").attr("value"));//剩余个数
+		 if(num == undefined) 
+			 {
+			 popError("请先选择礼物。");
+			 }
+		 else if(value>num)
+			 {
+			 var aa=value-num;
+			 $.popwin('<div class="popwin_con"><div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">亲，你的礼物数不够，请先去购买</div></div><div class="clearfix"></div></div><a class="bbs_pop_btn_primary" target="_blank" href="'+yzBaseUrl+'/purchase.gsp?method=mall#gift">立即去购买</a></div></div>', {
+		         bg: true,title: "礼物数不够"
+		         });
+			 }
+		 else
+		 {
+		 $.post(basePath+"goddess/forumservlet",{
+			 method:"AddAward",
+			 aid:aid,
+			 tid:tid,
+			 type:1,
+		     num:value,
+		     id:id
+		 },function(data){
+			 if(data.r==200){
+				 popSuccess("赠送成功！");
+				 window.setTimeout(function(){
+            		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+        		 	}, 1500);
+			 }else if(data.r==404){
+				 $.popwin.remind(' <div class="popwin_warning">亲，礼物自能送给女神哦~</div> ',null, { bar:false, btnclose: false });
+
+			 }
+		 });
+		 }
+	})
+	$(".bbs_mgpsendbn2").live("click",function(){
+		 var value = $("input[name='bbs_mgpd']:checked").siblings("span").text().replace(/[^0-9]/ig,"");//连送个数
+		 var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+		 var id = $(".bbs_mgpsendbn1").parents(".bbs_mgpc").find(".bbs_mgplic").attr("value");	//礼物id 
+		 var num= $(".bbs_mgpsendbn1").parents(".bbs_mgpc").find(".bbs_mgplic").find("i").attr("value");//剩余个数
+		 //popError(value);
+		 if(num == undefined) 
+			 {
+			 popError("请先选择礼物。");
+			 }
+		 else if(value == "")
+			 {
+			 popError("请选择连送个数。");
+			 }
+		 else{
+			 value=parseInt(value);
+		 if(value>num)
+			 {
+			 $.popwin('<div class="popwin_con"><div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">亲，你的礼物数不够，请先去购买</div></div><div class="clearfix"></div></div><a target="_blank" class="bbs_pop_btn_primary" href="'+yzBaseUrl+'/purchase.gsp?method=mall#gift">立即去购买</a></div></div>', {
+		         bg: true,title: "礼物数不够"
+		         });
+			 }
+		 else
+		 {
+		 $.post(basePath+"goddess/forumservlet",{
+			 method:"AddAward",
+			 aid:aid,
+			 tid:tid,
+			 type:1,
+		     num:value,
+		     id:id
+		 },function(data){
+			 if(data.r==200){
+				 popSuccess("赠送成功！");
+				 window.setTimeout(function(){
+            		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+        		 	}, 1500);
+			 }
+		 });
+		 }
+		 }
+	})
+	
+	//众筹
+	$(".bbs_zongchou").live("click",function(){
+		var bbs_Title=$("#bbs_Title").attr("value");
+		$.post(basePath+"giftshow.do",{
+            method:"getBalanceById"
+        },function(data){
+        	//剩余众筹金额
+        	var cost = $("#crowdFundingtime").parents(".bbs_mnsbk").find(".bbs_mpn2").find("span").text()-$("#crowdFundingtime").parents(".bbs_mnsbk").find(".bbs_mpbarp").find("span").eq(0).text();
+        	if(data.r == -1){
+        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未激活寻宝支付，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即激活寻宝支付，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/inactive.do" target="_blank"class="bbs_pop_btn_primary goHide">立即去激活</a></div>'+'</div>';
+        		$.popwin(html, {
+                    title:"友情提示"
+                });
+        	}
+        	if(data.r == -2){
+        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未激活寻宝支付，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即激活寻宝支付，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/inactive.do" target="_blank"class="bbs_pop_btn_primary goHide">立即去激活</a></div>'+'</div>';
+        		$.popwin(html, {
+                    title:"友情提示"
+                });
+        	}
+        	if(data.r == 403){
+        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您还未进行登录操作！</div><div class="bbs_pop_smallb">请您先登录。</div></div><div class="clearfix"></div></div><a href="'+data.loginUrl+'" target="_blank"class="bbs_pop_btn_primary goHide">点击去登录&gt;&gt;</a></div>'+'</div>';
+        		$.popwin(html, {
+                    title:"友情提示"
+                });
+    		}
+        	if(data.r == 200){
+        		if(data.balance*0.01 < cost){
+        			var d =  data.balance*0.01 - 1.0*cost;
+        			var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的寻宝账户余额不足，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即充值，再进行当前操作。</div></div><div class="clearfix"></div></div><table class="bbs_pop_tbgray"><tr><td class="left">待付金额</td><td><span class="price_color">'+cost+'</span>元</td></tr><tr><td class="left">可用余额</td><td><span class="price_color">'+(data.balance*0.01).toFixed(2)+'</span>元</td></tr><tr><td class="left">还需充值</td><td><span class="price_color">'+d.toFixed(2)+'</span>元</td></tr><tr><td class="left">寻宝支付账号</td><td><span class="blue_txt">'+data.uid+'</span></td></tr></table><a href="https://www.xunbaozhifu.com/account/fillvalue.do?method=index" target="_blank"class="bbs_pop_btn_primary goHide">立即去充值</a></div>'+'</div>';
+	        		$.popwin(html, {
+	                    title:"友情提示"
+	                });
+        		}else{
+        			$.popwin('<div class="popwin_con zhongChou"><div class="bbs_pop_mid"><div class="bbs_pop_nortext"><span class="bbs_pop_fl pl30 pr10">请选择参加众筹金额</span><span class="price_minus">-</span><input type="text" value="1" class="price_input"><span class="price_plus">+</span> <div class="bbs_pop_fl pl5">最多可付<span class="price_color">'+cost+'</span>元</div><div class="clearfix"></div></div><table class="bbs_pop_tbgray"><tbody><tr><td class="left">类型</td><td>参加众筹</td></tr><tr><td class="left">内容</td><td class="">'+bbs_Title+'</td></tr><tr><td class="left">待付金额</td><td><span class="price_color bbs_dfprice">1</span> 元</td></tr><tr><td class="left">可用余额</td><td><span class="price_color">'+(data.balance*0.01).toFixed(2)+'</span> 元</td></tr><tr><td class="left">寻宝支付账号</td><td><span class="blue_txt">'+data.uid+'</span></td></tr></tbody></table><div class="bbs_pop_nortext"><span class="bbs_pop_fl pl30 pr10">寻宝支付密码：</span><input type="password" class="pswd_input"><div class="clearfix"></div></div><a id="bbs_zcprimary" class="bbs_pop_btn_primary" href="javascript:void(0)">确认支付</a></div></div>', {
+        		         bg: true,title: "众筹付款"		 
+        		         });
+        		}
+        	var html2= $(this).parents(".bbs_mtzcon").find(".tsite_bc2b").find("span").text();
+        	$(".zhongChou").find(".title").html(html2);//众筹内容
+        	
+        	// 众筹 修改出价  
+        	var myprice = '';
+			$(".bbs_pop_nortext .price_input").die("keydown","keyup");
+			$(".bbs_pop_nortext .price_input").live("keydown",function(){
+				myprice = $(this).val();
+			}).live("keyup",function(){
+				
+				var obj = this;
+				if(!$.isNumeric($(obj).val()) || $(obj).val() <= 0 || parseFloat($(obj).val())>10000000){
+					$(obj).val(myprice);
+					$(".bbs_dfprice").text(myprice);
+					return false;
+				}else if($(obj).val()>parseInt(cost)){
+					$(obj).val(parseInt(cost));
+					$(".bbs_dfprice").text(parseInt(cost));
+					return false;
+				}else{
+				$(".bbs_dfprice").text(parseInt($(this).val()));
+				}
+			});
+			$(".bbs_pop_nortext .price_minus").unbind("click").click(function(){
+				myprice = parseFloat($(this).siblings('.bbs_pop_nortext .price_input').val());
+				if(myprice <= 1){
+					return false;	
+				}else{
+					myprice--;
+					$(this).siblings('.bbs_pop_nortext .price_input').val(myprice);
+					$(".bbs_dfprice").text(myprice);
+				}
+			});
+			
+			$(".bbs_pop_nortext .price_plus").unbind("click").click(function(){
+				myprice = parseFloat($(this).siblings('.bbs_pop_nortext .price_input').val());
+				if(myprice+1>parseInt(cost)){
+					$(".price_input").val(parseInt(cost));
+					return false;
+				}else if(myprice >= 10000000){
+					$(".price_input").val(parseInt(cost));
+					return false;	
+				}else{
+					myprice++;
+					$(this).siblings('.bbs_pop_nortext .price_input').val(myprice);
+					$(".bbs_dfprice").text(myprice);
+				}
+			});
+        	
+        	}
+        	if(data.r==403){
+        		XB.bbs_forum.popUpLoginWin();
+        	}
+        });
+		    
+	});
+	//帝王置顶
+	$(".tsite_bc5b1_topTime").live("click",function(){
+		var fid = $(this).parents(".tsite_bcli_floorId_area").attr("fid");
+		var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+		$.post(basePath+"goddess/forumservlet",{
+			 method:"SetTopByKing",
+			 aid:aid,
+			 tid:tid,
+			 fid:fid,
+			 topflag:1
+		 },function(data){
+			if(data.r==200)
+				{
+				popSuccess("置顶成功！");
+				 window.setTimeout(function(){
+           		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+       		 	}, 1500);
+				}
+			else if(data.r==40310)
+				{
+				popSuccess("置顶区已满或者你已经置顶过啦！");
+				}
+		 });
+	});
+	$(".tsite_bc5b1_removeTopTime").live("click",function(){
+		var fid = $(tg).parents(".tsite_bcli_floorId_area").attr("fid");
+		var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+		$.post(basePath+"goddess/forumservlet",{
+			 method:"SetTopByKing",
+			 aid:aid,
+			 tid:tid,
+			 fid:fid,
+			 topflag:0
+		 },function(data){
+			if(data.r==200)
+				{
+				popSuccess("取消置顶成功！");
+				 window.setTimeout(function(){
+           		 window.location.href= basePath + 'xile/thread-'+tid+'.html';
+       		 	}, 1500);
+				}
+			else if(data.r==401)
+				{
+				popError("您无法取消该置顶哟！");
+				}
+		 });
+	});
+	
+	
+	
+	/**
+	 * tangchengmin js  start
+	 */
+	//by tangchengmin
+	var status=$("#bbs_status").val();
+	if(status!=null&&status!=undefined){
+		if(status==0||status==1){
+			$(".bbs_mbox").stop().animate({width:25+'%'});
+		}else if(status==2){
+			$(".bbs_mbox").stop().animate({width:50+'%'});
+		}else if(status==3||status==4){
+			$(".bbs_mbox").stop().animate({width:75+'%'});
+		}else if(status==5){
+			$(".bbs_mbox").stop().animate({width:100+'%'});
+		}
+	}else{
+		$(".bbs_mbox").stop().animate({width:25+'%'});
+	}
+	
+	//关闭查看全部
+	$(".bbs_qbqr").live("click",function(){
+		$.popwin.hide();
+	});
+	//女神晒装贴 start by tangchengmin 
+	var tid=$("#tiezitid").val();
+		$(".imgAll").live("click",function(){
+			$.post(basePath+"goddess/forumservlet",{
+    			method:"getAllImages",
+    			aid:aid,
+    			tid:tid
+    			},function(data){
+    				if(data.r==200){
+    					var imgall=data.images;
+    					var imghtml="";
+    					for(var i=0;i<imgall.length;i++){
+    						imghtml += '<img src="'+imgall[i]+'"/></br>';
+    					}
+    					$(".bbs_allimg").html(imghtml);
+    				}else if(data.r==40002){
+    					popError("参数不合法！");	
+    				}else if(data.r==40111){
+    					popError("请先登录！");
+    				}else if(data.r==403){
+    					var passval=$(".imgAll").attr("passImg");
+    					if(passval=="0"){
+    						popError("您没有权限，暂时不能查看哦~");	
+    					}else if(passval=="1"){
+    						popError("送装者已经允许大家查看了，赶紧叩拜吧~");
+    					}
+    					
+    				}else if(data.r==401){
+    					popError("需要剪彩才能查看！");
+    				}else if(data.r==500){
+    					popError("需要解锁才能查看！");
+    				}
+    		});
+			$(".bbs_moreimg").hide();
+		});
+		
+	//索要
+	var createusername=$("#createusername").attr("value");//当前贴昵称
+		var sy=$("#bbs_sy_btn").attr("value");
+		var autoback=$("#bbs_sy_autoback").attr("value");
+		if(sy<=2 && autoback=="false"){
+			$(".bbs_mrebackb").show();
+		}else if(sy > 2){
+			$(".bbs_mrebackd").show();
+		}
+		$(".bbs_mrebackb").live("click",function(){
+			var tid = $(".bbs_wrap").find(".tsite_ba1c_mark_tid").attr("tid");
+			var sendtype=$("#sendtype").val();
+    		$.post(basePath+"giftshow.do",{
+    			method:"backDoApply",
+    			tid:tid,
+    			sendtype:sendtype
+    			},function(data){
+    				if(data.r==200){
+    				var zhid=data.zhid;
+    				if(data.balance == -1){
+    	        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未激活寻宝支付，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即激活寻宝支付，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/inactive.do" target="_blank"class="bbs_pop_btn_primary goHide">立即去激活</a></div>'+'</div>';
+    	        		$.popwin(html, {
+    	                    title:"友情提示"
+    	                });
+    	        	}else if(data.balance == -2){ 
+    	        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未绑定手机，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即绑定手机，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/userset.do?method=index" target="_blank"class="bbs_pop_btn_primary goHide">绑定手机</a></div>'+'</div>';
+		        		$.popwin(html, {
+		                    title:"友情提示"
+		                });
+    	        	}else if(data.balance >= 0){
+	    				//代付金额需要加运费
+	    				var backPrice=parseFloat(data.backPrice/100+20).toFixed(2);
+	    				var balance=parseFloat(data.balance/100).toFixed(2);
+    				
+	    				if(backPrice-balance > 0){
+		    				var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的寻宝账户余额不足，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即充值，再进行当前操作。</div></div><div class="clearfix"></div></div><table class="bbs_pop_tbgray"><tr><td class="left">待付金额</td><td><span class="price_color">'+backPrice+'</span>元(含运费)</td></tr><tr><td class="left">可用余额</td><td><span class="price_color">'+balance+'</span>元</td></tr><tr><td class="left">还需充值</td><td><span class="price_color">'+parseFloat(backPrice-balance)+'</span>元</td></tr><tr><td class="left">寻宝支付账号</td><td><span class="blue_txt">'+zhid+'</span></td></tr></table><a href="https://www.xunbaozhifu.com/account/fillvalue.do?method=index" target="_blank"class="bbs_pop_btn_primary goHide">立即去充值</a></div>'+'</div>';
+			        		$.popwin(html, {
+			                    title:"友情提示"
+			                });
+	    				}else{
+		    				var addressObj = $.parseJSON(data.address);
+		    				var address;
+		    				var phone;
+		    				var zipCode;
+		    				var addressid;
+		    				var title=$(".bbs_t_title").text();
+		    				var yzBaseUrl=$("#yzBaseUrl").attr("value");
+		    				for(var i=0; i<addressObj.length;i++){
+		    					var isDefault=addressObj[i].isDefault;
+		    					if(isDefault==true){
+		    						address=addressObj[i].address;
+		    						phone=addressObj[i].phone;
+		    						zipCode=addressObj[i].zipCode;
+		    						addressid=addressObj[i].id;
+		    					}
+		    				}
+		    				var adhtml='';
+		    				if(addressObj.length<=0){
+		    					adhtml='';
+		    				}else{
+		    					adhtml='<div class="bbs_dpn21">已选收货地址：</div><div class="bbs_dpn22">'+address+'<span>'+phone+'</span><span>'+zipCode+'</span></div>';
+		    				}
+		    				$.popwin('<div class="popwin_con suoYao"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpn1" id="bbs_pop_address" addressid="'+addressid+'"> 此处是您的默认地址，若要修改，请<a target="_blank" href="'+yzBaseUrl+'/area.fo?method=getConsigneeAddress">设置您的默认地址</a> </div><div class="bbs_dpn2">'+adhtml+'</div><table class="bbs_pop_tbgray"><tbody><tr><td class="left">类型</td><td>索要女神 '+createusername+' 相册衣物</td></tr><tr><td class="left">内容</td><td class="titles">'+title+'</td></tr><tr><td class="left">待付金额</td><td><span class="price_color">'+backPrice+'</span> 元（含运费）</td></tr><tr><td class="left">可用余额</td><td><span class="price_color">'+balance+'</span> 元</td></tr><tr><td class="left">寻宝支付账号</td><td><span class="blue_txt">'+zhid+'</span></td></tr></tbody></table><div class="bbs_dpnpas"><div class="bbs_pop_nortext"><span class="bbs_pop_fl pl30 pr10">寻宝支付密码：</span><input type="password" class="pswd_input"><div class="clearfix"></div></div></div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm" id="bbs_zfQrfirm">确认支付</a></div></div></div>', {
+		    			         bg: true,title: "确认付款"
+		    			         });
+		    				var html= $(this).parents(".bbs_mtzcon").find(".tsite_bc2b").find("span").text();
+		    				$(".suoYao").find(".title").html(html);//索要内容
+	    				}
+    				}
+    			}else if(data.r==403){
+    				popError("请先登录");
+    				window.location.href = data.loginUrl;
+    			}else if(data.r==404){
+    				popError("无法找到送晒记录");
+    			}
+    		});
+			
+		});
+	$("#bbs_zfQrfirm").live("click",function(){
+		var tid=$("#tiezitid").attr("value");
+		var aid=$("#bbs_pop_address").attr("addressid");
+		var type=$("#sendtype").attr("value");
+		$.post(basePath+"giftshow.do", {method:"getNounce"},function(data){
+			 if (data.r == 403) {            //未登录
+	                window.location.href = data.loginUrl;
+	            } else if (data.r == 500){
+	                popError("服务器数据出错了!");
+	            } else if(data.r == 200){
+	                var nonce = data.nonce;
+	                var passwd=$(".pswd_input").val();
+	                if($.trim(passwd) == ""){
+	                    popError("请输入支付密码！");
+	                    return false;
+	                }else if($.trim(passwd).length < 6){
+	                    popError("请输入正确格式的密码！");
+	                    return false;
+	                }
+	                var key = CryptoJS.enc.Utf8.parse(nonce);
+	                var pswd = CryptoJS.enc.Utf8.parse(passwd);
+	                var transPswd = CryptoJS.AES.encrypt(pswd, key, {iv: key, mode: CryptoJS.mode.CBC});
+	                var password = transPswd.toString();
+	                $.post(basePath+"giftshow.do", {method:"payAndGetOrder",password:password,type:type,tid:tid},function(data){
+	                	if(data.r == 200){
+	                		//订单id
+	                		var orderRecordId = data.orderRecordId;
+	                		
+	                    	$.post(basePath+"giftshow.do", {method:"backAfterPay",tid:tid,back_order_id:orderRecordId,back_addr_id:aid,sendtype:$("#sendtype").val()},function(data){
+	                    		if(data.r == 200){
+	                    			$.popwin.remind('<div class="popwin_success">索要成功</div>',null, {delay:3000,bar:false,btnclose: false	 });	
+	                    		     $(".popwin_pbn").hide();
+	                    		     $(".bbs_mrebackb").hide();
+	                    		     $(".bbs_mrebackd").show();
+	                    		     window.location.href= basePath + 'xile/thread-'+tid+'.html';
+	                    		}else{
+	                    			popError("回购状态更新失败!r="+data.r);
+	                    		}
+	                    	});
+	                    }else if(data.r == -1){
+	                    	popError("订单号必须大于0");
+	                    }else if(data.r == -2){
+	                    	popError("订单金额必须大于0");
+	                    }else if(data.r == -3){
+	                    	popError("买家账号必须大于0");
+	                    }else if(data.r == -4){
+	                    	popError("买家名字不能为空");
+	                    }else if(data.r == -5){
+	                    	popError("商品名字不能为空");
+	                    }else if(data.r == -6){
+	                    	popError("买家IP不能为空");
+	                    }else if(data.r == -7){
+	                    	popError("支付密码不能为空");
+	                    }else if(data.r == -8){
+	                    	popError("支付结果异常");
+	                    }else if(data.r == -9){
+	                    	popError("支付结果异常");
+	                    }else if(data.r == -10){
+	                    	popError("支付结果异常");
+	                    }else if(data.r == -11){
+	                    	popError("一小时内密码错误重试次数超过5次");
+	                    }else if(data.r == 1){
+	                        popError("账号未在寻宝支付激活!");
+	                    } else if(data.r == 2){
+	                        popError("没绑定手机!");
+	                    } else if(data.r == 3){
+	                        popError("余额不足");
+	                    } else if(data.r == 4){
+	                        popError("支付密码不正确!");
+	                    } else if(data.r == 5){
+	                        popError("MD5签名不正确!");
+	                    } else if(data.r == 5){
+	                        popError("MD5签名不正确!");
+	                    } else if(data.r == 6){
+	                        popError("MD5签名不正确!");
+	                    } else if(data.r == 501){
+	                        popError("输入密码错误1次!");
+	                    }else if(data.r == 502){
+	                        popError("输入密码错误2次!");
+	                    }else if(data.r == 503){
+	                        popError("输入密码错误3次或3次以上，请您1小时后再试!");
+	                    }
+	                });
+	            }
+		});
+	});
+
+	
+	//送装晒贴加锁 
+		$(".jiasuo").live("click",function(){
+			$.post(basePath+"giftshow.do",{
+    			method:"getBalanceById",
+    			tid:tid
+    			},function(data){
+    				if(data.r == -1){
+    	        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未激活寻宝支付，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即激活寻宝支付，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/inactive.do" target="_blank"class="bbs_pop_btn_primary goHide">立即去激活</a></div>'+'</div>';
+    	        		$.popwin(html, {
+    	                    title:"友情提示"
+    	                });
+    	        	}
+    	        	if(data.r == -2){
+    	        		var html = '<div class="popwin_con">'+'<div class="bbs_pop_mid"><div class="bbs_pop_alarm"><div class="bbs_pop_alarmicon"></div><div class="bbs_pop_alarmtxt"><div class="bbs_pop_bigo">很抱歉，您的账户尚未激活寻宝支付，无法进行支付操作！</div><div class="bbs_pop_smallb">建议您立即激活寻宝支付，以顺利进行支付、充值、提现等重要操作。</div></div><div class="clearfix"></div></div><a href="https://www.xunbaozhifu.com/account/inactive.do" target="_blank"class="bbs_pop_btn_primary goHide">立即去激活</a></div>'+'</div>';
+    	        		$.popwin(html, {
+    	                    title:"友情提示"
+    	                });
+    	        	}
+    				if(data.r==200){
+        				var balance=parseFloat(data.balance);
+        				var zhid=data.uid;
+        				var title=$(".bbs_t_title").text();
+        				 $.popwin('<div class="popwin_con"><div class="bbs_pop_mid"><div class="bbs_pop_nortext"><span class="bbs_pop_fl pl30 pr10">请选择加锁天数</span><span class="price_minus">-</span><input type="text" value="1" class="price_input"><span class="price_plus">+</span> <div class="bbs_pop_fl pl5">天</div><div class="clearfix"></div></div><table class="bbs_pop_tbgray"><tbody><tr><td class="left">类型</td><td>相册附加私享锁</td></tr><tr><td class="left">内容</td><td>'+title+'</td></tr><tr><td class="left">待付金额</td><td><span class="price_color df_price">5</span> 元</td></tr><tr><td class="left">可用余额</td><td><span class="price_color">'+balance+'</span> 元</td></tr><tr><td class="left">寻宝支付账号</td><td><span class="blue_txt">'+zhid+'</span></td></tr></tbody></table><div class="bbs_pop_nortext"><span class="bbs_pop_fl pl30 pr10">寻宝支付密码：</span><input type="password" class="pswd_input"><div class="clearfix"></div></div><a class="bbs_pop_btn_primary" id="bbs_jsQrfirm" href="javascript:void(0)">确认支付</a></div></div>', {
+        			         bg: true,title: "加锁"		 
+        			     });
+        				// 加锁天数操作  
+ 						var myprice = '';
+ 						$(".bbs_pop_nortext .price_input").die("keydown","keyup");
+ 						$(".bbs_pop_nortext .price_input").live("keydown",function(){
+ 							myprice = $(this).val();
+ 						}).live("keyup",function(){
+ 							var obj = this;
+ 							if(!isNumber($(obj).val()) || $(obj).val() <= 0 || parseFloat($(obj).val())>10000000){
+ 								$(obj).val(myprice);
+ 								$(".df_price").text(parseInt(myprice*5));
+ 								return false;
+ 							}else{
+ 							$(".df_price").text(parseInt($(this).val()*5));
+ 							}
+ 						});
+ 						$(".bbs_pop_nortext .price_minus").unbind("click").click(function(){
+ 							myprice = parseFloat($(this).siblings('.bbs_pop_nortext .price_input').val());
+ 							if(myprice <= 1){
+ 								return false;	
+ 							}else{
+ 								myprice--;
+ 								$(this).siblings('.bbs_pop_nortext .price_input').val(myprice);
+ 								$(".df_price").text(parseInt(myprice*5));
+ 							}
+ 						});
+ 						
+ 						$(".bbs_pop_nortext .price_plus").unbind("click").click(function(){
+ 							myprice = parseFloat($(this).siblings('.bbs_pop_nortext .price_input').val());
+ 							if(myprice >= 10000000){
+ 								return false;	
+ 							}else{
+ 								myprice++;
+ 								$(".df_price").text(parseInt(myprice*5));
+ 								$(this).siblings('.bbs_pop_nortext .price_input').val(myprice);
+ 							}
+ 						});
+        			}
+    			});
+			
+			});
+		
+		$("#bbs_jsQrfirm").live("click",function(){
+			var tid=$("#tiezitid").attr("value");
+			var day=$(".bbs_pop_nortext .price_input").val();
+			$.post(basePath+"giftshow.do", {method:"getNounce"},function(data){
+				 if (data.r == 403) {            //未登录
+		                window.location.href = data.loginUrl;
+		            } else if (data.r == 500){
+		                popError("服务器数据出错了!");
+		            } else if(data.r == 200){
+		                var nonce = data.nonce;
+		                var passwd=$(".pswd_input").val();
+		                if($.trim(passwd) == ""){
+		                    popError("请输入支付密码！");
+		                    return false;
+		                }else if($.trim(passwd).length < 6){
+		                    popError("请输入正确格式的密码！");
+		                    return false;
+		                }
+		                var key = CryptoJS.enc.Utf8.parse(nonce);
+		                var pswd = CryptoJS.enc.Utf8.parse(passwd);
+		                var transPswd = CryptoJS.AES.encrypt(pswd, key, {iv: key, mode: CryptoJS.mode.CBC});
+		                var password = transPswd.toString();
+		                $.post(basePath+"giftshow.do", {method:"payAndGetOrder",password:password,type:100,tid:tid,lock:day},function(data){
+		                	if(data.r == 200){
+                                $.post(basePath+"giftshow.do", {method:"doLockShowThread",tid:tid,lock_time:day,oid:data.orderRecordId},function(data){
+                                    if (data.r == 200) {
+                                        //订单id
+                                        $.popwin.remind('<div class="popwin_success">加锁成功</div>',null, {delay:3000,bar:false,btnclose: false	 });
+                                        $(".bbs_jiasuo").show();
+                                        $(".bbs_jiesuo").show();
+                                        $(".bbs_jiancai").hide();
+                                        //window.location.href= basePath + 'xile/thread-'+tid+'.html';
+                                    } else if (data.r == 405) {
+                                        popError("不能加锁!");
+                                    }else if (data.r == 404) {
+                                        popError("订单有误!");
+                                    }else if (data.r == 500) {
+                                        popError("众筹订单有误!");
+                                    }
+                                });
+		                    } else if(data.r == 1){
+		                        popError("账号未在寻宝支付激活!");
+		                    } else if(data.r == 2){
+		                        popError("没绑定手机!");
+		                    } else if(data.r == 3){
+		                        popError("余额不足");
+		                    } else if(data.r == 4){
+		                        popError("支付密码不正确!");
+		                    } else if(data.r == 5){
+		                        popError("MD5签名不正确!");
+		                    } else if(data.r == 5){
+		                        popError("MD5签名不正确!");
+		                    } else if(data.r == 6){
+		                        popError("MD5签名不正确!");
+		                    } else if(data.r == 501){
+		                        popError("输入密码错误1次!");
+		                    }else if(data.r == 502){
+		                        popError("输入密码错误2次!");
+		                    }else if(data.r == 503){
+		                        popError("输入密码错误3次或3次以上，请您1小时后再试!");
+		                    }
+		                });
+		            }
+			});
+		});
+	//送装晒贴解锁 
+		$(".jiesuo").live("click",function(){
+			$.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpt"></div><div class="bbs_dpc"><span>感谢您为</span><em>'+createusername+'</em> 的送装帖子进行解锁仪式，让大家看看吧~</div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm" id="bbs_qrgk" cztype="js">确&nbsp;&nbsp;定</a></div></div></div>', {
+				bg: true,
+				title: "友情提示"
+			});
+		});
+		
+	//送装晒贴剪彩
+		$(".jiancai").live("click",function(){
+			$.popwin('<div class="popwin_con"><div class="bbs_dpop"><div class="bbs_dpn"><div class="bbs_dpt"></div><div class="bbs_dpc"><span>感谢您为</span><em>'+createusername+'</em> 的送装帖子进行剪彩仪式，让大家看看吧~</div></div><div class="bbs_dpbn"><a href="javascript:void(0)" class="bbs_dconfirm" id="bbs_qrgk" cztype="jc">确&nbsp;&nbsp;定</a></div></div></div>', {
+				bg: true,
+				title: "友情提示"
+			});
+		});
+	//确认解锁和剪彩
+		$("#bbs_qrgk").live("click",function(){
+			var cztype=$(this).attr("cztype");
+			$.post(basePath+"goddess/forumservlet", {method:"doUnlockOrJc",tid:tid,aid:aid,type:cztype},function(data){
+				if(data.r=200){
+					$.popwin.remind('<div class="popwin_success">操作成功</div>',null, {delay:2000,bar:false,btnclose: false	 });
+					window.location.href= basePath + 'xile/thread-'+tid+'.html';
+            		$(".bbs_jiesuo").hide();
+				}else if(data.r==40002){
+					$.popwin.remind('<div class="popwin_success">参数不合法</div>',null, {delay:2000,bar:false,btnclose: false	 });	
+				}else if(data.r==40111){
+					$.popwin.remind('<div class="popwin_success">请先登录</div>',null, {delay:2000,bar:false,btnclose: false	 });	
+				}else if(data.r==400110){
+					$.popwin.remind('<div class="popwin_success">操作失败</div>',null, {delay:2000,bar:false,btnclose: false	 });	
+				}
+			});
+		});
+		
+	/*--------------女神晒装贴end--------------------*/
+	
+/**
+ * tangchengmin js  end
+ */		
+	//只看楼主和查看全部
+	$(".fe_bbsa").live("click",function(){
+	$(this).hide();
+	$(this).next("a").show();
+	})
+	$(".fe_bbsb").live("click",function(){
+	$(this).hide();
+	$(this).prev("a").show();
+	})
+
+
+	/*2-20 update 分享说说弹出*/
+	$(".dy_mdksh").live("mouseenter",function(){
+	      $(this).find(".dy_mdkshp").show();							 
+	})
+	$(".dy_mdksh").live("mouseleave",function(){
+	      $(this).find(".dy_mdkshp").hide();							 
+	})
+
+
+
+	/*4-8 update 热门展示划过*/
+	if($(".tsite_src li").length>0 ){
+	$(".tsite_src li").live("mouseenter",function(){
+	$(this).addClass("auth_hntpbc");
+	})
+	$(".tsite_src li").live("mouseleave",function(){
+	$(this).removeClass("auth_hntpbc");
+	})
+	}
+
+
+
+	 /*5-28 update 搜索高亮*/
+		   if($(".tsite_atctit").length>0 && $(".tsite_apname").length>0 ){
+			    $(".tsite_apdseform").submit(function(){
+			        var inputKeyWords = $(".tsite_apdsin");
+			        var kewWords = $.trim(inputKeyWords.val());
+			        inputKeyWords.val(kewWords);
+			        if(kewWords.length < 1){
+			            popError("请输入您要搜索的关键字！！！！");
+			            inputKeyWords.focus();
+			            return false;
+			    	}
+			        $(".tsite_atctit").highlight(kewWords, { hColor: "#ae1b1b"});		     
+					     $(".tsite_apname").highlight(kewWords, { hColor: "#ae1b1b"});	   
+			        return false;
+			    });
+				}
+
+
+	/*6-24 update 关闭导航模拟器提示*/
+	if($(".tsite_bantsbn").length>0 ){
+	$(".tsite_bantsbn").live("click",function(){
+	$(this).parents(".tsite_bants").hide();
+	})
+	}
+
+	/*6-24 update 讨论区全部和精华切换*/
+	if($(".tsite_apthcw").length>0 ){
+	$(".tsite_apthcw span").live("click",function(){
+	$(".tsite_apthcw span").removeClass("tsite_apthc");
+	$(this).addClass("tsite_apthc");
+	})
+	}
+
+	/*6-24 update 讨论区编辑弹出框*/
+		$(".tsite_ged1").live("click",function(){
+			$.popwin('<div class="popwin_con"><div class="tsite_g3 tsite_g3_notice"><textarea class="tsite_g3_notice_text"></textarea><div class="tsite_g3a"><input type="button" class="tsite_g3a_save_notice_btn"/><a class="tsite_g3a_cancel" href="javascript:void(0);">取消修改</a><div class="rs_clear"></div></div></div></div>', {
+	    		bg: true,title: "公告编辑"
+	    	});	
+	    	$(".tsite_g3_notice_text").val($(".tsite_g1b_notice").text());						
+		});
+		
+		$(".tsite_ged2").live("click",function(){
+			$.popwin('<div class="popwin_con"><div class="tsite_g4"><div class="tsite_g4a"><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="tsite_g4a1"><input type="text"class="tsite_g4a1a"placeholder="输入帖子名称"/><input type="text"class="tsite_g4a1b"placeholder="帖子ID"/></div><div class="rs_clear"></div></div><div class="tsite_g3a"><input type="button"/><a href="javascript:void(0)" id="popwin_Close">取消修改</a><div class="rs_clear"></div></div></div></div>', {
+				bg: true,title: "推荐编辑",btnclose: false
+			});	
+			$.Placeholder.init();						
+		});
+
+
+
+	/*$(".tisite_pago").live("click",function(){
+		popError($(this).parents(".mc_Paging").find(".tsite_pgin").attr("value"));	
+		})*/
+
+	/*喜欢 9-14 update*/
+	$(".tsite_ki9a").live("click",function(){
+	$(this).removeClass("tsite_ki9a").addClass("tsite_ki9b");	
+	})
+
+	$(".tsite_ki9b").live("click",function(){
+	$(this).removeClass("tsite_ki9b").addClass("tsite_ki9a");	
+
+	})
+
+	/*赞 9-14 update*/
+	$(".tsite_ki9c").live("click",function(){
+	$(this).removeClass("tsite_ki9c").addClass("tsite_ki9d");	
+	})
+
+	$(".tsite_ki9d").live("click",function(){
+	$(this).removeClass("tsite_ki9d").addClass("tsite_ki9c");	
+
+	})
+
+
+	/*10-16 update发码弹框*/
+	 $(".tsite_kredp").live("click",function() {
+	            $.popwin('<div class="popwin_con"><div class="tsite_fm"><div class="tsite_fmi"><span>活动类型：</span><span><select class="tsite_fmic" ><option>活动类型活动类型</option></select></span></div><div class="tsite_fmi"> <span class="tsite_fm1"><label><input type="checkbox"/>礼包名字礼包名字礼包名字</label></span> <span class="tsite_fm3">数量:</span> <span class="tsite_fm4"><input type="text" /></span> </div><div class="tsite_fmi"> <span class="tsite_fm1"><label><input type="checkbox"/>礼包名字礼包名字礼包名字</label></span> <span class="tsite_fm3">数量:</span> <span class="tsite_fm4"><input type="text" /></span> </div><div class="tsite_fmi"> <span class="tsite_fm1"><label><input type="checkbox"/>礼包名字礼包名字礼包名字</label></span> <span class="tsite_fm3">数量:</span> <span class="tsite_fm4"><input type="text" /></span> </div><div class="tsite_fmi"> <span class="tsite_fm1"><label><input type="checkbox"/>礼包名字礼包名字礼包名字</label></span> <span class="tsite_fm3">数量:</span> <span class="tsite_fm4"><input type="text" /></span> </div><div class="tsite_fmbn"><input type="button" value="确定"/><input type="button" value="取消" class="tsite_fmbnc"/></div></div></div>', {
+	                bg: true,title: "发码",btnclose: false
+	            });
+	        });
+
+	$(".tsite_fmbnc").live("click",function() {$.popwin.hide();});
+
+
+
+	/*10-30 update加精弹框*/
+	 $(".tsite_kadd").live("click",function() {
+	            $.popwin('<div class="popwin_con"><div class="tsite_fma"> <div class="tsite_fmi"><span class="tsite_fm3">请输入加精的分值:</span><span class="tsite_fm4"><input type="text" /></span></div><div class="tsite_fmbn"><input type="button" value="确定"/><input type="button" value="取消" class="tsite_fmbnc2"/></div></div></div>', {
+	                bg: true,title: "加精",btnclose: false
+	            });
+	        });
+
+	$(".tsite_fmbnc2").live("click",function() {$.popwin.hide();});
+
+
+
+	/*11-4 update 主题站发帖@功能*/
+	$(".tsite_qrtp").focus(function() {
+		$(this).parents(".tsite_qrt").find(".tsite_qrtn").show();
+		});
+
+	/*11-4 update 主题站发帖@ 点击下拉增加标签*/  
+	$(".tsite_qrtni").live("click",function() {	
+		$(".tsite_qrat").append('<a href="javascript:void(0)" class="tsite_qti">@'+$(this).text()+'</a>');	     
+		$(this).remove(); 
+	    });
+
+	/*11-4 update 主题站发帖@ 减少标签*/	  
+	$(".tsite_qti").live("click",function() {	
+		$(this).remove();		
+	    });	
+		
+	/*11-4 update 主题站发帖@ 隐藏下拉菜单*/
+	$(document).bind("click", function(event) {
+			if(event.target.className!="tsite_qrtnp" && event.target.className!="tsite_qrtni" && event.target.className!="tsite_qrtp place_hd"){
+			$(".tsite_qrtn").hide();  
+			}
+		});	
+		
+	/*11-6 update 主题站帖子详情 打赏*/	
+	    var $tsite_x11=$(".tsite_x11");
+		var $tsite_x2b=$(".tsite_x2b");
+		if($tsite_x11.length > 5){
+		$(".tsite_x11:gt(4)").hide();
+		}else{	
+		$(".tsite_x2").hide();	
+		}
+		if($tsite_x11.length == 1){
+		$(".tsite_x11:last").addClass("tsite_xnobg");
+		}
+	/*11-6 update 主题站帖子详情 查看所有打赏*/	
+		$tsite_x2b.live("click",function(){
+				if(!$(this).hasClass("tsite_x2a")&&$tsite_x11.length>5){
+				$(this).addClass("tsite_x2a");
+				$(".tsite_x11:gt(4)").show();
+				}else{
+				$(this).removeClass("tsite_x2a");
+				if($(".tsite_x11").length > 5){
+				$(".tsite_x11:gt(4)").hide();
+				}
+			}
+		})
+		
+		/*11-6 update 主题站帖子详情 打赏弹框*/
+			$(".tsite_kgds").live("click",function() {
+				var tsite_xstr=$(this).parents(".tsite_bcli").find(".tsite_bc1a1 a").text();
+	            $.popwin('<div class="popwin_con"><div class="tsite_x3"><div class="tsite_x3a"><div class="tsite_x3a1">打赏金额:</div><div class="tsite_x3ap"><div class="tsite_xs"><span class="tsite_xsc fe_tsisec">选择金额</span><div class="tsite_xsp fe_tsisepop" ><a href="javascript:void(0)">-1</a><a href="javascript:void(0)">+1</a><a href="javascript:void(0)">+2</a><a href="javascript:void(0)">+3</a><a href="javascript:void(0)">+4</a><a href="javascript:void(0)">+5</a><a href="javascript:void(0)">+6</a><a href="javascript:void(0)">+7</a><a href="javascript:void(0)">+8</a><a href="javascript:void(0)">+9</a><a href="javascript:void(0)">+10</a></div></div></div><div class="tsite_x3a4"><img src="../images/tsite_images/tsite_x2.png" /></div><div class="tsite_x3a3">(今日还能打赏:<span>30</span>)</div><div class="rs_clear"></div></div><div class="tsite_x3a"><div class="tsite_x3a1">打赏原因:</div><div class="tsite_x3a2"><div class="tsite_xs2"><span class="tsite_xsc2 fe_tsisec">选择原因</span><div class="tsite_xsp2 fe_tsisepop" > <a href="javascript:void(0)">选择原因</a> <a href="javascript:void(0)" class="tsite_xsef">违反版规</a><a href="javascript:void(0)" class="tsite_xsef">无意义灌水</a><a href="javascript:void(0)" class="tsite_xsef">人身攻击</a><a href="javascript:void(0)" class="tsite_xsef">重复发帖</a><a href="javascript:void(0)" class="tsite_xsef">广告帖</a><a href="javascript:void(0)" class="tsite_xsef">我的眼睛瞎了</a><a href="javascript:void(0)" class="tsite_xsef">违反国家规定</a>      <a href="javascript:void(0)" class="tsite_xsef2">我很赞同</a><a href="javascript:void(0)" class="tsite_xsef2">感谢分享</a><a href="javascript:void(0)" class="tsite_xsef2">精品文章</a><a href="javascript:void(0)" class="tsite_xsef2">原创内容</a><a href="javascript:void(0)" class="tsite_xsef2">太赞了</a><a href="javascript:void(0)" class="tsite_xsef2">泪牛满面</a><a href="javascript:void(0)" class="tsite_xsef2">楼主威武</a>  <a href="javascript:void(0)" >自定义</a></div></div></div><div class="tsite_x3a4"><img src="../images/tsite_images/tsite_x2.png" /></div><div class="tsite_x3a5"><div class="tsite_x3a5a"><a href="#">打赏规则</a></div><div class="tsite_x3a5b">|</div><div class="tsite_x3a5c"><a href="#">如何获取金币</a></div><div class="rs_clear"></div></div><div class="rs_clear"></div></div><div class="tsite_x3b"><textarea class="tsite_x3by tsite_x3bz" disabled="disabled" placeholder="请输入打赏原因 (￣w￣)~*"></textarea></div><div class="tsite_x3c"><div class="tsite_x3c1"><input type="button" /></div><div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div><div class="rs_clear"></div></div></div></div>', {
+	                bg: true,title: "打赏给"+tsite_xstr,btnclose: false
+	            });					
+			$.Placeholder.init();	
+	        });		
+			$(".tsite_x3c2 a").live("click",function() {			
+				$.popwin.hide();
+				});	
+		
+		$(".tsite_x3").live("click", function(event) {
+			if(event.target.className!="tsite_xsc fe_tsisec" && event.target.className!="tsite_xsp fe_tsisepop"){
+			$(".tsite_xsp").hide();  
+			}
+		});	
+		
+		$(".tsite_x3a2").live("click",function(){
+			/*12-12 update select联动*/
+			$(".tsite_xs").removeClass("tsite_xspr");
+			$(".tsite_xs").find(".tsite_xsp").hide();
+			$(this).find(".tsite_xs2").addClass("tsite_xspr");		
+			if($(this).parents(".tsite_x3").find(".tsite_xsc").text()>=0){	
+			$(".tsite_x3a2").find("a").show();		
+				$(".tsite_xsef").hide();			
+				}else{
+			$(".tsite_x3a2").find("a").show();
+			$(".tsite_xsef2").hide();		
+			}
+			
+			/*12-12 update 判断自定义输入框可用*/
+			if($(".tsite_xsc2").text() == "自定义" ){
+			$(".tsite_xsc2").attr("id","tsite_lv_21");
+					if($(".tsite_xsc2").attr("id")=="tsite_lv_21"){
+					$(".tsite_x3by").removeAttr("disabled").removeClass("tsite_x3bz");
+					}
+				}else{
+					$(".tsite_x3by").attr("disabled","disabled").addClass("tsite_x3bz");
+					}
+			});
+			
+		/*12-12 update select联动 add*/	
+		$(".tsite_x3ap").live("click",function(){
+			$(".tsite_xs2").removeClass("tsite_xspr");
+				 $(".tsite_xs2").find(".tsite_xsp2").hide();
+				$(this).find(".tsite_xs").addClass("tsite_xspr");		
+			
+			})	
+			
+		/*12-12update select联动*/
+		$(".tsite_xsp a").live("click",function(){
+			if($(this).text()>0){
+			$(".tsite_x3a2").find("a").show();
+			$(".tsite_xsef").hide();		
+		}else{
+			$(".tsite_x3a2").find("a").show();
+			$(".tsite_xsef2").hide();
+			
+			}
+		});
+		
+		
+	/*bbs首页banner切换配置*/
+	if($(".tsite_hbc").length>0){		
+		$('.tsite_hbc').soChange({//对象指向层，层内包含图片及标题
+			thumbObj:'.tsite_hbcn span',
+			thumbNowClass:'on'
+		});
+	}	
+
+
+
+
+	/*bbs首页 鼠标划过版块*/
+	/*if($(".tsite_hbi").length>0 ){
+	$(".tsite_hbi").live("mouseenter",function(){
+	$(this).addClass("tsite_hbic");
+	})
+	$(".tsite_hbi").live("mouseleave",function(){
+	$(this).removeClass("tsite_hbic");
+	})
+	}*/
+
+
+	if($(".tsite_y2c1").length > 0){
+		$(".tsite_y2c1").live("click",function(){
+			$(this).parents(".tsite_y2chead").find(".tsite_y2c1").removeClass("tsite_y2cp");
+			$(this).addClass("tsite_y2cp");
+			})
+		}
+		
+	if($(".tsite_y2d1a1").length > 0){
+		$(".tsite_y2d1a1").live("click",function(){
+			$(this).parents(".tsite_y2d1a").find(".tsite_y2d1a1").removeClass("tsite_y2d1a1z");
+			$(this).addClass("tsite_y2d1a1z");
+			})
+		}
+
+	/*帖子详情管理弹框*/
+	/*帖子详情管理弹框*/
+//	if($(".tsite_kmag").length > 0){
+		$(".tsite_kmag").live("click",function(){
+			var lockflag = $(this).parents(".tsite_wrap").find(".tsite_ba1c_mark_tid").attr("lockflag");
+			var top = $(this).parents(".tsite_bcrz").find(".tsite_bc2b3").attr("top");
+			var digest = $(this).parents(".tsite_bcrz").find(".tsite_bc2b3").attr("digest");
+			var html = '';
+			html += '<div class="popwin_con">'+
+						'<div class="tsite_u">'+
+							'<div class="tsite_u1">'+
+								'<div class="tsite_u1a">选择操作:</div>'+
+								'<div class="tsite_u1b">'+
+									'<select class="tsite_u1bs">'+
+										'<option>在下拉单中选择</option>';
+			  if(lockflag == 0) html += '<option>锁定帖子</option>';
+			  if(lockflag == 1) html += '<option>解除锁定</option>';
+	   if(top == 0 || top == 2) html += '<option>分类置顶</option>';
+	   if(top == 0 || top == 1) html += '<option>全区置顶</option>';
+	   if(top == 1 || top == 2) html += '<option>取消置顶</option>';
+	   			if(digest == 0) html += '<option>设置精华</option>';
+	   			if(digest == 1) html += '<option>取消精华</option>';
+								html +=	'</select>'+
+								'</div>'+
+								'<div class="tsite_u1cf">'+
+									'<div class="tsite_u1c">经验奖励:</div>'+
+									'<div class="tsite_u1d"><input type="text" class="tsite_u1ds tsite_fm4_num"/></div>'+
+								'</div>'+
+								'<div class="rs_clear"></div>'+
+							'</div>'+
+							'<div class="tsite_u2">'+
+								'<div class="tsite_u2a">操作原因:</div>'+
+								'<div class="tsite_u2b"><textarea class="tsite_u2bn tsite_u2bn_reason" maxlength="50" placeholder="无需输入操作原因"></textarea></div>'+
+								'<div class="rs_clear"></div>'+
+							'</div>'+
+							'<div class="tsite_x3c">'+
+								'<div class="tsite_x3c1"><input class="tsite_x3c1_btn" type="button"></div>'+
+								'<div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div>'+
+								'<div class="rs_clear"></div>'+
+							'</div>'+
+						'</div>'+
+					'</div>';
+	        $.popwin(html, {bg: true,title: "管理操作",btnclose: false});
+	        $.Placeholder.init();	
+	    });
+//	}
+	$(".tsite_u1bs").live("click",function(){
+		$(".tsite_u1cf").hide();
+		$(".tsite_u2bn_reason").removeClass("tsite_u2err");
+		$(".tsite_u2bn_reason").attr("placeholder","无需输入操作原因");
+		$(".tsite_u2bn_reason").attr("disabled",true);
+		var selectText = $(this).find("option:selected").text();
+		if(selectText == "锁定帖子"){
+			$(".tsite_u2bn_reason").attr("disabled",false);
+			$(".tsite_u2bn_reason").attr("placeholder","请输入锁帖原因！50个字以内");
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_kadd_addLock");
+		}else if(selectText == "解除锁定"){
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_kadd_cancelLock");
+		}else if(selectText == "分类置顶"){
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_bc5b1_AddOrCancleTop");
+			$(".tsite_bc5b1_AddOrCancleTop").attr("top",1);
+		}else if(selectText == "全区置顶"){
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_bc5b1_AddOrCancleTop");
+			$(".tsite_bc5b1_AddOrCancleTop").attr("top",2);
+		}else if(selectText == "取消置顶"){
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_bc5b1_AddOrCancleTop");
+			$(".tsite_bc5b1_AddOrCancleTop").attr("top",0);
+		}else if(selectText == "设置精华"){
+			$(".tsite_u2bn_reason").attr("disabled",false);
+			$(".tsite_u2bn_reason").attr("placeholder","请输入加精原因！50个字以内");
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_kadd_AddOrCancleDigest");
+			$(".tsite_kadd_AddOrCancleDigest").attr("digest",1);
+			$(".tsite_u1cf").show();
+		}else if(selectText == "取消精华"){
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn tsite_kadd_AddOrCancleDigest");
+			$(".tsite_kadd_AddOrCancleDigest").attr("digest",0);
+		}else{
+			$(".tsite_x3c1_btn").attr("class","tsite_x3c1_btn");
+		}
+	});
+
+	/*$(".tsite_u1bs").live("click",function(){
+	if($(".tsite_u1bs").find("option:selected").text()=="设置精华"){
+		$(".tsite_u1cf").show();
+	}else{
+		$(".tsite_u1cf").hide();	
+		}
+		
+	})*/
+
+
+
+		/*2014-06-10 update 主题站帖子详情 批量删除弹框*/
+		
+		/*checkbox 批删*/
+		if($(".tsite_bcpdel").length > 0){
+		 $(".tsite_bcpdel").live("click",function() {
+				var tsite_xstr=$(this).parents(".tsite_bcli").find(".tsite_bc1a1 a").text();
+	            $.popwin('<div class="popwin_con"><div class="tsite_x3"><div class="tsite_x3ar"><div class="tsite_x3a1">操作原因:</div><div class="tsite_x3ap"><textarea class="tsite_x3by tsite_x3bz" placeholder="请输入操作原因 (￣w￣)~*"></textarea></div><div class="rs_clear"></div></div><div class="tsite_x3c"><div class="tsite_x3c1"><input type="button" /></div><div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div><div class="rs_clear"></div></div></div></div>', {
+	                bg: true,title: "批量删除",btnclose: false
+	            });					
+			$.Placeholder.init();	
+	        });		
+			$(".tsite_x3c2 a").live("click",function() {			
+				$.popwin.hide();
+			});	
+		}
+		
+		
+		/*删某人*/
+		if($(".tsite_bcpdelp").length > 0){
+			$(".tsite_bcpdelp").live("click",function() {
+				var tsite_xstr=$(this).parents(".tsite_bcli").find(".tsite_bc1a1 a").text();
+	             $.popwin('<div class="popwin_con"><div class="tsite_x3"><div class="tsite_x3ar"><div class="tsite_x3a1">操作原因:</div><div class="tsite_x3ap"><textarea class="tsite_x3by tsite_x3bz" placeholder="请输入操作原因 (￣w￣)~*"></textarea></div><div class="rs_clear"></div></div><div class="tsite_x3c"><div class="tsite_x3c1"><input type="button" /></div><div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div><div class="rs_clear"></div></div></div></div>', {
+	                bg: true,title: "批量删除",btnclose: false
+	            });					
+			$.Placeholder.init();	
+	        });		
+			$(".tsite_x3c2 a").live("click",function() {			
+				$.popwin.hide();
+			});	
+		}
+	    
+
+
+	/*2014-06-11管理帖子页面 全选*/
+	        $(".tisite_reall").live("click",function() {
+	            var tschks = $(this).attr("checked");
+	            if (tschks) {
+	                $(this).parents(".tisite_rexcon").find(".tisite_remck").attr("checked", true);
+	            } else {
+	                $(this).parents(".tisite_rexcon").find(".tisite_remck").attr("checked", false);
+	            }
+	        });
+	/*2014-06-11管理帖子页面 删除*/
+	function tsite_sure(){
+		if(confirm("是否确定删除选中的帖子？该操作不可恢复。")){
+			return true;		
+			}else{
+		return false;
+	}}
+
+	 $(".tisite_redel").live("click",function() {
+	            popError(tsite_sure());
+	});
+	 
+	 
+	 
+	 
+	 
+	 
+	/**
+	 * 激活链接https://www.xunbaozhifu.com/account/inactive.do
+	 *  充值链接https://www.xunbaozhifu.com/account/fillvalue.do?method=index
+	 *  绑定手机连接https://www.xunbaozhifu.com/account/userset.do?method=index 
+	 *  
+	 *  var activateUrl='https://www.xunbaozhifu.com/account/inactive.do';
+	var rechargeUrl='https://www.xunbaozhifu.com/account/fillvalue.do?method=index';
+	var bangdingUrl='https://www.xunbaozhifu.com/account/userset.do?method=index';
+	 *  
+	 *  
+	 */ 
+	 
+	
+});
+

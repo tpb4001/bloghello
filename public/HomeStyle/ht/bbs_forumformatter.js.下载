@@ -1,0 +1,785 @@
+XB.namespace('bbs_forumformatter');
+
+XB.bbs_forumformatter = {
+		
+	////讨论区首页formatter开始
+		
+	//拼接版块帖子推荐列表
+	formatRecTidListItems:function(data){
+		var html = '';
+		data.items = $.parseJSON(data.recTidList);
+		var gamename = data.gamename;
+		$.each(data.items, function (i, item) {
+			if(item.tid)
+				html += '<a href="thread-'+item.tid+'.html" tid="'+item.tid+'">'+item.name+'</a>';
+        });
+		return html;
+	},
+		
+    //拼接讨论区首页——>每个分类下的管理员列表
+    formatAdminListItems:function (data) {
+        data.items = $.parseJSON(data.adminItems);
+        var html = "";
+        $.each(data.items, function (i, item) {
+        	html += '<span class="tsite_apdrna"><a target="_blank" href="'+basePath+'user.do?method=home&uid='+item.uid+'">'+item.username+'</a></span>';
+        });
+        return html;
+    },
+    //拼接帖子列表List
+    formatForumTopicItems:function (mid,data,type) {
+        data.items = $.parseJSON(data.items);
+        var html = '<table width="100%" border="0">'+
+        		   '	<tr>'+
+        		   '		<th width="571" valign="middle" align="left">标题</th>'+
+        		   '		<th width="114" valign="middle">作者</th>'+
+        		   '		<th width="93" valign="middle">回复/浏览</th>'+
+        		   '		<th width="121" valign="middle">最后回复</th>'+
+        		   '	</tr>';
+        $.each(data.items, function (i, item) {
+        	html += XB.bbs_forumformatter.formatForumTopicItem(mid,item,type);
+        });
+        html +=	   '</table>';
+        return html;
+    },
+    //拼接讨论区帖子——>帖子表项
+    formatForumTopicItem:function (mid,item,type) {
+        var html = '<tr>'+
+        		   '<td valign="middle" align="left">'+
+            	   '	<span class="tsite_apt1" tid="'+item.tid+'">';
+        html += XB.bbs_forumformatter.formatIsShowModuleName(mid,item);
+        var targetBlankString = "";
+        if(XB.forum.isNewWin == true){//如果定义了新窗口打开
+        	targetBlankString = ' target="_blank" ';
+        }
+        //渲染标题颜色。
+        if(item.lockflag == 1){//被锁
+        	if(item.top == 2){
+        		html +=	   '	<a class="tsite_atctit1"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a><span class="tsite_aptlk">[已锁]</span>';
+        	}else if(item.top == 1){
+        		html +=	   '	<a class="tsite_atctit2"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a><span class="tsite_aptlk">[已锁]</span>';
+        	}else{
+        		html +=	   '	<a class="tsite_aptlkt"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a><span class="tsite_aptlk">[已锁]</span>';
+        	}
+        }else{
+        	if(item.top == 2){
+        		html +=	   '	<a class="tsite_atctit1"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a>';
+        	}else if(item.top == 1){
+        		html +=	   '	<a class="tsite_atctit2"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a>';
+        	}else{
+        		html +=	   '	<a class="tsite_atctit"'+targetBlankString+' href="thread-'+item.tid+'.html">'+item.title+'</a>';
+        	}
+        }
+        html += XB.bbs_forumformatter.formatAddDigestAndTop(item);
+        if(item.totalPage > 1){
+        	html += 	'		<span class="tsite_aptpa">';
+        	for(i = 1 ; i <= 4 && i <= item.totalPage ; i++){
+        		html +=	'			<a'+targetBlankString+' href="thread-'+item.tid+'-'+i+'.html">'+i+'</a>';
+        	}
+        	if(item.totalPage >=5){
+        		if(item.totalPage >=6)
+        			html +=	'		<span>...</span>';
+        		html +=	'			<a'+targetBlankString+' href="thread-'+item.tid+'-'+item.totalPage+'.html">'+item.totalPage+'</a>';
+        	}
+        	html +=		'		</span>';
+        }
+        if(type==3 && item.readflag == 0 ){//在帖子类型为我发出的当中进行，如果该帖子为未读则显示NEW，
+    		html +='		<span class="tsite_aptop">&nbsp;&nbsp;&nbsp;&nbsp;NEW</span>';
+    	}
+        html +=    '	</span>'+
+            	   '</td>'+
+            	   '<td valign="middle" align="center">'+
+            	   '	<span username="'+item.author+'" uid="'+item.uid+'" class="op_nc cd_z1 tsite_apname" style="position: static;"><a href="xile/forum/ta?aid='+item.aid+'&uid='+item.uid+'&mode=0" target="_blank">'+item.author+'</a></span>'+
+            	   '	<div class="tsite_aptdate">'+item.createTime+'</div>'+
+            	   '</td>'+
+            	   '<td valign="middle" align="center">'+item.replyNum+'/'+item.viewNum+'</td>';
+    	html += XB.bbs_forumformatter.formatLastReply(item);
+    	html +=	   '</tr>';
+        return html;
+    },
+    
+    //拼接讨论区首页——>帖子列表List
+    formatForumTopicItemsForAdmin:function (data) {
+        data.items = $.parseJSON(data.items);
+        var html = '<table width="100%" border="0">'+
+        		   '	<tr>'+
+        		   '		<th width="571" valign="middle" align="left">标题</th>'+
+        		   '		<th width="114" valign="middle">作者</th>'+
+        		   '		<th width="93" valign="middle">回复/浏览</th>'+
+        		   '		<th width="121" valign="middle">最后回复</th>'+
+        		   '	</tr>';
+        $.each(data.items, function (i, item) {
+        	html += XB.bbs_forumformatter.formatForumTopicItemForAdmin(item);
+        });
+        html +=	   '</table>';
+        return html;
+    },
+    //拼接讨论区帖子——>帖子表项
+    formatForumTopicItemForAdmin:function (item) {
+    	var html = '';
+        html += '<tr tid="'+item.tid+'">'+
+        		'	<td valign="middle" align="left">'+
+        		'		<label>'+
+        		'			<input type="checkbox" class="tisite_remck"/>'+
+        		'			<span class="tsite_apt1"  tid="'+item.tid+'">'+
+        		'				<a href="forum-'+item.aid+'-'+item.mid+'.html" class="tsite_modulename_id" mid="'+item.mid+'">['+item.moduleName+']</a>'+
+        		'				<a target="_blank" href="thread-'+item.tid+'.html" class="tsite_atctit">'+item.title+'</a>';
+        html += XB.bbs_forumformatter.formatAddDigestAndTop(item);
+        html +=	'			</span>'+
+        		'		</label>'+
+        		'	</td>'+
+            	'	<td valign="middle" align="center">'+
+            	'		<span username="'+item.author+'" uid="'+item.uid+'" class="tsite_apname"><a href="xile/forum/ta?aid='+item.aid+'&uid='+item.uid+'&mode=0" target="_blank">'+item.author+'</a></span>'+
+            	'		<div class="tsite_aptdate">'+item.createTime+'</div>'+
+            	'	</td>'+
+            	'	<td valign="middle" align="center">'+item.replyNum+'/'+item.viewNum+'</td>';
+    	html += XB.bbs_forumformatter.formatLastReply(item);
+    	html +=	'</tr>';
+        return html;
+    },
+    //拼接手机端帖子列表页：
+    formatTopicItemsForMob:function(data){
+    	data.items = $.parseJSON(data.items);
+        var html = '';
+        $.each(data.items, function (i, item) {
+        	html += '<li class="gt_b_topic_item">'+
+        				'<span >'+
+        					'<a class="gt_b_topic_item_title" href="/mobile/'+item.gamename+'/xile/forum/detail?id='+item.tid+'">';
+        			if(item.top >= 1){
+        				html +=	'<em class="gt_bmt">置顶</em>';
+        			}
+        				html +=	'<span class="gt_bmc">';
+        			if(item.digest >= 1){
+        					html +=	'<span class="gt_bmt2">&nbsp;精&nbsp;</span>';
+        			}
+        			if(item.lockflag == 1){
+        					html += '<span class="gt_bmt2">&nbsp;[已锁]&nbsp;</span>';
+        			}
+        				html +=	item.title +
+        						'</span>'+
+        					'</a>'+
+        				'</span>'+
+        				'<span class="gt_bd">'+
+        					'<span class="gt_bdl">'+
+        						'<img src="images/mobile_forum_images/gt_b1.png"><em>'+item.replyNum+'</em>';
+        			if(item.images > 0){
+        				html += '<img src="images/mobile_forum_images/gt_b2.png">';
+        			}
+        			html +=	'</span>';
+        		if(item.replyNum != 0){
+        			html += '<span class="gt_bdr">'+
+        						'<span class="gt_bdna">'+item.lastReplyName+'</span><span>'+item.lastReplyTime+'</span>'+
+        					'</span>';
+        		}
+        		html += '</span>'+
+        			'</li>';
+        });
+        return html;
+    },
+    //拼接是否展示帖子所在的分类名字。
+    formatIsShowModuleName:function(mid,item){
+    	var html = '';
+    	if(mid == 0){
+    		html += '<a href="forum-'+item.aid+'-'+item.mid+'.html" class="tsite_modulename_id" mid="'+item.mid+'">['+item.moduleName+']</a>';
+    	}
+    	return html;
+    },
+    //拼接帖子是否加精/置顶以及图标，是否已读/未读
+    formatAddDigestAndTop:function(item){
+    	var html = '';
+    	if(item.top == 2){
+    		html += '<span class="tsite_aptop">[顶]</span>';
+    	}
+    	if(item.top == 1){
+    		html += '<span class="tsite_aptop">[顶]</span>';
+    	}
+    	if(item.digest >= 1){
+    		html += '<span class="tsite_aptop">[精]</span>';
+    	}
+    	if(item.images > 0){
+    		html += '<span class="tsite_aptop"><img src="images/tsite_images/tsite_ecp.gif"></span>';
+    	}
+    	if(item.hasVideo > 0){
+    		html += '<span class="tsite_aptop"><img src="images/tsite_images/tsite_ecp2.gif"></span>';
+    	}
+    	return html;
+    },
+    //拼接最后回复人/最后回复时间
+    formatLastReply:function(item){
+    	var html = '<td valign="middle" align="center">'+
+	   			   '	<div class="tsite_aptna">'+
+	   			   '		<span>';
+    	if(item.replyNum != 0){
+    		html += '		<span username="'+item.lastReplyName+'" uid="'+item.lastReplyUid+'"><a href="xile/forum/ta?aid='+item.aid+'&uid='+item.lastReplyUid+'&mode=0" target="_blank">'+item.lastReplyName+'</a></span>'+
+    	 	   		'		</span>'+
+    	 	   		'	</div>'+
+    	 	   		'	<div class="tsite_aptdate">'+item.lastReplyTime+'</div>'+
+    	 	   		'</td>';
+    	}else{
+    		html += '		</span>'+
+    				'	</div>'+
+    				'	<div class="tsite_aptdate"></div>'+
+    				'</td>';
+    	}
+    	return html;
+    },
+    
+    ////写新帖formatter开始
+    
+    //拼接写新帖——>列出模块分类list
+    formatForumModulesForEditor_items:function (data) {
+        data.items = $.parseJSON(data.items);
+        var html = '<option value="0">请选分类</option>';
+        $.each(data.items, function (i, item) {
+        	html += XB.bbs_forumformatter.formatForumModulesForEditor_item(item);
+        });
+        return html;
+    },
+    //拼接写新帖——>列出模块分类
+    formatForumModulesForEditor_item:function (item) {
+        var html = '<option value="'+item.id+'">'+item.name+'</option>';
+        return html;
+    },
+    
+    ////帖子详情formatter开始
+    
+    //拼接帖子详情——>列出头部
+    formatTopicDetailHeader:function(item){
+        var html = "";
+        html += '<div class="tsite_ba">'+
+        		'	<div class="tsite_ba1">'+
+        		'		<span class="tsite_ba1a"><a href="'+item.gamename+'/forum">讨论区</a></span>'+
+        		'		<span class="tsite_ba1b">&gt;</span>'+
+        		'		<span class="tsite_ba1a">'+
+        		'			<a href="forum-'+item.aid+'-'+item.mid+'.html">'+item.moduleName+'</a>'+
+        		'		</span>'+
+        		'		<span class="tsite_ba1b">&gt;</span>'+
+        		'		<span class="tsite_ba1c tsite_ba1c_mark_tid" tid="'+item.tid+'" createUid="'+item.createUid+'" lockflag="'+item.lockflag+'">'+item.title+'</span>'+
+        		'	</div>'+
+        		'</div>'+
+        		'<div class="rs_clear"></div>';
+        return html;
+    },
+    
+    //拼接帖子详情——>列出最赞数最多的x个回复的。Items
+    formatHotFavReplyContentItems:function (data,userLevel) {
+    	data.items = $.parseJSON(data.items);
+        var html = "";
+        //头部
+        html += '<div class="tsite_kp">'+
+       		  	'	<div class="tsite_kpt"></div>'+
+       		  	'	<div class="tsite_kpc">'+
+       		  	'		<div class="tsite_kpcn">';
+        $.each(data.items, function (i, item) {
+        	var fid = item.content.replyContent.fid;
+			      html += '<div class="tsite_bcli_item" id="fav_topic_floor_'+fid+'">';
+			      html += '	<div class="tsite_kpci tsite_bcli_floorId_area" fid="'+fid+'">'+
+			    		  '		<div class="tsite_kpcil">';					//论坛帖子用户名片
+			      html += XB.bbs_forumformatter.formatForumUserNameCard(item.namecard);
+			      html += '		</div>'+
+			      		  '		<div class="tsite_bcrz tsite_kpcir">';	
+			      html += XB.bbs_forumformatter.formatTopicDetailContent_ForReply(item.content, userLevel);
+			      html += '		</div>'+
+			      		  '		<div class="rs_clear"></div>'+
+			      		  '	</div>'+
+						  '</div>';
+		});
+        html +=	'		</div>'+//尾部
+      		 	'	</div>'+
+      		 	'</div>';
+        return html;
+    },
+    
+    //拼接帖子详情——>列出帖子中部Item中非楼主的content
+    formatTopicDetailContent_ForReply:function(item, userLevel){
+    	var contentItem = item.replyContent;
+    	var roleItem = item.role;
+    	var favItem = item.favReply;
+    	var html = '';
+    	var replyAreaClazz = "tsite_bc3z";
+    	if(item.isFavReplyArea)
+    		replyAreaClazz = "tsite_bc3t";
+    	//帖子内容
+    	html +=	'		<div class="tsite_bc2">'+
+    			'			<div class="tsite_bc2a">'+			//帖子时间、只看楼主按钮、标记第一楼。
+    			'				<span class="tsite_bc7a2">'+(contentItem.fid-1)+'楼</span>';
+    	if(contentItem.isDeleted == 1){								//1是数据库是否删除的状态码
+    		html += XB.bbs_forumformatter.formatisShowDeletedContent(contentItem.fid);
+    		return html;
+    	}
+    	html += '				<span class="tsite_bc2a1">回复于</span>'+
+    			'				<span class="tsite_bc2a1">'+contentItem.postTime+'</span>'+
+    			//'				<span class="tsite_bc2a1">11:11:11</span>'+ //postTime已经细分到分秒了。所以该行注释
+    			'			</div>'+
+    			'		</div>'+
+    			'		<div class="'+replyAreaClazz+'">'+				//帖子内容
+    			'			<div class="tsite_k3z">';
+    	if(contentItem.ref != undefined){
+    	html +=	'				<div class="tsite_kpcj3">'+//tsite_kpcj3这个class专门负责引用的
+                '					<div class="tsite_kpcj3a">引用<span>'+(contentItem.refId-1)+' 楼</span>'+contentItem.refUsername+'：</div>'+
+                '					<div class="tsite_kpcj3b">'+contentItem.refContent.overFlowText(70);
+	    	if(contentItem.refHasImage > 0){
+	    		html += '				<span class="tsite_kpcj3b1"><a href="xile/thread-'+contentItem.tid+'--'+(contentItem.refId-1)+'.html"><img src="images/tsite_images/tsite_ecp.gif"></a></span>';
+	    	}
+	    	if(contentItem.refHasVideo > 0){
+	    		html += '				<span class="tsite_kpcj3b1"><a href="xile/thread-'+contentItem.tid+'--'+(contentItem.refId-1)+'.html"><img src="images/tsite_images/tsite_ecp2.gif"></a></span>';
+	    	}
+        html += '					</div>'+
+                '				</div>';
+    	}
+    	if(!item.isFavReplyArea){	//普通区域的内容的formatter
+    		html +=	'			<div class="tsite_kpcj1 tsite_kpcj1z tsite_bc3b_tcontent">'+contentItem.content+'</div>';
+    				if(contentItem.source != ""){
+    					html += '<div class="tsite_kfrom"><a href="http://gt.17y.com">来自GT手机版回帖</a></div>';
+    				}
+    				if(contentItem.atUidList != ""){
+    					html += '<div class="tsite_kpcj1_atuid tsite_kats">该回复@了'+contentItem.atUidList+'</div>';
+    				}
+    	}else{						//被赞区域内容的formatter
+    		html +=	'			<div class="tsite_kpcj1 tsite_kpcj1z">'+contentItem.shortContent;
+    		if(contentItem.images > 0)
+    			html += '			<span class="tsite_kpcj3b1"><a href="xile/thread-'+contentItem.tid+'--'+(contentItem.fid-1)+'.html"><img src="images/tsite_images/tsite_ecp.gif"></a></span>';
+    		if(contentItem.videos > 0)
+    			html += '			<span class="tsite_kpcj3b1"><a href="xile/thread-'+contentItem.tid+'--'+(contentItem.fid-1)+'.html"><img src="images/tsite_images/tsite_ecp2.gif"></a></span>';
+    		html += '			</div>';
+    		html +=	'			<div class="tsite_bc3b_tcontent" style="display:none">'+contentItem.content+'</div>';//存在是为了编辑使用。
+    		html += '			<div class="tsite_kpcj2"><a href="xile/thread-'+contentItem.tid+'--'+(contentItem.fid-1)+'.html">(查看原回复)</a></div>';
+    	}
+    	html +=	'			</div>'+
+    			'		</div>';
+    	if(!item.isFavReplyArea){	//普通区域的内容的formatter
+    	html +=	'		<div class="tsite_kpadd">'+						//最后编辑时间 + 角色信息
+    			'			<div class="tsite_bc4">';
+    		if(contentItem.lastEditUsername != undefined){									//最后编辑时间
+    			html +=	'		<div class="tsite_bc4a">'+
+    					'			<span class="tsite_bc4a1">该回复在 '+contentItem.editTime+' 被 '+contentItem.lastEditUsername+' 编辑</span>'+
+    					'		</div>';
+    		}
+    		html += '		</div>';
+    		html += XB.bbs_forumformatter.formatIsShowRole(item.aid, roleItem);
+    		html +=	'	</div>';
+    	}
+    	html +=	'		<div class="tsite_bc5">'+						//举报|删除|编辑|引用
+    			'			<div class="tsite_ki8"></div>'+
+    			'			<div class="tsite_kij">';
+    	if(favItem.isFav){
+    		html += '			<a href="javascript:void(0)" class="tsite_ki9d tsite_forum_fav_fid_'+favItem.fid+'" data_tid="' + favItem.tid + '" data_fid="' + favItem.fid + '"></a>';
+    	}else{
+    		html += '			<a href="javascript:void(0)" class="tsite_ki9c tsite_forum_fav_fid_'+favItem.fid+'" data_tid="' + favItem.tid + '" data_fid="' + favItem.fid + '"></a>';
+    	}
+    	html +=	'				<span class="tsite_ki9a1"><span class="data_favCount_' + favItem.tid + '_' + favItem.fid + '">' + favItem.favNumber + '</span>个赞</span>'+
+    			'				<div class="rs_clear"></div>'+
+    			'			</div>'+
+    			'			<div class="tsite_bc5b">';
+    	if(userLevel == 3){//超管，具备发码的权限
+    		html +=	'			<span class="tsite_bc5b1"><a class="tsite_kredp" data_tid="'+contentItem.tid+'" data_replyUid="'+contentItem.replyUid+'" href="javascript:void(0);">发码</a></span><span class="tsite_bc5b2">|</span>';
+    	}
+    	html +=	'				<span class="tsite_bc5b1 tsite_report" data_reportSource="'+XB.helpconstants.REPORT_SRC_SDS_FORUM_TOPIC+'" data_reporteeUid="'+contentItem.replyUid+'" data_reporteeUsername="'+contentItem.replyUsername+'" data_reportUrl="http://www.17y.com/thread/'+item.gamename+'-'+contentItem.tid+'--'+contentItem.fid+'.html">'+
+    			'					<a class="tsite_kgrp" href="javascript:void(0);">举报</a>'+
+    			'				</span><span class="tsite_bc5b2">|</span>';
+    	if(userLevel == 2 || userLevel == 3 || contentItem.replyUid == XB.forum.currentUid){		//管理员，或者uid=回复帖作者
+    		html +=	'			<span class="tsite_bc5b1 tsite_bc5b1_delete"><a href="javascript:void(0)">删除</a></span><span class="tsite_bc5b2">|</span>'+
+    				'			<span class="tsite_bc5b1 tsite_bc5b1_edit_on_reply tsite_scroll_to_end"><a href="javascript:void(0)">编辑</a></span><span class="tsite_bc5b2">|</span>';
+    	}
+    	html +=	'				<span class="tsite_bc5b1 tsite_bc5b1_refer tsite_scroll_to_end"><a href="javascript:void(0)">引用</a></span>'+
+    			'			</div>'+
+    			'			<div class="rs_clear"></div>'+
+    			'		</div>';
+      return html;
+    },
+    
+    //拼接帖子详情_手机端——>列出帖子中部Items
+    formatTopicDetailContent_Mob_Items:function (data,userLevel) {
+      var html = "";
+      data.items = $.parseJSON(data.items);
+      $.each(data.items, function (i, item) {
+    	  if(item.content.replyContent.isDeleted != 1){
+    		  html += XB.bbs_forumformatter.formatTopicDetailContent_Mob(item,userLevel);
+    	  }
+      });
+      return html;
+    },
+    
+    formatTopicDetailContent_Mob:function(item,userLevel){
+    	var html = '';
+    	var fid = item.content.replyContent.fid;
+    	var fidName = '楼主';
+    	if(fid != 1){
+    		fidName = (fid -1)+'楼';
+    	}
+    	html +=	'<li id="topic_floor_'+fid+'">'+
+    				'<p class="gt_bna"><span class="gt_bnal">'+item.namecard.idAndName.username+'</span><span class="gt_bnar2">'+fidName+'</span></p>';
+    	if(item.content.replyContent.ref != undefined){
+    		html +=	'<div class="gt_bna1">'+
+    					'<div class="gt_bna1a">'+
+    						'<div class="gt_bna1a1">'+item.content.replyContent.refUsername+'</div>'+
+    						'<div class="gt_bna1a2">'+item.content.replyContent.refContent.overFlowText(70)+'&nbsp;';
+    				if(item.content.replyContent.refHasImage > 0){
+    					html +=	'<a href="javascript:void(0);"><img class="gt_bnaic" src="images/mobile_forum_images/gt_b7.png"></a>';
+    				}
+    		html +=			'</div>'+
+    					'</div>'+
+    					'<div class="gt_bna1b"><img src="/images/mobile_forum_images/gt_b6.png"></div>'+
+    				'</div>';
+    	}
+    		html +=	'<div class="gt_bnac">'+
+    					'<span><span class="gt_bmc">'+item.content.replyContent.content+'</span></span>'+
+//    					'<p><img src="/images/mobile_forum_images/gt_bt2.jpg"/></p>'+
+    				'</div>'+
+    				'<span class="gt_bnd">'+
+    					'<span class="gt_bndl">'+
+    						'<span class="gt_bndt">'+item.content.replyContent.postTime+'</span>';
+    			if($.trim(item.content.replyContent.source) != "")
+    				html +=	'<span>来自'+item.content.replyContent.source+'</span>';
+    			html +=	'</span>';
+    		if(fid != 1)
+    			html +=	'<span class="gt_bndr"><a href="/mobile/'+item.content.gamename+'/xile/forum/reply?id='+item.content.replyContent.tid+'&f='+(fid-1)+'"><em class="gt_bmt">引用</em></a></span>';
+    		html +=	'</span>'+
+    			'</li>';
+      return html;
+    },
+    
+    //拼接是否显示加精，置顶
+    formatIsShowDigestAndTop_ForTopic:function(item){
+    	var top_text = '';
+    	var digest_text = '';
+    	var lockflag_text = '';
+    	var digest = 0;
+    	var top = 0;
+    	if(item.top == 2){
+    		top_text = '[顶]';
+    		top = 2;
+    	}
+    	if(item.top == 1){
+    		top_text = '[顶]';
+    		top = 1;
+    	}
+    	if(item.digest >=1){
+    		digest_text = '[精<em class="tsite_bcadd">+'+item.digest+'</em>]';
+    		digest = 1;
+    	}
+    	if(item.lockflag == 1){
+    		lockflag_text = '[锁]';
+    	}
+    	var html = '<span class="tsite_bc2b3" digest="'+digest+'" top="'+top+'">'+
+    			   '	<span class="tsite_bc2b3_top">'+top_text+'</span>'+
+    			   '	<span class="tsite_bc2b3_digest">'+digest_text+'</span>'+
+    			   '	<span class="tsite_bc2b3_lockflag">'+lockflag_text+'</span>'+
+    			   '</span>';
+    	return html;
+    },
+    //如果是已删除的帖子，则单独处理的formatter
+    formatisShowDeletedContent:function(i){
+    	var html = '';
+    	var content = '该回复已删除！';
+    	if(i== 1)	//楼主
+    		content = '该帖子已删除！';
+    	html +=	'			</div>'+
+				'		</div>'+
+				'		<div class ="tsite_bc3z">'+				//已删除帖子内容
+				'			<div class="tsite_k3z">'+
+				'				<div class="tsite_bc7b1">'+content+'-_-!!!</div>'+
+				'			</div>'+
+    			'		</div>'+
+    			'		<div class="tsite_bc5">'+				//喜欢、举报|加精|置顶|删除|编辑|转发
+    			'			<div class="tsite_bc5b">'+
+    			'			</div>'+
+    			'			<div class="rs_clear"></div>'+
+				'		</div>'+
+				'	</div>'+
+				'	<div class="rs_clear"></div>'+
+				'</div>'+
+				'<div class="tsite_bc6"></div>';
+    	return html;
+    },
+    //杨力的js
+    //拼接帖子详情——>讨论区用户名片
+    formatForumUserNameCard:function(item){
+    	var html = "";
+    	html += XB.bbs_forumformatter.formatForumIDAndName(item.idAndName, item.isAdmin);
+    	if(item.goddessInfo!=undefined)
+    		{
+    		html += XB.bbs_forumformatter.formatGradeAndTopicNum(item.expAndTopicNum,item.idAndName.forbidden,item.goddessInfo);
+    		}
+    		else if(item.expAndTopicNum)//有积分加积分信息。
+    		{
+    			html += XB.bbs_forumformatter.formatExpAndTopicNum(item.expAndTopicNum,item.idAndName.forbidden);
+    		}
+    			return html;
+    },
+    //拼接用户id和姓名，图片等
+    formatForumIDAndName:function(item, isAdmin){
+    	var html = "";
+    	html += '<div class="tsite_bntxinf">'+
+				'	<div class="tsite_bc1a">'+
+				'		<div username="'+item.username+'" uid="'+item.uid+'" class="tsite_bc1a1 op_nc cd_z1" style="position: static;">'+
+				'			<a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+item.username+'</a>'+
+				'		</div>';
+    	if(isAdmin == true)
+		html +=	'		<div class="bbs_micred">版主</div>';
+		html +=	'		<div class="rs_clear"></div>'+
+				'	</div>'+
+				'	<div class="tsite_bc1b2">'+
+				'		<div username="'+item.username+'" uid="'+item.uid+'" class="tsite_bc1b1 cd_pl op_nc cd_z1" style="position: static;">'+
+				'			<a href="'+basePath+'user.do?method=home&uid='+item.uid+'" target="_blank">'+
+				'				<img width="80px" height="80px" src="'+item.imageB+'">';
+		if(item.verify)
+			html +=	'			<span class="tisite_pgic"><img src="images/dy_images/dy_g.gif"></span>';
+		html += '			</a>'+
+				'		</div>'+
+				'	</div>'+
+				'</div>';
+    	return html;
+    },
+    //拼接无女神用户积分、等级、发帖数等信息。
+    formatExpAndTopicNum:function(item,forbidden){
+    	var html = '';
+    	var level = item.level;
+    	if(forbidden > 0){
+    		level = "封禁中";
+    	}
+    	html += '<div class="tsite_ki">'+
+    			'	<div class="tsite_ki1">'+
+    			'		<div class="tsite_ki1a">帖子</div>'+
+    			'		<div class="tsite_ki1b">'+item.postTopicNum+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_ki1">'+
+    			'		<div class="tsite_ki1a">论坛等级</div>'+
+    			'		<div class="tsite_ki1b">'+item.level+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_ki1 bbs_mbgn">'+
+    			'		<div class="tsite_ki1a">经验值</div>'+
+    			'		<div class="tsite_ki1b">'+item.exp+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_kfd">';
+    	html +=	'	</div>'+
+		'</div>';
+        return html;
+    },
+    
+    //拼接用户积分、等级、发帖数等信息。
+    formatGradeAndTopicNum:function(item,forbidden,goddessInfo){
+    	var html = '';
+    	var level = item.level;
+    	if(forbidden > 0){
+    		level = "封禁中";
+    	}
+    	if(goddessInfo.userGrade<0)
+    		{
+    	html += '<div class="tsite_ki">'+
+    			'	<div class="tsite_ki1">'+
+    			'		<div class="tsite_ki1a">帖子</div>'+
+    			'		<div class="tsite_ki1b">'+item.postTopicNum+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_ki1">'+
+    			'		<div class="tsite_ki1a">论坛等级</div>'+
+    			'		<div class="tsite_ki1b">'+item.level+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_ki1 bbs_mbgn">'+
+    			'		<div class="tsite_ki1a">经验值</div>'+
+    			'		<div class="tsite_ki1b">'+item.exp+'</div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_kfd">';
+    		}
+    	else if(goddessInfo.userGrade==99)
+    		{
+    		html += '<div class="tsite_ki">'+
+			'	<div class="tsite_ki1">'+
+			'		<div class="tsite_ki1a">人气指数</div>'+
+			'		<div class="tsite_ki1b">'+goddessInfo.goddess.goddess_renQi+'</div>'+
+			'		<div class="rs_clear"></div>'+
+			'	</div>'+
+			'	<div class="tsite_ki1">'+
+			'		<div class="tsite_ki1a">亲密度</div>'+
+			'		<div class="tsite_ki1b">'+goddessInfo.goddess.goddess_qinMi+'</div>'+
+			'		<div class="rs_clear"></div>'+
+			'	</div>'+
+			'	<div class="tsite_ki1 bbs_mbgn">'+
+			'		<div class="tsite_ki1a">粉丝数</div>'+
+			'		<div class="tsite_ki1b">'+goddessInfo.goddess.goddess_fansCount+'</div>'+
+			'		<div class="rs_clear"></div>'+
+			'	</div>'+
+			'	<div class="tsite_kfd">';
+    		}
+    	else
+		{
+		html += '<div class="tsite_ki">'+
+		'	<div class="tsite_ki1">'+
+		'		<div class="tsite_ki1a">帖子</div>'+
+		'		<div class="tsite_ki1b">'+item.postTopicNum+'</div>'+
+		'		<div class="rs_clear"></div>'+
+		'	</div>'+
+		'	<div class="tsite_ki1">'+
+		'		<div class="tsite_ki1a">守护等级</div>'+
+		'		<div class="tsite_ki1b">'+goddessInfo.userGradeName+'</div>'+
+		'		<div class="rs_clear"></div>'+
+		'	</div>'+
+		'	<div class="tsite_ki1 bbs_mbgn">'+
+		'		<div class="tsite_ki1a">心动指数</div>'+
+		'		<div class="tsite_ki1b">'+goddessInfo.unGoddess.xinDongValue+'</div>'+
+		'		<div class="rs_clear"></div>'+
+		'	</div>'+
+		'	<div class="tsite_kfd">';
+		}
+//    	html += XB.sns.relation.buildFbuttonHtml_v2(item);
+//    			'		<span class="cd_adfc">'+
+//    			'			<a class="cd_adfc1" href="javascript:void(0)">加关注</a>'+
+//    			'			<a class="cd_cefc" href="javascript:void(0)">已关注取消</a>'+
+//    			'			<a class="cd_cefc2" href="javascript:void(0)">互相关注取消</a>'+
+//    			'		</span>'+
+    	html +=	'	</div>'+
+    			'</div>';
+    	return html;
+    },
+    //拼接用户角色，有则显示，没有就不显示。
+    formatIsShowRole:function(aid, item){
+    	var clazzNum = 0;
+    	var roleUrl = "";
+    	var facName = "";
+    	var facUrl = "";
+    	if(aid == 28){
+    		clazzNum = 6;
+    		roleUrl = '<a target="_blank" href="/role/show?grid='+item.grid+'">'+item.rolename+'</a>';
+    		facName = "军团";
+    		facUrl = '<a target="_blank" href="faction/index?gfid='+item.gfid+'">'+item.gfidName+'</a>';
+    	}else if(aid == 11){
+    		clazzNum = 7;
+    		roleUrl = '<a target="_blank" href="/zx2/role/show?grid='+item.grid+'">'+item.rolename+'</a>';
+    		facName = "帮派";
+    		facUrl = item.gfidName;
+    	}else if(aid == 26){
+    		clazzNum = 6;
+    		roleUrl = item.rolename;
+    		facName = "家族";
+    		facUrl = item.gfidName;
+    	}
+    	var html = '';
+    	if(item.userNOTROLE != undefined ){
+    		
+    	}else{
+    html += '<div class="tsite_ki5"></div>'+
+    		'<div class="tsite_ki'+clazzNum+'">'+
+    		'	<div class="tsite_ki'+clazzNum+'t">'+
+    		'		<div class="tsite_ki6a">角色:<span>'+roleUrl+'</span></div>'+
+    		'		<div class="tsite_ki6bz"><div class="tsite_ki6b"></div></div>'+
+    		'		<div class="tsite_ki6c">'+item.level+'级<span>'+item.occupationName+'</span></div>'+
+    		'		<div class="tsite_ki6bz"><div class="tsite_ki6b"></div></div>'+
+    		'		<div class="tsite_ki6c">'+item.zoneName+'</div>'+
+    		'		<div class="tsite_ki6bz"><div class="tsite_ki6b"></div></div>';
+    if(item.gfid == undefined){
+    	html += '	<div class="tsite_ki6d">'+facName+':<span>尚未加入'+facName+'</span></div>';
+    }else{
+    	html += '	<div class="tsite_ki6d">'+facName+':<span>'+facUrl+'</span></div>';
+    }
+    html += '		<div class="rs_clear"></div>'+
+    		'	</div>'+
+    		'</div>';
+    	}
+    	return html;
+    },
+    
+    //拼接一条打赏
+    formatAwardItem : function(idx, item){
+    	var score = item.score;
+    	if(score > 0){
+    		score = "+"+score;
+    	}
+    	var html = '';
+    	html +=	'<div class="tsite_x11">'+
+    			'	<div class="tsite_x11a">'+
+    			'		<a target="_blank" href="xile/forum/ta?aid='+item.aid+'&uid='+item.uid+'&mode=0"><img width="25px" height="25px" src="'+item.imageS+'"></a>'+
+    			'		<div class="tsite_x1a"><a target="_blank" href="xile/forum/ta?aid='+item.aid+'&uid='+item.uid+'&mode=0">'+item.username+'</a></div>'+
+    			'		<div class="rs_clear"></div>'+
+    			'	</div>'+
+    			'	<div class="tsite_x1b"><span class="tsite_x12b">'+score+'</span></div>'+
+    			'	<div class="tsite_x1d"><div class="tsite_x1da">'+item.reason+'</div></div>'+
+    			'</div>';
+        return html;
+    },
+    
+    formatAwardPopWin : function(item){
+    	var html = '';
+    	var score = item.remainScore;
+    	var level = item.level;
+    	html = 	'<div class="popwin_con">'+
+    		   	'	<div class="tsite_x3">'+
+    		   	'		<div class="tsite_x3a">'+
+				'			<div class="tsite_x3a1">打赏金额:</div>'+
+				'			<div class="tsite_x3ap">'+
+				'				<div class="tsite_xs">'+
+				'					<span class="tsite_xsc fe_tsisec">选择金额</span>'+
+				'					<div class="tsite_xsp fe_tsisepop">';
+    	for(i = item.minLimit ; i <= score; i++){
+    		if(i == 0){
+    			html +=	'				<a href="javascript:void(0)">+'+i+'</a>';
+    		}else if(i < 0){
+    			if(Math.abs(i) <= score){
+    				html +=	'				<a href="javascript:void(0)">'+i+'</a>';
+    			}
+    		}else{
+    			if(i <= item.maxLimit){
+    				html +=	'				<a href="javascript:void(0)">+'+i+'</a>';
+    			}
+    		}
+    	}
+		html +=	'					</div>'+
+				'				</div>'+
+				'			</div>'+
+				'			<div class="tsite_x3a4"><img class="tsite_x3a4_img tsite_x3a4_score" style="display:none" src="images/tsite_images/tsite_x2.png"/></div>'+
+				'			<div class="tsite_x3a3">(今日还能打赏:<span>'+score+'</span>乐豆)</div>'+
+				'			<div class="rs_clear"></div>'+
+				'		</div>'+
+				'		<div class="tsite_x3a">'+
+							'<div class="tsite_x3a1">打赏原因:</div>'+
+							'<div class="tsite_x3a2">'+
+								'<div class="tsite_xs2">'+
+									'<span class="tsite_xsc2 fe_tsisec tsite_xsc2_reason">选择原因</span>'+
+									'<div class="tsite_xsp2 fe_tsisepop">'+
+										'<a href="javascript:void(0)">选择原因</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">违反版规</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">无意义灌水</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">人身攻击</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">重复发帖</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">广告帖</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">我的眼睛瞎了</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef">违反国家规定</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">我很赞同</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">感谢分享</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">精品文章</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">原创内容</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">太赞了</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">泪牛满面</a>'+
+										'<a href="javascript:void(0)" class="tsite_xsef2">楼主威武</a>';
+							if(level >= 16)
+								html +=	'<a href="javascript:void(0)">自定义</a>';
+		html +=						'</div>'+
+								'</div>'+
+				'			</div>'+
+				'			<div class="tsite_x3a4"><img class="tsite_x3a4_img tsite_x3a4_reason" style="display:none" src="images/tsite_images/tsite_x2.png"/></div>'+
+				'			<div class="tsite_x3a5">'+
+//				'				<div class="tsite_x3a5a"><a target="_blank" href="http://www.17y.com/thread/zx2-211802.html">打赏规则</a></div>'+
+//				'				<div class="tsite_x3a5b">|</div>'+
+				'				<div class="tsite_x3a5c"><a target="_blank" href="http://xile.xunbao178.com/jsp/help/help_ldzn.jsp">如何获取乐豆</a></div>'+
+				'				<div class="rs_clear"></div>'+
+				'			</div>'+
+				'			<div class="rs_clear"></div>'+
+				'		</div>'+
+				'		<div class="tsite_x3b">'+
+				'			<textarea disabled="disabled" class="tsite_x3by" disabled="disabled" maxlength="30" placeholder="请输入不超过30字的打赏原因，自定义原因只对16级以上用户开放 (￣w￣)~*"></textarea>'+
+				'		</div>'+
+				'		<div class="tsite_x3c">'+
+				'			<div class="tsite_x3c1"><input type="button" class="tsite_kgds_addAward_btn"/></div>'+
+				'			<div class="tsite_x3c2"><a href="javascript:void(0)">取消操作</a></div>'+
+				'			<div class="rs_clear"></div>'+
+				'		</div>'+
+				'	</div>'+
+				'</div>';
+    	return html;
+    }
+};
+

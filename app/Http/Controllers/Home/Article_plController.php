@@ -44,7 +44,7 @@ class Article_plController extends Controller
         $article_pl->pinglun = $request->input('pinglun');
         $article_pl->aid = $request->input('aid');
         
-        $uid = User::where('uname',$request->input('uname'))->first()->id;
+        $uid = User::where('uname',session('uname'))->first()->id;
         $article_pl->uid = $uid;
         if($article_pl->save()) {
              return back()->with('success','评论成功');

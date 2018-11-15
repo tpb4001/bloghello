@@ -6,18 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Article;
-use App\Models\Articleinfo;
-use App\Models\Article_pl;
-use App\User;
-use App\Models\Link;
 use App\Models\Topic;
 use App\Models\Comment;
-use App\Models\Advert;
-use App\Models\Notice;
-use App\Models\Image;
+use App\User;
+use DB;
 
-class IndexController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,24 +20,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        
-        // 文章
-        $article = Article::orderBy('created_at','desc')->paginate(5);
-        // 友情链接
-        $link = Link::all();
-        // 话题
-        $topic = Topic::all();
-        // 广告
-        $advert = Advert::all();
-        //轮播图
-        $image = Image::all();
-        $lbt = count($image);
-        // 公告
-        $ljg = Notice::orderBy('created_at','desc')->first();
-        // 搜索
-        
-        //首页视图
-        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert]);
+        //
     }
 
     /**
@@ -53,7 +30,7 @@ class IndexController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -64,7 +41,17 @@ class IndexController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = new Comment;
+        $comment->content = $request->input('content');
+        $comment->tid = $request->input('tid');
+        
+        $uid = User::where('uname',session('uname'))->first()->id;
+        $comment->uid = $uid;
+        if($comment->save()) {
+             return back()->with('success','评论成功');
+        } else {
+             return back()->with('error','评论失败');
+        }
     }
 
     /**
@@ -75,20 +62,7 @@ class IndexController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
-        // 访问量
-        $path = $article->articleinfo->path;
-        $path++;
-        $articleinfo = Articleinfo::where('aid',$id)->first();
-        $articleinfo->path = $path;
-        $articleinfo->save();
-        //此用户文章
-        $article_user = Article::where('uid',$article->uid)->get();
-
-        // 文章评论
-        $article_pl = Article_pl::where('aid',$id)->orderBy('created_at','desc')->get();
-        // dump($article_pl);
-        return view('home.article.show',['article'=>$article,'article_pl'=>$article_pl,'article_user'=>$article_user]);
+        //
     }
 
     /**
