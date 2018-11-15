@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Article;
-use App\Models\Articleinfo;
-use App\Models\Article_pl;
+use App\Models\Topic;
+use App\Models\Comment;
 use App\User;
-class Article_plController extends Controller
+use DB;
+
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class Article_plController extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -29,7 +30,7 @@ class Article_plController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -40,19 +41,19 @@ class Article_plController extends Controller
      */
     public function store(Request $request)
     {
-        $article_pl = new Article_pl;
-        $article_pl->pinglun = $request->input('pinglun');
-        $article_pl->aid = $request->input('aid');
+        $comment = new Comment;
+        $comment->content = $request->input('content');
+        $comment->tid = $request->input('tid');
         
         $uid = User::where('uname',session('uname'))->first()->id;
-        $article_pl->uid = $uid;
-        if($article_pl->save()) {
+        $comment->uid = $uid;
+        if($comment->save()) {
              return back()->with('success','评论成功');
         } else {
              return back()->with('error','评论失败');
         }
-   
     }
+
     /**
      * Display the specified resource.
      *

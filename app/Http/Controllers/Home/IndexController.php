@@ -43,6 +43,8 @@ class IndexController extends Controller
         $ljg = Notice::orderBy('created_at','desc')->first();
         // 标签云
         $tags = Tags::all();
+        // 搜索
+        
         //首页视图
         return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert,'tags'=>$tags]);
     }
@@ -83,10 +85,13 @@ class IndexController extends Controller
         $articleinfo = Articleinfo::where('aid',$id)->first();
         $articleinfo->path = $path;
         $articleinfo->save();
+        //此用户文章
+        $article_user = Article::where('uid',$article->uid)->get();
+
         // 文章评论
         $article_pl = Article_pl::where('aid',$id)->orderBy('created_at','desc')->get();
         // dump($article_pl);
-        return view('home.article.show',['article'=>$article,'article_pl'=>$article_pl]);
+        return view('home.article.show',['article'=>$article,'article_pl'=>$article_pl,'article_user'=>$article_user]);
     }
 
     /**

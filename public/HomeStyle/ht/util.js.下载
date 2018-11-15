@@ -1,0 +1,781 @@
+// JavaScript Document
+/**
+ * extend an object
+ * @method $extend
+ * @param {Object} object the object for extend
+ * @param {Object} src the object will copy from
+ */
+// JavaScript Document 
+
+/**
+ * @class window
+ * @static
+ */
+
+/**
+ * 判断对象/变量是不是没有定义
+ * 参数为任何对象/变量
+ * 返回布尔值true/false
+ */
+
+function isUndefined(object) {
+    return typeof object == 'undefined';
+}
+
+/**
+ * 判断对象/变量是不是字符串类型
+ * 参数为任何对象/变量
+ * 返回布尔值true/false
+ */
+
+function isString(object) {
+    return typeof object == 'string';
+}
+
+/**
+ * 判断对象是不是元素节点
+ * 参数为任何对象
+ * 返回布尔值true/false
+ */
+
+function isElement(object) {
+    return object && object.nodeType == 1;
+}
+
+/**
+ * 判断传递的是不是函数
+ * 参数为任何对象
+ * 返回布尔值true/false
+ */
+
+function isFunction(object) {
+    return typeof object == 'function';
+}
+
+/**
+ * 判断传递的是不是对象
+ * 参数为任何对象
+ * 返回布尔值true/false
+ */
+
+function isObject(object) {
+    return typeof object == 'object';
+}
+
+/**
+ * 判断传递的是不是数组
+ * 参数为任何对象/变量
+ * 返回布尔值true/false
+ */
+
+function isArray(object) {
+    return Object.prototype.toString.call(object) === '[object Array]';
+}
+
+/**
+ * 判断传递的是不是数字
+ * 参数为任何对象/变量
+ * 返回布尔值true/false
+ */
+
+/*function isNumber(object) {
+    return typeof object == 'number';
+}*/
+
+function isNumber(str) {
+    return /^\d+$/.test(str);
+}
+
+function isURL(str_url){
+	var strRegex = "(http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?"; 
+	var re = new RegExp(strRegex); 
+	//re.test()
+	if (re.test(str_url)){
+		return true; 
+	}else{ 
+		return false; 
+	}
+}
+
+/**
+ * 扩展一个对象，从另一个对象复制属性
+ * 参数1：目标对象
+ * 参数2：源对象
+ */
+
+function $extend(object, src) {
+    if (!src) return object;
+    for (var p in src) {
+        object[ p ] = src[ p ];
+    }
+    return object;
+}
+
+//定义名称空间 XB
+if (typeof XB == 'undefined') XB = {};
+
+$extend(XB, {
+
+    /**
+     * 定义名称空间
+     * 参数：字符串，1到n是要创建的命名空间
+     *返回最后创建的命名空间对象的一个引用
+     */
+
+    namespace:function () {
+        var a = arguments, o = null, i, j, d;
+        for (i = 0; i < a.length; i++) {
+            d = a[ i ].split('.');
+            o = XB;
+
+            for (j = ( d[0] == 'XB' ) ? 1 : 0; j < d.length; j++) {
+                o[ d[ j ] ] = o[ d[ j ] ] || {};
+                o = o[ d[ j ] ];
+            }
+        }
+        return o;
+    }
+});
+
+/**
+ *字符串工具类(静态类)
+ */
+
+XB.string = {
+    /**
+     * 把'\n'替换为'<br />'
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    nl2br:function (str) {
+        return str.replace(/([^>])\n/g, '$1<br />');
+    },
+
+    /**
+     * 删除字符串首尾的空格
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    trim:function (str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    },
+
+    /**
+     * 删除字符串左侧（头部）的空格
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    ltrim:function (str) {
+        return str.replace(/^\s+/, '');
+    },
+
+    /**
+     * 删除字符串右侧（尾部）的空格
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    rtrim:function (str) {
+        return str.replace(/\s+$/, '');
+    },
+
+    strip:function (str) {
+        return XB.string.trim(str);
+    },
+
+    /**
+     * 去除类似 '<...>'的标签
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    stripTags:function (str) {
+        return str.replace(/<\/?[^>]+>/igm, '');
+    },
+
+    /**
+     * 替换'<','>' 为 '&lt;','&gt;'...
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    escapeHTML:function (str) {
+        return str.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+    },
+
+    /**
+     * 替换 '&lt;','&gt;' 为'<','>'...
+     * 参数为字符串
+     * 返回值为字符串
+     */
+
+    unescapeHTML:function (str) {
+        return str.replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&quot;/g, '"')
+                .replace(/&amp;/g, '&');
+    },
+
+    /**
+     * 判断字符串是否包含关键字
+     * 参数1：字符串
+     * 参数2：关键字
+     * 返回布尔值true/false
+     */
+
+    include:function (str, key) {
+        return str.indexOf(key) > -1;
+    },
+
+    /**
+     * 判断字符串是否以某个关键字开头
+     * 参数1：字符串
+     * 参数2：关键字
+     * 返回布尔值true/false
+     */
+
+    startsWith:function (str, key) {
+        return str.indexOf(key) === 0;
+    },
+
+    /**
+     * 判断字符串是否以某个关键字结尾
+     * 参数1：字符串
+     * 参数2：关键字
+     * 返回布尔值true/false
+     */
+
+    endsWith:function (str, key) {
+        var d = str.length - key.length;
+        return d >= 0 && str.lastIndexOf(key) === d;
+    },
+
+    /**
+     * 判断字符串是否为空，即内容为空或者只有空格
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isBlank:function (str) {
+        return /^\s*$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为null，即内容为空或者只有空格
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isNull:function (str) {
+        return /^\s*$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为email地址
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isEmail:function (str) {
+        return /^[A-Z_a-z0-9-\.]+@([A-Z_a-z0-9-]+\.)+[a-z0-9A-Z]{2,4}$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为手机号码
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isMobile:function (str) {
+        return /^((\(\d{2,3}\))|(\d{3}\-))?((1[345]\d{9})|(18\d{9}))$/.test(str);
+    },
+
+    isQQ : function (str){
+    	return /^[1-9]\d{4,10}$/.test(str);       
+    },
+    
+    /**
+     * 判断字符串是否为qq
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+    
+    /**
+     * 判断字符串是否为Url地址
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isUrl:function (str) {
+        return /^(http:|ftp:)\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"])*$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为IP地址
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isIp:function (str) {
+        return /^(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5])$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为数字
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isNumber:function (str) {
+        return /^\d+$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为邮编
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isZip:function (str) {
+        return /^[1-9]\d{5}$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为英文字母
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isEN:function (str) {
+        return /^[A-Za-z]+$/.test(str);
+    },
+
+    /**
+     * 判断字符串是否为中文
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isChinese:function (str) {
+        if (str == "")
+            return false;
+        var pattern = /^([\u4E00-\u9FA5]|[\uFE30-\uFFA0])*$/;
+        if (pattern.test(str)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    },
+
+    /**
+     * 判断字符串是否为json格式
+     * 参数：字符串
+     * 返回布尔值true/false
+     */
+
+    isJSON:function (str) {
+        if (!isString(str) || str === '') return false;
+        str = str.replace(/\\./g, '@').replace(/"[^"\\\n\r]*"/g, '');
+        return ( /^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/ ).test(str);
+    },
+
+    /**
+     获取页面Url的参数
+     参数1：要获取的参数
+     参数2：页面的URL
+     返回值 ：字符串或者数组
+     */
+
+    getQuery:function (key, url) {
+        url = url || window.location.href + '';
+        if (url.indexOf('#') !== -1)
+            url = url.substring(0, url.indexOf('#'));
+        var rts = [], rt;
+        var queryReg = new RegExp('(^|\\?|&)' + key + '=([^&]*)(?=&|#|$)', 'g');
+        while (( rt = queryReg.exec(url) ) != null) {
+            rts.push(decodeURIComponent(rt[ 2 ]));
+        }
+        if (rts.length == 0) return null;
+        if (rts.length == 1) return rts[ 0 ];
+        return rts;
+    },
+
+    /**
+     为页面Url设置参数
+     参数1：要设置的参数
+     参数2：要设置参数的值
+     参数3：页面的URL
+     返回值 ：字符串
+     */
+    setQuery:function (key, value, url) {
+
+        url = url || window.location.href + '';
+        var hash = '';
+        if (!/^http/.test(url)) return url;
+        if (url.indexOf('#') !== -1)
+            hash = url.substring(url.indexOf('#'));
+
+        url = url.replace(hash, '');
+        url = url.replace(new RegExp('(^|\\?|&)' + key + '=[^&]*(?=&|#|$)', 'g'), '');
+        value = isArray(value) ? value : [ value ];
+
+        for (var i = value.length - 1; i >= 0; i--) {
+            value[ i ] = encodeURIComponent(value[ i ]);
+        }
+
+        var p = key + '=' + value.join('&' + key + '=');
+        return url + ( /\?/.test(url) ? '&' : '?' ) + p + hash;
+    },
+
+    getString:function (s, len) {
+        if (s.length <= len) {
+            return s;
+        } else {
+            return s.substring(0, len) + "....";
+        }
+    }
+};
+
+/**
+ 数组工具类（静态类）
+ */
+
+XB.array =
+{
+    /**
+     把数组构建成一个可查询字符串
+     * 参数1：数组或者hash
+     * 返回值：字符串
+     */
+
+    toQueryString:function (a, key) {
+        var rt = [], t;
+        for (var k in a) {
+            t = a[ k ];
+            if (isFunction(t)) continue;
+            if (isObject(t)) {
+                rt.push(arguments.callee(t, k));
+            }
+            else {
+                if (/^\d+$/.test(k)) {
+                    rt.push(( key || k ) + '=' + encodeURIComponent(t));
+                }
+                else {
+                    rt.push(k + '=' + encodeURIComponent(t));
+                }
+            }
+        }
+        return rt.join('&');
+    },
+
+    /**
+     * 循环遍历一个数组，回调函数以索引和值作为参数
+     * 参数1:数组
+     * 参数2：循环处理的回调函数
+     */
+
+    each:function (a, func) {
+        if (!a) return;
+
+        if (!isUndefined(a.length) || !isUndefined(a[ 0 ])) {
+            for (var i = 0 , j = a.length; i < j; i++) {
+                if (func.call(a, i, a[ i ]) === false) break;
+            }
+        }
+        else {
+            for (var key in a) {
+                if (!isFunction(a[ key ])) {
+                    if (func.call(a, key, a[ key ]) === false) break;
+                }
+            }
+        }
+    },
+
+    /**
+     * 检查数组内是否有等于给定值的元素
+     * 参数1:数组
+     * 参数2：给定的值
+     * 返回布尔值true/false
+     */
+
+    include:function (a, value) {
+        var r = false;
+
+        XB.array.each(a, function (i, v) {
+            if (v === value) {
+                r = true;
+                return false;
+            }
+        });
+
+        return r;
+    },
+
+    /**
+     * 把对象的属性值组合成一个数组
+     * 参数对象
+     * 返回一个数组
+     */
+
+    build:function (o) {
+        var rt = [];
+        for (var i = 0, j = o.length; i < j; i++) {
+            rt.push(o[ i ]);
+        }
+        return rt;
+    }
+};
+
+/**
+ 浏览器工具类（静态类）
+ */
+
+XB.browser = {
+
+    /**
+     * 判断浏览器是否为IE
+     * 返回布尔值true/false
+     */
+
+    IE:!!( window.attachEvent && !window.opera ),
+
+    /**
+     * 判断浏览器是否为IE6
+     * 返回布尔值true/false
+     */
+
+    IE6:navigator.userAgent.indexOf('MSIE 6.0') > -1,
+
+    /**
+     * 判断浏览器是否为IE7
+     * 返回布尔值true/false
+     */
+
+    IE7:navigator.userAgent.indexOf('MSIE 7.0') > -1,
+
+    /**
+     * 判断浏览器是否为IE8
+     * 返回布尔值true/false
+     */
+
+    IE8:navigator.userAgent.indexOf('MSIE 8.0') > -1,
+    /**
+     * 判断浏览器是否为opera
+     * 返回布尔值true/false
+     */
+
+    Opera:!!window.opera,
+
+    /**
+     * 判断浏览器是否为WebKit内核的浏览器
+     * 返回布尔值true/false
+     */
+
+    WebKit:navigator.userAgent.indexOf('AppleWebKit/') > -1,
+
+    /**
+     * 判断浏览器是否为Gecko内核的浏览器
+     * 返回布尔值true/false
+     */
+
+    Gecko:navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1
+
+
+};
+
+/**
+ cookie工具类（静态类）
+ */
+
+XB.cookie = {
+
+    /**
+     * 访问cookie
+     * 参数COOKIE的名称
+     */
+
+    get:function (name) {
+        var nameEQ = name + '=';
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[ i ];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+        return null;
+    },
+
+    /**
+     * 设置 Cookie
+     name：cookie的名称
+     value：cookie的值
+     days：cookie过期时间。指定cookie的生命期。
+     path：cookie保存的路径，指定与cookie关联的WEB页。值可以是一个目录，或者是一个路径。
+     domain：cookie指定关联的WEB服务器或域。值是域名
+     Secure：cookie的安全，指定cookie的值通过网络如何在用户和WEB服务器之间传递。这个属性的值或者是“secure”，或者为空。缺省情况下，该属性为空，也就是使用不安全的HTTP连接传递数据。如果一个 cookie 标记为secure，那么，它与WEB服务器之间就通过HTTPS或者其它安全协议传递数据。
+     */
+
+    set:function (name, value, days, path, domain, secure) {
+        var expires;
+        if (isNumber(days)) {
+            var date = new Date();
+            date.setTime(date.getTime() + ( days * 24 * 60 * 60 * 1000 ));
+            expires = date.toGMTString();
+        }
+        else if (isString(days)) {
+            expires = days;
+        }
+        else {
+            expires = false;
+        }
+
+        document.cookie = name + '=' + encodeURIComponent(value) +
+                (expires ? ';expires=' + expires : '') +
+                (path ? ';path=' + path : '') +
+                (domain ? ';domain=' + domain : '') +
+                (secure ? ';secure' : '');
+    },
+
+    /**
+     * 删除 Cookie
+     name：cookie的名称
+     path：cookie保存的路径，指定与cookie关联的WEB页。值可以是一个目录，或者是一个路径。
+     domain：cookie指定关联的WEB服务器或域。值是域名
+     Secure：cookie的安全，指定cookie的值通过网络如何在用户和WEB服务器之间传递。这个属性的值或者是“secure”，或者为空。缺省情况下，该属性为空，也就是使用不安全的HTTP连接传递数据。如果一个 cookie 标记为secure，那么，它与WEB服务器之间就通过HTTPS或者其它安全协议传递数据。
+     */
+
+    del:function (name, path, domain, secure) {
+    	XB.cookie.set(name, '', -1, path, domain, secure);
+    }
+};
+
+/**
+ * 扩展String原型
+ */
+
+/////字符串处理函数
+//计算字符串长度，汉字是长度算1，英文算0.5个字符
+String.prototype.strLen = function () {
+    var len = 0;
+    for (var i = 0; i < this.length; i++) {
+        if (this.charCodeAt(i) > 255 || this.charCodeAt(i) < 0) len += 1; else len += 0.5;
+    }
+    return len;
+};
+//将字符串拆成字符，并存到数组中
+String.prototype.strToChars = function () {
+    var chars = new Array();
+    for (var i = 0; i < this.length; i++) {
+        chars[i] = [this.substr(i, 1), this.isCHS(i)];
+    }
+    String.prototype.charsArray = chars;
+    return chars;
+};
+//判断某个字符是否是汉字
+String.prototype.isCHS = function (i) {
+    if (this.charCodeAt(i) > 255 || this.charCodeAt(i) < 0)
+        return true;
+    else
+        return false;
+};
+//截取字符串（从start字节到end字节）
+String.prototype.subCHString = function (start, end) {
+    var len = 0;
+    var str = "";
+    this.strToChars();
+    for (var i = 0; i < this.length; i++) {
+        if (this.charsArray[i][1])
+            len += 1;
+        else
+            len += 0.5;
+        if (end < len)
+            return str;
+        else if (start < len)
+            str += this.charsArray[i][0];
+    }
+    return str;
+};
+//截取字符串（从start字节截取length个字节）
+String.prototype.subCHStr = function (start, length) {
+    return this.subCHString(start, start + length);
+};
+
+//截取字符串（结果为length个字符，汉字算1，英文算0.5个字符，如果超出用...补齐）
+String.prototype.overFlowText = function (length) {
+    if (length >= 0 && length <= 3) {
+        return this.subCHString(0, length);
+    }
+    else if (length <= this.strLen()) {
+        return this.subCHString(0, length - 1) + "…";
+    }
+    else
+        return this;
+};
+
+//字符串以str开头
+String.prototype.endWith=function(str){  
+	if(str==null||str==""||this.length==0||str.length>this.length)  
+	  return false;  
+	if(this.substring(this.length-str.length)==str)  
+	  return true;  
+	else  
+	  return false;  
+	return true;  
+};
+
+//字符串以str结尾
+String.prototype.startWith=function(str){  
+	if(str==null||str==""||this.length==0||str.length>this.length)  
+	  return false;  
+	if(this.substr(0,str.length)==str)  
+	  return true;  
+	else  
+	  return false;  
+	return true;  
+};
+
+/*json对象转换为字符串*/
+function obj2Str(o) {
+    var r = [];
+    if (typeof o == "string") {
+        return "\"" + o.replace(/([\'\"\\])/g, "\\$1").replace(/(\n)/g, "\\n").replace(/(\r)/g, "\\r").replace(/(\t)/g, "\\t") + "\"";
+    } else if (typeof o == "undefined") {
+        return "";
+    } else if (typeof o == "object") {
+        if (o === null) {
+            return "null";
+        } else if (!o.sort) {
+            for (var i in o)
+                r.push("\"" + i + "\":" + obj2Str(o[i]));
+            r = "{" + r.join() + "}";
+        } else {
+            for (var i = 0; i < o.length; i++)
+                r.push(obj2Str(o[i]));
+            r = "[" + r.join() + "]";
+        }
+        return r;
+    }
+    return o.toString();
+}
+//去除字符串中的HTML标签
+function removeHTMLTag(str) {
+	str = str + "";
+    str = str.replace(/<\/?[^>]*>/g, ''); //去除HTML tag
+    str = str.replace(/[ | ]*\n/g, '\n'); //去除行尾空白
+    str = str.replace(/&nbsp;/ig, '');//去掉&nbsp;
+    return str;
+}
+
+function getSdsLevel(level) {
+    if (level <=100) {
+        return level
+    } else
+        return "潜修" + (level - 100);
+}

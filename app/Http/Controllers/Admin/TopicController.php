@@ -50,11 +50,11 @@ class TopicController extends Controller
         if($topic->save()) {
             // 提交事务   
             DB::commit();
-            return redirect('/admin/topic')->with('success','修改成功');
+            return redirect('/admin/topic')->with('success','添加成功');
         } else {
             // 回滚事务  
             DB::rollBack();
-            return back()->with('error','修改失败');
+            return back()->with('error','添加失败');
         }
     }
 

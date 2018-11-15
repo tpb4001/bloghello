@@ -1,0 +1,128 @@
+(function() {
+	if(loginUid > 0){
+		//购物车_begin
+		$.ajax({
+			type : "post",
+//			url : yzBaseUrl +'/attic.do?method=count',
+			url : basePath +'longarticle/artiop?method=getCartCounts',
+			success : function(data, textStatus) {
+				data = $.parseJSON(data);
+				if (data.r == 200){
+					$('#headPurchaseNum').text(data.count);
+				} else {
+					$('#headPurchaseNum').text(0);
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+//				alert('服务器繁忙请稍后再试！');
+			}
+		});
+		/*$("#toCartPage").unbind().bind('click', function() {
+			location.href = yzBaseUrl + "/jsp/buy/shopping_cart.jsp";
+		});*/
+		//购物车_end
+	}
+
+	//购物车不登录可见
+	$("#toCartPage").unbind().bind('click', function() {
+		location.href = yzBaseUrl + "/jsp/buy/shopping_cart.jsp";
+	});
+	
+	//我的订单_begin
+	$("#myOrder").click(function(){
+		location.href = yzBaseUrl + "/redirect.fo?method=center";
+	});
+	//我的订单_end
+	
+	//搜索框
+	$("#searchInput").focus(function(){
+		//$("#searchInput").attr("value","");
+		if($("#searchInput").val() == "每日任务全新上线，零成本得乐豆~") {
+			$("#searchInput").val("");
+		}
+	});
+	
+	$("#searchInput").blur(function(){
+		if($("#searchInput").val() == "") {
+			$("#searchInput").val("每日任务全新上线，零成本得乐豆~");
+		}
+	});
+	
+	$("#searchBtn").click(function(){
+		var keyWord=$("#searchInput").val();
+		keyWord = $.trim(keyWord);
+		/*if(keyWord == ""||keyWord=="请输入所要搜索的条件"){
+			$("#searchInput").attr("value","请输入所要搜索的条件");*/
+		if(keyWord == ""||keyWord=="每日任务全新上线，零成本得乐豆~"){
+			//$("#searchInput").attr("value","每日任务全新上线，零成本得乐豆~");
+			$("#searchInput").val("每日任务全新上线，零成本得乐豆~");
+			return false;
+		}else{
+			location.href=location.href = yzBaseUrl + "/jsp/buy/searchList.jsp?keyword="+keyWord;
+		}
+	});
+	
+	$(document).keyup(
+		function(e) {
+			if (e && e.keyCode == 13) {
+				var keyWord=$("#searchInput").val();
+				keyWord = $.trim(keyWord);
+				/*if(keyWord == ""||keyWord=="请输入所要搜索的条件"){
+					$("#searchInput").attr("value","请输入所要搜索的条件");*/
+				if(keyWord == ""||keyWord=="每日任务全新上线，零成本得乐豆~"){
+					//$("#searchInput").attr("value","每日任务全新上线，零成本得乐豆~");
+					$("#searchInput").val("每日任务全新上线，零成本得乐豆~");
+					return false;
+				}else{
+					location.href=location.href = yzBaseUrl + "/jsp/buy/searchList.jsp?keyword="+keyWord;
+				}
+			}
+	});
+	//搜索框
+	
+	//搜索框下面的热门词
+	$.ajax({
+		type : "post",
+		url : basePath +'longarticle/artiop?method=getHotWords',
+		success : function(data, textStatus) {
+			data = $.parseJSON(data);
+			if (data.r == 200) {// 没有登录
+				var sKey = data.hotStr;
+				sKey = $.trim(sKey);
+				if(sKey != ''){
+					var keyArray=sKey.split(",");
+					var keyHtmlArray=[];
+					for(var i=0;i<keyArray.length;i++){
+						keyHtmlArray.push('<span><a target="_blank" avalue="'+keyArray[i]+'" href="'+yzBaseUrl+'/jsp/buy/searchList.jsp?keyword='
+								+keyArray[i]+'">'+keyArray[i]+'</a></span>');
+					}
+					var keyHtmlStr=keyHtmlArray.join("");
+					$("#sKeyWord").html(keyHtmlStr);
+					
+					var keyWord=getKeyWord();
+					keyWord = $.trim(keyWord);
+					if(keyWord != ''){
+						$("#sKeyWord").find("a").removeAttr("style");
+						$("#sKeyWord").find("a[avalue='"+keyWord+"']").attr("style","color:#ef4454;");
+					}
+				}
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+//			alert('服务器繁忙请稍后再试！');
+		}
+	});
+	
+	function getKeyWord(){
+		var urlValue=location.search;
+		var index_1=0;
+		var keywordParam="";
+		if(urlValue.indexOf("keyword=")>0){
+			index_1=urlValue.indexOf("keyword=")+8;
+			keywordParam=urlValue.substring(index_1,index_1.length);
+			keywordParam=decodeURI(keywordParam);
+		}				
+		return keywordParam;
+	};
+	
+})();

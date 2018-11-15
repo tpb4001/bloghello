@@ -1,0 +1,366 @@
+// JavaScript Document
+$(function(){
+	/*个人页面回复和帖子切换*/
+	if($(".bbs_mdcmv2").length>0){
+		$(".tsite_atcon:visible").find("tr:even").not(":first").addClass("bbs_moodtr");	
+		$(".bbs_mdcmi:eq(0)").click(function(){
+			$(".bbs_mdcmi").removeClass("bbs_mdcmic");
+			$(this).addClass("bbs_mdcmic");
+			$(".bbs_mdytab2").hide();			
+			$(".bbs_mdytab1").show();
+			$(".tsite_atcon").find("tr").removeClass("bbs_moodtr");
+			$(".tsite_atcon:visible").find("tr:even").not(":first").addClass("bbs_moodtr");			
+			})
+			
+			
+			
+		$(".bbs_mdcmi:eq(1)").click(function(){
+			$(".bbs_mdcmi").removeClass("bbs_mdcmic");
+			$(this).addClass("bbs_mdcmic");
+			$(".bbs_mdytab2").show();			
+			$(".bbs_mdytab1").hide();
+			$(".tsite_atcon").find("tr").removeClass("bbs_moodtr");
+	        $(".tsite_atcon:visible").find("tr:nth-child(4n+1)").addClass("bbs_moodtr");	
+	        $(".tsite_atcon:visible").find("tr:nth-child(4n)").addClass("bbs_moodtr");
+			
+			})
+			
+		}
+		
+		
+	/*列表页面隔行换色*/
+	if($(".tsite_atcon").hasClass("bbs_mytables")){
+	        $(".tsite_atcon").find("tr:even").not(":first").addClass("bbs_moodtr");			
+	}	
+	/*女神页面话题活动切换*/
+	if($(".bbs_mdcmv").length>0){
+		$(".bbs_mdcmi").click(function(){
+			$(".bbs_mdcmi").removeClass("bbs_mdcmic");
+			$(this).addClass("bbs_mdcmic");			
+			})
+		}	
+	
+
+	/*女神页面 跑马灯*/
+	if($(".bbs_mdntl").length>0){
+		 $('.bbs_mdntlc').jcMarquee({ 'marquee':'x','margin_right':'20px','speed':10 });	
+		}
+	/*女神页面朝拜*/
+		if($(".bbs_t_kaction_s1").length>0){
+		 $('.bbs_t_kaction_s1').click(function(){
+			 $(".bbs_mcbw").not($(this).parent(".bbs_t_kaction ").find(".bbs_mcbw")).hide();
+			 $(this).parent(".bbs_t_kaction ").find(".bbs_mcbw").toggle();			 
+			 });	
+		$(".bbs_mcblist li").live("click",function(){
+			$(".bbs_mcblist li").removeClass("bbs_mcblic");
+			$(this).addClass("bbs_mcblic");
+			})	 			 
+		}
+		
+	/*女神页面送礼物*/
+		if($(".bbs_t_opli1").length>0){
+		$(".bbs_t_opli1").click(function(){
+			$(".bbs_mgfpop").not($(this).parents(".bbs_t_operation").find(".bbs_mgfpop")).hide();
+			$(this).parents(".bbs_t_operation").find(".bbs_mgfpop").toggle();
+			})
+				
+		}	
+		if($(".bbs_mgpmt").length>0){
+		$(".bbs_mgpmt:visible").live("click",function(){
+			$(this).parents(".bbs_mgfpop").find(".bbs_mgpmore").toggle();			
+			})
+		}
+		 if($(".bbs_mgpli1").length>0){
+		 $('.bbs_mgpli1').live("click",function(){
+			$('.bbs_mgpli1').removeClass("bbs_mgplic")
+			 $(this).addClass("bbs_mgplic");			 
+			 });					 
+		}
+		
+     if($(".bbs_t_kaction_s3").length>0){
+		 $('.bbs_t_kaction_s3').click(function(){
+			 $(".bbs_mgfpop").not($(this).parent(".bbs_t_kaction ").find(".bbs_mgfpop")).hide();
+			 $(this).parent(".bbs_t_kaction ").find(".bbs_mgfpop").toggle();			 
+			 });					 
+		}
+		
+	/*相册页面送礼物*/
+		if($(".bbs_alh_sendg").length>0){
+		 $('.bbs_alh_sendg').live("click",function(){			
+			 $(this).parents(".bbs_dphw").find(".bbs_mgfpop").toggle();			 
+			 });					 
+		}
+		
+	/*详情页面打赏*/	
+		if($(".bbs_mgadd").length>0){
+		 $('.bbs_mgadd').live("click",function(){		
+		  $(".bbs_mgfpop").not($(this).parents(".bbs_mposr").find(".bbs_mgfpop")).hide();	
+			 $(this).parents(".bbs_mposr").find(".bbs_mgfpop").toggle();			 
+			 });					 
+		}
+	/*详情页面互动*/	
+		if($(".bbs_macts").length>0){
+		 $('.bbs_macts').live("click",function(){		
+		  $(".bbs_mgfpop").not($(this).parents(".bbs_mposh").find(".bbs_mgfpop")).hide();	
+			 $(this).parents(".bbs_mposh").find(".bbs_mgfpop").toggle();			 
+			 });					 
+		}	
+		
+	
+	 /*确定侧边位置函数*/
+    function bbs_pos() {
+        var auth_owidth = 72;
+        var auth_docw = $(document).width();
+        var auth_posr = parseFloat((auth_docw - 1200) / 2 - auth_owidth);
+         $(".bbs_mrp").css("right", auth_posr + "px");    
+    }
+	
+	/*点击页面内跳转*/
+	function fe_scroll(top,tsid,tbotm,speed){
+		$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+		if(top){$body.animate({scrollTop:0}, speed);
+		return false;
+		}
+		if(tsid){$body.animate({scrollTop:$("#"+tsid).offset().top}, speed);
+		return false;
+		}
+		if(tbotm){
+		var tbot=$(document).height()-$(window).height();
+		if(tbot<0){tbot=0}
+		$body.animate({scrollTop:tbot}, speed);
+		return false;
+		}
+	}
+	/*右侧悬浮按钮定位*/
+	if($(".bbs_mrp").length>0){
+		bbs_pos();
+		$(window).resize(function() {
+			bbs_pos();
+		})	
+	}
+	/*点击回复跳转*/
+	if($(".bbs_mrpre").length>0){
+	$(".bbs_mrpre").click(function(){
+	fe_scroll(null,"bbs_mscre",null,1000);
+	})
+	}
+	
+	
+		
+	 /*女神报名确定侧边位置函数*/
+    function bbs_pos2() {
+        var auth_owidth = 120;
+        var auth_docw = $(document).width();
+        var auth_posr = parseFloat((auth_docw - 1200) / 2 - auth_owidth);
+         $(".bbs_mvsd").css("right", auth_posr + "px");    
+    }
+	
+	if($(".bbs_mvsd").length>0){	
+	bbs_pos2();
+	$(window).resize(function() {
+			bbs_pos2();
+	})	
+	
+	/*点击选择愿意展示的商品类型*/
+	if($(".bbs_mvcs").length>0){
+	$(".bbs_mvcs:eq(1)").click(function(){
+		$(this).toggleClass("bbs_mvcsc");
+		})			
+	}
+	
+	/*$(".bbs_mvptlist").find("input").live("change",function(){
+		})*/
+	
+	/*点右侧悬浮导航*/	
+	$(".bbs_mvsd span").click(function(){
+	$(".bbs_mvsd span").removeClass("bbs_mvsdc");
+	$(this).addClass("bbs_mvsdc");
+	var bbs_msindex = "bbs_mvf"+parseInt($(".bbs_mvsd span").index(this)+1);
+	fe_scroll(null,bbs_msindex,null,1000);	
+	})			
+	}
+	/*点向下箭头*/
+	if($(".bbs_mvnext").length>0){
+	$(".bbs_mvtp1").click(function(){
+$(".bbs_mvsd span:eq(0)").trigger("click");		
+	})
+	$(".bbs_mvtp2").click(function(){
+$(".bbs_mvsd span:eq(1)").trigger("click");	
+	})
+	}
+	
+	/*点下一步*/
+	if($(".bbs_mvstep").length>0){
+	$(".bbs_mvstep1").click(function(){	
+	$(".bbs_mvsd span:eq(2)").trigger("click");	
+	})
+	$(".bbs_mvstep2").click(function(){	
+	$(".bbs_mvsd span:eq(3)").trigger("click");	
+	})
+	}
+	/*添加认证图片*/
+	/*if($(".bbs_mvpadd").length>0){
+	var bbs_mvnum = 3;
+	$(".bbs_mvpadd").click(function(){
+	$(this).before('<div class="bbs_mvptiw"><div class="bbs_mvpti"><div class="bbs_mvptic"><img src="../images/bbs_images/bbs_mv13.gif"></div></div><div class="bbs_mvupf"><input type="file" value="1" class="bbs_mvupfbn"></div></div>');
+	bbs_mvnum++;
+	if(bbs_mvnum==6){
+		$(this).hide();
+		return false;
+	}
+	})
+	}*/
+	
+	
+	
+	/*2015-05-03 女神注册验证*/
+String.prototype.strLen = function() {
+    var len = 0;
+    for (var i = 0; i < this.length; i++) {
+        if (this.charCodeAt(i) > 255 || this.charCodeAt(i) < 0) len += 1;
+        else len += 0.5;
+    }
+    return len;
+};
+
+function checkNum(str){
+    return str.match(/\D/) == null;
+}
+
+function checkCard(str){
+    //15位数身份证正则表达式
+    var arg1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+    //18位数身份证正则表达式
+    var arg2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[A-Z])$/;
+    if (str.match(arg1) == null && str.match(arg2) == null) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+
+function checkEmail(str) {
+    var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+    if (re.test(str)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkMobile(str) {
+    var re = /^1\d{10}$/;
+    if (re.test(str)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkQQ(str) {
+    var re = /^[1-9]\d{4,10}$/;
+    if (re.test(str)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/*$(".bbs_mvthbn").live("click",function() {
+  
+     var nickname = $.trim($(".bbs_mvc2").text()); 	
+	 var phone = $.trim($(".bbs_myphone").val());
+	 var qq = $.trim($(".bbs_myqq").val());
+	 var realname = $.trim($(".bbs_myname").val());
+	 var myowner = $.trim($(".bbs_myowner").val());
+	 var mycard = $.trim($(".bbs_mycard").val());
+	
+	
+    var myheight = $.trim($(".bbs_myheight").text());
+    var myweight = $.trim($(".bbs_myweight").text());
+    var myjob = $.trim($(".bbs_myjob").text());
+    var mysize1 = $.trim($(".bbs_mysize1").text());
+	var mysize2 = $.trim($(".bbs_mysize2").text());
+	var mysize3 = $.trim($(".bbs_mysize3").text());
+	var bbs_mypercent = $.trim($(".bbs_bbs_mypercent").text());    
+    var declaration = $.trim($(".bbs_mvpsate").val());
+	
+    if (phone == "") {   
+	 $.popwin.remind('<div class="popwin_warning">还没填完哦,请输入手机号!</div> ',null, { bar:false, btnclose: false });   
+        return false;
+    }
+	if (phone != "") {
+        if (!checkMobile(phone)) {
+            $.popwin.remind('<div class="popwin_warning">手机号码格式不正确，请重新输入！</div> ',null, { bar:false, btnclose: false });             
+            return false;
+        }
+    }
+	 if (qq == "") {   
+	 $.popwin.remind('<div class="popwin_warning">还没填完哦,请输入qq号!</div> ',null, { bar:false, btnclose: false });   
+        return false;
+    }
+	if (qq != "") {
+        if (!checkQQ(qq)) {
+            $.popwin.remind('<div class="popwin_warning">qq格式不正确，请重新输入！</div> ',null, { bar:false, btnclose: false });             
+            return false;
+        }
+    }
+	 if (realname == "") {   
+	 $.popwin.remind('<div class="popwin_warning">还没填完哦,请输入真实姓名!</div> ',null, { bar:false, btnclose: false });   
+        return false;
+    }
+	 if (myowner == "") {   
+	 $.popwin.remind('<div class="popwin_warning">还没填完哦,请输入经纪人ID!</div> ',null, { bar:false, btnclose: false });   
+        return false;
+    }
+	 if (mycard == "") {   
+	 $.popwin.remind('<div class="popwin_warning">还没填完哦,请输入身份证号!</div> ',null, { bar:false, btnclose: false });   
+        return false;
+    }
+	if (mycard!= "") {
+        if (!checkCard(mycard)) {
+            $.popwin.remind('<div class="popwin_warning">身份证格式不正确，请重新输入！</div> ',null, { bar:false, btnclose: false });             
+            return false;
+        }
+    }
+    if (declaration.length == 0) {
+        $.popwin.remind('<div class="popwin_warning">还没填完哦，请输入女神签名档！</div> ',null, { bar:false, btnclose: false });
+         return false;
+    }
+    if (declaration.strLen() > 80) {
+       $.popwin.remind('<div class="popwin_warning">女神签名档字数超出限制！</div> ',null, { bar:false, btnclose: false });
+        return false;
+    }
+
+    //$.each($("form").serializeArray(),
+    //function(i, field) {
+    //    alert((field.name + ":" + field.value + " "));
+    //});
+
+    $.popwin.remind('报名信息提交成功',
+    function() {
+        alert("这里是回调函数");
+    },
+    {
+        title: "提交报名信息"
+    });
+
+});*/
+
+
+
+/*详情页面举报*/
+$(".tsite_kgrp").click(function(){		
+	$.popwin('<div class="popwin_con"><div class="tsite_ez"><div class="tsite_e2"><div class="tsite_e2a"><div class="tsite_e2a1">被举报者:</div><div class="tsite_e2a2">人物姓名角色角色</div><div class="rs_clear"></div></div><div class="tsite_e2b"><div class="tsite_e2a1">举报原因:</div><div class="tsite_e2a2"><div class="tsite_e2a2a"><div class="tsite_e2a2a1"><input type="radio"name="tsite_e2a2a1a"/></div><div class="tsite_e2a2a2">人身攻击</div></div><div class="tsite_e2a2a"><div class="tsite_e2a2a1"><input type="radio"name="tsite_e2a2a1a"/></div><div class="tsite_e2a2a2">恶意诽谤</div></div><div class="tsite_e2a2a"><div class="tsite_e2a2a1"><input type="radio"name="tsite_e2a2a1a"/></div><div class="tsite_e2a2a2 tsite_e2a2a2y">广告</div></div><div class="tsite_e2a2a"><div class="tsite_e2a2a1"><input type="radio"name="tsite_e2a2a1a"/></div><div class="tsite_e2a2a2 tsite_e2a2au">色情/反动</div></div><div class="tsite_e2a2a"><div class="tsite_e2a2a1"><input type="radio"name="tsite_e2a2a1a"/></div><div class="tsite_e2a2a2 tsite_e2a2a2y">头像</div></div><div class="rs_clear"></div></div><div class="rs_clear"></div></div><div class="tsite_e2cts"><div class="tsite_e2ctsn">别急，你还没选举报原因呢</div></div><div class="tsite_e2c"><div class="tsite_e2c1"><input type="button"/></div><div class="tsite_e2c2"><a href="javascript:void(0)">取消</a></div><div class="rs_clear"></div></div></div></div></div>', {
+         bg: true,title: "举报"
+         });							
+	});
+/*取消举报*/	
+$(".tsite_e2c2 a").live("click",function(){$.popwin.hide()});	
+
+
+	
+	
+	})

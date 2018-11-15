@@ -41,6 +41,8 @@ Route::resource('/article','Home\IndexController');
 Route::resource('/pinglun','Home\Article_plController');
 // 话题详情
 Route::resource('/topic','Home\TopicController');
+// 话题评论
+Route::resource('/comment','Home\CommentController');
 
 // 修改密码
 Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');

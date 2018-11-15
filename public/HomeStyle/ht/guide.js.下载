@@ -1,0 +1,577 @@
+/*创建cookie*/
+function createCookie(name, value) {
+   var expires = "";
+	document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+/*读取cookie*/
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+	}
+	return null;
+}
+
+/*删除cookie*/
+function eraseCookie(name) {
+	createCookie(name, "", -1);
+}
+
+// JavaScript Document
+$(function () {
+	/*判断是不是每天第一次登录*/	
+	var Year = new Date().getFullYear();
+	var Mon = new Date().getMonth() + 1;
+    var Day = new Date().getDate();	
+	if(readCookie("last_date")) {
+		var last_st = readCookie("last_date");	
+		var last_year = last_st.split('-')[0];
+		var last_mon = last_st.split('-')[1];
+		var last_day = last_st.split('-')[2];
+		if(last_year != Year || last_mon != Mon || last_day != Day) {
+		     $(".auth_dtask").trigger("click");
+		     var new_date = Year+"-"+Mon+"-"+Day;
+			 createCookie("last_date",new_date);
+		}
+	} else {
+		$(".auth_dtask").trigger("click");				
+		var last_date = Year + "-" + Mon + "-" + Day;
+	    createCookie("last_date", last_date);	
+	}
+	
+	/*达人导购页面左侧导航对号入座 鼠标划过*/
+	if ($(".style_l").length > 0) {	
+        $(".style_l").live("mouseenter",function() {
+            $(".style_l").removeClass("style_lc");		
+            $(this).addClass("style_lc");		
+		});
+		$(".style_l").live("mouseleave",function() {
+            $(".style_l").removeClass("style_lc");          	
+		})
+    }
+	
+	/*瀑布流页面内跳转*/
+	function fe_scroll(top,tsid,tbotm,speed,position) {
+		$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+		if(top) {
+			$body.animate({scrollTop:0}, speed);
+			return false;
+		}
+		if(tsid) {
+			$body.animate({scrollTop:$("#"+tsid).offset().top+position}, speed);
+			return false;
+		}
+		if(tbotm) {
+			var tbot = $(document).height() - $(window).height();
+			if(tbot < 0) {
+				tbot = 0
+			}
+			$body.animate({scrollTop:tbot}, speed);
+			return false;
+		}
+	}
+	
+	/*点击左侧导航跳转到瀑布流区域*/
+	$(".style_title_nav li:lt(4)").live("click", function() {
+		if(!$(this).hasClass("popular")) {
+			fe_scroll(null, "Waterfall", null, 500, -50);
+			$(".guide_wft").html($(this).find("a:eq(0)").html());
+			//loadFeedData(100, 1);//跳转到feed流并重新加载第一页内容
+			feedCategoryId = parseInt($(this).attr("categoryId"));
+			$(".waterfall").html("");//清空当前页面上的feed流内容
+        	reWaterfall("Waterfall");
+        	feedData = "";//清空变量中存储的当前feed流中内容
+			clickPage(1);
+			$(".guide_wftci").each(function() {
+				if(parseInt($(this).attr("categoryId")) == feedCategoryId) {
+					$(".guide_wftci").removeClass("guide_wftcur");
+					$(this).addClass("guide_wftcur");
+				}
+		    });
+		} else {
+			return false;
+		}
+	})
+	$(".hot_new_t_nav li:lt(3)").live("click", function() {
+		fe_scroll(null, "Waterfall", null, 500, -50);
+		$(".guide_wft").html($(this).find("a:eq(0)").html());
+		//loadFeedData(100, 1);//跳转到feed流并重新加载第一页内容
+		feedCategoryId = parseInt($(this).attr("categoryId"));
+		$(".waterfall").html("");//清空当前页面上的feed流内容
+    	reWaterfall("Waterfall");
+    	feedData = "";//清空变量中存储的当前feed流中内容
+		clickPage(1);
+		$(".guide_wftci").each(function() {
+			if(parseInt($(this).attr("categoryId")) == feedCategoryId) {
+				$(".guide_wftci").removeClass("guide_wftcur");
+				$(this).addClass("guide_wftcur");
+			}
+	    });
+	})
+	
+	/*圣诞专题，临时增加*/ //TODO
+	/*$(".banner_list .banner_li:eq(0)").live("click", function() {
+		fe_scroll(null, "Waterfall", null, 500, -50);
+		$(".guide_wft").html("#喜乐活动#");
+		feedCategoryId = 2004;
+		$(".waterfall").html("");//清空当前页面上的feed流内容
+    	reWaterfall("Waterfall");
+    	feedData = "";//清空变量中存储的当前feed流中内容
+		clickPage(1);
+		$(".guide_wftci").removeClass("guide_wftcur");
+		$(".guide_wftci").eq(3).addClass("guide_wftcur");
+	})*/
+	
+	/*瀑布流标题切换*/
+	$(".guide_wftci").live("click", function() {
+		$(".guide_wftci").removeClass("guide_wftcur");
+		$(this).addClass("guide_wftcur");
+		//TODO AJAX加载分类数据
+		fe_scroll(null, "Waterfall", null, 500, -50);
+		$(".guide_wft").html($(this).find("a:eq(0)").html());
+		feedCategoryId = parseInt($(this).attr("categoryId"));
+		$(".waterfall").html("");//清空当前页面上的feed流内容
+    	reWaterfall("Waterfall");
+    	feedData = "";//清空变量中存储的当前feed流中内容
+		clickPage(1);
+	})
+	$(".guide_wftcs").live("click", function() {
+		$(".guide_wftcs").removeClass("guide_wftcur");
+		$(this).addClass("guide_wftcur");
+		//TODO AJAX加载分类数据
+		fe_scroll(null, "Waterfall", null, 500, -50);
+		sortType = parseInt($(this).attr("sortType"));
+		$(".waterfall").html("");//清空当前页面上的feed流内容
+    	reWaterfall("Waterfall");
+    	feedData = "";//清空变量中存储的当前feed流中内容
+		clickPage(1);
+	})
+
+	/*确定侧边位置函数*/
+	function get_pos() {
+		var auth_owidth = 72;
+		var auth_docw = $(document).width();
+		var auth_posr = parseFloat((auth_docw - 1280) / 2 - auth_owidth);
+		if ($(".auth_sidem").length > 0) {
+			$(".auth_sidem").css("right", auth_posr + "px");
+		}
+	}
+	/*返回顶部*/
+	function backTop(btnId) {
+		if (!document.getElementById(btnId)) {
+			return false;
+		} else {
+			var btn = document.getElementById(btnId);
+			var d = $(document);
+			function set() {
+				btn.style.display = d.scrollTop() ? 'block': "none";
+			}
+			window.onscroll = set;
+			btn.onclick = function() {
+				btn.style.display = "none";
+				window.onscroll = null;
+				$("html,body").animate({
+					scrollTop: 0
+				},
+				20);
+				this.timer = setInterval(function() {
+					if (d.scrollTop() == 0) {
+						clearInterval(btn.timer, window.onscroll = set);
+					}
+				},10);
+			}
+		}
+	}
+
+	get_pos();
+	backTop('auth_gotop');
+	$(window).resize(function() {
+		get_pos();
+	})
+	
+    /*达人首页*/
+    /*签到弹框*/
+    $(".sign_1btn").live("click", function () {
+    	$(this).attr("disabled", true);
+    	var that = $(this);
+    	var href = location.href;
+    	$.post(
+			basePath + "task.do?method=sign", 
+			{location:encodeURIComponent(href)},
+			function(data) {
+				$(that).attr("disabled", false);
+				if(data.r == 200) {
+					var dgurl_xunbao = $("#headerValues").attr("dgurl_xunbao") + "/";
+					var postLink = '';
+					if(data.contentType == 1) {
+						postLink = 'longart/' + data.contentId + '.html';
+					} else if(data.contentType == 2) {
+						postLink = 'album/' + data.contentId;
+					}
+					/*var html = 	'<div class="popwin_con">' + 
+								'	<div class="ac_popw">' + 
+								'		<div class="ac_popwt">恭喜你获得<span>' + data.prize + '</span>颗乐豆，已连续签到<span>' + data.continuousDays + '</span>天，明天可领<span>' + data.nextPrize + '</span>颗</div>' + 
+								'		<div class="ac_popws"><div class="ac_popw1">连续签到天数越多，每天领取的乐豆数量越多。<a href="' + dgurl_xunbao + 'jsp/personCenter/center_beans.jsp">查看我的乐豆</a></div></div>' + 
+								'		<div class="ac_popws"><div class="ac_popw1">每天签到做任务，奖励会翻倍哟！</div></div> <div class="ac_popwa"><a href="' + basePath + postLink +'"></a></div>' + 
+								'	</div>' + 
+								'</div>';*/
+					var html = 	'<div class="popwin_con">' + 
+								'	<div class="ac_popw">' + 
+								'		<div class="ac_popwt">恭喜获得<span>' + data.prize + '</span>乐豆,你已连续签到<span>' + data.continuousDays + '</span>天，明天可领<span>' + data.nextPrize + '</span>乐豆</div>' +
+								'		<div class="ac_popwt2">第二关：大家来吐槽！免费获得抽奖机会！</div>' + 
+								'		<div class="ac_popws"><div class="ac_popw1">今日话题：<a target="_blank" href="' + basePath + postLink + '">' + data.description + '</a></div></div>' +
+								'		<div class="ac_popwa"><a target="_blank" class="guide_gobns" href="' + basePath + postLink + '">马上闯关</a></div>' + 
+								'	</div>' + 
+								'</div>';
+					$.popwin(html, {
+			            bg: true, title: "恭喜完成第一关"
+			        });
+			        $(that).attr("class", "sign_2btn").text("已签到").show();//hide().prev(".sign_2btn").show();
+				} else if(data.r == -3) {
+					popFail("您今天已签到！");
+					$(that).attr("class", "sign_2btn").text("已签到").show();
+				} else if(data.r == 403) {
+					$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="' + data.loginUrl + '">点击去登录&gt;&gt;</a></div>',null, { bar:false, btnclose: false });
+				} else {
+					popError("签到失败,r=" + data.r);
+				}
+			}, "json");
+    });
+
+    //星座切换
+    /*if ($(".towear_list").length > 0) {
+        setInterval(function () {
+            if ($('.towear_list.first').css("display") !== "none") {
+                $('.towear_list.first').fadeOut(200);
+            } else {
+                $('.towear_list.first').fadeIn(200);
+            }
+        }, 3000);
+
+    }*/
+
+    /*热门搭配  推荐轮播*/
+    if($(".picSlider").length>0){		
+    	$('.picSlider .fl').soChange({
+    		botPrev:'.left_sli',
+    		botNext:'.right_sli',
+    		thumbObj:'.txtSlider .slider_dot',
+    		thumbNowClass:'cur'
+    	});
+    }
+
+    /*banner*/
+    if ($(".banner_li").length > 0) {
+        $('.banner_li').soChange({//对象指向层，层内包含图片及标题
+            botPrev: '.left_btn',
+            botNext: '.right_btn',
+            thumbObj: '.banner_nav .dot',
+            thumbNowClass: 'c'
+        });
+    }
+    /*左侧标签切换*/
+    if ($(".style_title_nav li").length > 0) {	
+       $(".style_title_nav li").live("mouseenter",function() {
+           $(".style_title_nav li").removeClass("c");
+		$(".style_title_nav li").each(function(el){
+			$(this).find(".icon").removeClass("cd");
+		});
+           $(this).addClass("c");
+		$(this).find(".icon").addClass("cd");
+	    var cindex = $(".style_title_nav li").index($(this)[0]);
+           $(".style_box").hide();
+           $($(".style_box").get(cindex)).show();		
+	});
+	$(".style_title_nav li:first").addClass("c");
+	$(".style_box:first").show(); 			
+   }	
+
+    if ($(".hot_new_t_nav li").length > 0) {
+        $(".hot_new_t_nav li").live("mouseenter", function () {
+            $(".hot_new_t_nav li").removeClass("hot_newc");
+            $(this).addClass("hot_newc");
+            var dindex = $(".hot_new_t_nav li").index($(this)[0]);
+            $(".hot_plist").hide();
+            $($(".hot_plist").get(dindex)).show();
+        });
+    }
+
+
+    /*导购文章发布弹框*/
+    if ($(".mc_pub").length > 0) {
+        $(".mc_pub").live("click", function () {
+            if ($(".guide_type").length > 0) {
+                $(".guide_type").remove();
+            }
+            $.popwin('<div class="popwin_con"><div class="guide_type"><div class="guide_typei"><label><div class="guide_typel"><input type="radio" name="types" data_type="竖版样式" checked="checked" /></div><div class="guide_typer"><div class="guide_typec"><img src="'+basePath+'images/guide_images/guide_dt_ic17.jpg" /></div><div class="guide_typecr"><div class="guide_typer1">竖版样式</div><div class="guide_typer2">适合文字较多的导购文章</div></div></div></label></div><div class="guide_typei"><label><div class="guide_typel"><input type="radio" name="types" data_type="横版样式"/></div><div class="guide_typer"><div class="guide_typec"><img src="'+basePath+'images/guide_images/guide_dt_ic18.jpg" /></div><div class="guide_typecr"><div class="guide_typer1">横版样式</div><div class="guide_typer2">适合图片较多的导购文章</div></div></div></label></div><div class="guide_typea"><a href="javascript:void(0)" class="guide_typego">下一步</a></div></div></div>', {
+                title: "选择文章版式"
+            });
+        });
+    }
+
+    /*导购详情评论字数控制*/
+    var pltobj = {
+        divName: "dy_pldtx",
+        //外层容器的class
+        textareaName: "dy_plbtx",
+        //textarea的class
+        numName: "fe_pubnum",
+        //数字的class
+        num: 140 //数字的最大数目
+    }
+
+    var textareaFn = function (tobj) {
+        //定义变量
+        var $onthis; //指向当前
+        var $par; //指向当前元素的父元素
+        var $divname = tobj.divName; //外层容器的class
+        var $textareaName = tobj.textareaName; //textarea的class
+        var $numName = tobj.numName; //数字的class
+        var $num = tobj.num; //数字的最大数目
+        function isChinese(str) { //判断是不是中文
+            var reCh = /[\u0000-\u00ff]/;
+            return !reCh.test(str);
+        }
+
+        function numChange() {
+            var strlen = 0; //初始定义长度为0
+            var txtval = $.trim($onthis.val());
+            for (var i = 0; i < txtval.length; i++) {
+                if (isChinese(txtval.charAt(i)) == true) {
+                    strlen = strlen + 2; //中文为2个字符
+                } else {
+                    strlen = strlen + 1; //英文一个字符
+                }
+            }
+            strlen = Math.ceil(strlen / 2); //中英文相加除2取整数
+            if ($num - strlen < 0) {
+                $par.html("<span style='color:#ff1a1a;'>已经超出<b style='font-weight:lighter' class=" + $numName + ">" + Math.abs($num - strlen) + "</b> 字</span>"); //超出的样式
+            }
+            else {
+                $par.html("<span>还可以输入<b class=" + $numName + ">" + ($num - strlen) + "</b> 字</span>"); //正常时候
+            }
+            $b.html($num - strlen);
+        }
+
+        $("." + $textareaName).live("focus", function () {
+            $b = $(this).parents("." + $divname).find("." + $numName); //获取当前的数字
+            $par = $b.parent();
+            $onthis = $(this); //获取当前的textarea
+            setInterval(numChange, 500);
+        });
+
+    }
+
+    textareaFn(pltobj);
+
+
+    /*评论分享弹出*/
+    $(".dy_ntpltsh").live("mouseenter", function () {
+        $(this).find(".dy_ntpltshp").show();
+          var sharePic = "";
+	      $("#bdshare_js").attr("shareText",$(this).find(".bdsharebuttonbox").attr("shareText"));
+	      sharePic = $(this).parents(".guide_dtarticle").find(".guide_dtatxt").find("img").eq(0).attr("src");
+	      $("#bdshare_js").attr("sharePic",sharePic);
+    })
+    $(".dy_ntpltsh").live("mouseleave", function () {
+        $(this).find(".dy_ntpltshp").hide();
+    })
+    
+    /*达人个人页面分享弹出*/
+	$(".dy_mdksh").live("mouseenter",function(){
+		$(this).find(".dy_mdkshp").show();
+		  var sharePic = "";
+	      $("#bdshare_js").attr("shareText",$(this).find(".bdsharebuttonbox").attr("shareText"));
+	      if($(this).parents(".guide_pinli").find(".guide_pinliimgimg").length > 0){
+	    	  sharePic = $(this).parents(".guide_pinli").find(".guide_pinliimgimg").eq(0).find("img").attr("src");
+	      }
+	      $("#bdshare_js").attr("sharePic",sharePic);
+	      var shareUrl = $(this).parents(".guide_pinli").find(".guide_pinliname2b").find("a").attr("href");
+	      $("#bdshare_js").attr("shareUrl",shareUrl);
+	})
+	$(".dy_mdksh").live("mouseleave",function(){
+	    $(this).find(".dy_mdkshp").hide();							 
+	});
+
+
+    /*游戏中心榜单切换*/
+
+    if ($(".game_rank_tabs").length > 0) {
+        $(".game_rankt").click(function () {
+            $(".game_rankt").removeClass("current");
+            $(this).addClass("current");
+            var rank_index = $(".game_rankt").index($(this)[0]);
+            $(".game_rankcon").hide();
+            $($(".game_rankcon").get(rank_index)).show();
+        })
+        $(".game_rankt:first").trigger("click");
+
+
+    }
+    if ($(".game_rank_tabs").length > 0) {
+        $(".game_rankt").click(function () {
+            $(".game_rankt").removeClass("current");
+            $(this).addClass("current");
+            var rank_index = $(".game_rankt").index($(this)[0]);
+            $(".game_rankcon2").hide();
+            $($(".game_rankcon2").get(rank_index)).show();
+        })
+        $(".game_rankt:first").trigger("click");
+
+
+    }
+    if ($(".game_rank_tabs").length > 0) {
+        $(".game_rankt").click(function () {
+            $(".game_rankt").removeClass("current");
+            $(this).addClass("current");
+            var rank_index = $(".game_rankt").index($(this)[0]);
+            $(".game_rankcon3").hide();
+            $($(".game_rankcon3").get(rank_index)).show();
+        })
+        $(".game_rankt:first").trigger("click");
+
+
+    }
+    
+    $(".guide_typego").live("click", function () {
+        var guide_ptype = "";
+        guide_ptype = $('input:radio[name="types"]:checked').attr("data_type");
+        if (guide_ptype == null) {
+            alert("请选择导购模板!");
+            return false;
+        } else if (guide_ptype == "竖版样式") {
+            $(".guide_typego").attr("target", "_blank");
+            $(".guide_typego").attr("href", basePath + "longart/post?method=draft");
+        } else if (guide_ptype == "横版样式") {
+            $(".guide_typego").attr("target", "_blank");
+            $(".guide_typego").attr("href", basePath + "album/post");
+        }
+    })
+    /*长文页面送乐豆弹框*/
+    $(".mc_send_article").live("click", function () {
+    	$.post(basePath + "index.do?method=currentDou",{},
+    		function(data) {
+				if(data.r == 200) {
+					var currentDou = data.currentDou;
+					var html = '<div class="popwin_con"><div class="guide_sendp"><div class="guide_sendpc"> <span>送乐豆:</span><span><input type="text" class="guide_sendpci"/></span></div><div class="guide_sendmy">您当前可用<span>'+currentDou+'</span>乐豆</div><div class="guide_sendpn"><a href="javascript:void(0)" class="guide_sendpn_article_btn">确定</a></div></div></div>';
+					$.popwin(html, {title: "送乐豆"});
+				}else if(data.r == 403) {
+					$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="'+loginUrl+'">点击去登录&gt;&gt;</a></div>',null, { bar:false, btnclose: false });
+    			} else{
+					popError("服务器开小差啦!");
+				}
+			}
+    	);
+    });
+    //长文送乐豆btn:
+    $(".guide_sendpn_article_btn").live("click", function () {
+        var flowers = parseInt($.trim($(".guide_sendpci").val()));
+        if (isNaN(flowers)) {
+            popError("请输入数字");
+        } else {
+            XB.longart.addFlowers($(this), flowers);
+        }
+    });
+    
+    //feed流选操作
+    $(".guide_conlike1").live("click", function() {
+    	//alert("选, TODO：contentId=" + $(this).parents(".item").attr("contentId") + ", feedType=" + $(this).parents(".item").attr("feedType"));
+    	var contentId = $(this).parents(".item").attr("contentId");
+    	var feedType = $(this).parents(".item").attr("feedType");
+    	var isFav = $(this).parents(".item").attr("isFav");
+    	
+    	var that = $(this);
+		$.post(
+			"index.do?method=favorite", 
+			{contentId : contentId, feedType : feedType, isFav : isFav},
+			function(data) {
+				if(data.r == 200) {
+					if(isFav == "true") {
+						var totalCount = parseInt($(that).attr("count")) - 1;
+        				$(that).attr("count", totalCount);
+						$(that).find(".guide_conlike2").eq(0).html(totalCount);
+						$(that).removeClass("guide_conliked");
+						$(that).parents(".item").attr("isFav", "false");
+					} else {
+						var totalCount = parseInt($(that).attr("count")) + 1;
+						$(that).attr("count", totalCount);
+						$(that).find(".guide_conlike2").eq(0).html(totalCount > 99999 ? "99999+" : totalCount);
+						$(that).addClass("guide_conliked");
+						$(that).parents(".item").attr("isFav", "true");
+					}
+				} else if(data.r == 201) {
+					popFail("您已选择过！");
+				} else if(data.r == 403) {
+					$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="' + data.loginUrl + '">点击去登录&gt;&gt;</a></div>',null, { bar:false, btnclose: false });
+				} else {
+					popError("操作失败,r=" + data.r);
+				}
+			}, "json");
+    });
+    
+    //feed流送乐豆操作
+    $(".guide_conlike3").live("click", function() {
+    	//alert("豆, TODO：contentId=" + $(this).parents(".item").attr("contentId") + ", feedType=" + $(this).parents(".item").attr("feedType"));
+    	var contentId = $(this).parents(".item").attr("contentId");
+    	var feedType = $(this).parents(".item").attr("feedType");
+    	var item = $(this);
+    	var currentDou = 0;
+    	$.post(
+			"index.do?method=currentDou", 
+			{}, 
+			function(data) {
+    			if(data.r == 200) {
+    				currentDou = data.currentDou;
+    				//送乐豆弹框
+    		    	$("#popwin_Blank").remove();
+    		    	$("#popwin_Out").remove();
+    		    	var html = '<div class="popwin_con"><div class="guide_sendp"><div class="guide_sendpc"> <span>送乐豆:</span><span><input type="text" class="guide_sendpci"/></span></div><div class="guide_sendmy">您当前可用<span>' + currentDou + '</span>乐豆</div><div class="guide_sendpn"><a href="javascript:void(0)" class="guide_sendpna guide_sendpn_feed_btn" >确定</a><span class="guide_sendpnp guide_sendpn_feed_btn_hide">确定</span></div></div></div>';
+    		        $.popwin(html, {title: "送乐豆"});
+    		    	
+    		        //送乐豆:
+    		        $(".guide_sendpn_feed_btn").unbind("click");
+    		        $(".guide_sendpn_feed_btn").click(function () {
+    		        	$(this).hide();
+    		        	$(".guide_sendpn_feed_btn_hide").show();
+    		            var douCount = parseInt($(".guide_sendpci").val());
+    		            if (isNaN(douCount)) {
+    		                popError("请输入数字");
+    		            } else {
+    		            	$.post(
+    		        			"index.do?method=present", 
+    		        			{contentId : contentId, feedType : feedType, douCount : douCount}, 
+    		        			function(data) {
+    		        				$(".guide_sendpn_feed_btn").show();
+    		                    	$(".guide_sendpn_feed_btn_hide").hide();
+    			        			if(data.r == 200) {
+    			        				popSuccess("赠送成功！");
+    			        				var totalCount = parseInt($(item).attr("count")) + douCount;
+    			        				$(item).attr("count", totalCount);
+    		        					$(item).find(".guide_conlike2").eq(0).html(totalCount > 99999 ? "99999+" : totalCount);
+    			        			} else if(data.r == 403) {
+    			        				$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="' + data.loginUrl + '">点击去登录&gt;&gt;</a></div>',null, { bar:false, btnclose: false });
+    			        			} else if(data.r == 405) {
+    			        				popFail("无法赠送给自己！");
+    			        			} else if(data.r == 501) {
+    			        				popFail("还未通过审核,无法赠送!");
+    			        			} else if(data.r == 502) {
+    			        				popFail("该内容已经被删除,无法赠送!");
+    			        			} else {
+    			        				popError("赠送失败,r="+data.r);
+    			        			}
+    		        			}, "json");
+    		        	}
+    		        });
+    			} else if(data.r == 403) {
+    				$.popwin.remind('<div class="popwin_warning">请您先登录。<a href="' + data.loginUrl + '">点击去登录&gt;&gt;</a></div>', null, { bar:false, btnclose: false });
+    			} else  {
+    				popError("获取乐豆数失败,r=" + data.r);
+    			}
+			}, "json");
+    });
+
+})

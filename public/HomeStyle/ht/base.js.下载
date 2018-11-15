@@ -1,0 +1,449 @@
+//构造分页HTML--宽版
+//disableFirstPage：是否显示首页的链接。disableLastPage：是否显示末页的链接
+function formatPageHTML(nowPage, totalPage, disableFirstPage, disableLastPage){
+	nowPage = new Number(nowPage);
+	totalPage = new Number(totalPage);
+	var startPage = Math.max(1, Math.min(totalPage - 4, Math.max(nowPage - 2, 1)));
+	var endPage = Math.min(totalPage, Math.max(5, Math.min(nowPage + 2, totalPage)));
+	var html = '<div class="mc_Paging op_page">';
+	if (!disableFirstPage){
+		html +=   	'<a href="javascript:void(0)" data_page="1"><span>首页</span></a>';
+	}
+	html +=	   		'<a href="javascript:void(0)" data_page="' +  Math.max(1, nowPage - 1) + '"><span>&lt;上一页</span></a>'; 
+	if (startPage > 1){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	for (var i = startPage; i <= endPage; i = i + 1){
+		if (i == nowPage){
+			html +='	<a href="javascript:void(0)" class="mc_Pagcur" data_page="' + i + '"><span>' + i + '</span></a>';
+		}else{
+			html +='	<a href="javascript:void(0)" data_page="' + i + '"><span>' + i + '</span></a>';
+		}
+	}
+	if (endPage < totalPage){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	html +=	   '	<a href="javascript:void(0)" data_page="' + Math.min(nowPage + 1, totalPage) + '"><span>下一页&gt;</span></a>';
+	if (!disableLastPage){
+		html +=   	'<a href="javascript:void(0)" data_page="' + totalPage + '"><span>末页</span></a>';
+	}
+	html +=	   '</div>';
+	return html;
+}
+
+//构造分页--窄版
+function formatPageHTMLShort(nowPage, totalPage, disableFirstPage, disableLastPage){
+	nowPage = new Number(nowPage);
+	totalPage = new Number(totalPage);
+	var startPage = Math.max(1, Math.min(totalPage - 2, Math.max(nowPage - 1, 1)));
+	var endPage = Math.min(totalPage, Math.max(3, Math.min(nowPage + 1, totalPage)));
+	var html = '<div class="mc_Paging op_page">';
+	if (!disableFirstPage){
+		html +=   	'<a href="javascript:void(0)" data_page="1"><span>&lt;&lt;</span></a>';
+	}
+	html +=	   		'<a href="javascript:void(0)" data_page="' +  Math.max(1, nowPage - 1) + '"><span>&lt;</span></a>'; 
+	if (startPage > 1){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	for (var i = startPage; i <= endPage; i = i + 1){
+		if (i == nowPage){
+			html +='	<a href="javascript:void(0)" class="mc_Pagcur" data_page="' + i + '"><span>' + i + '</span></a>';
+		}else{
+			html +='	<a href="javascript:void(0)" data_page="' + i + '"><span>' + i + '</span></a>';
+		}
+	}
+	if (endPage < totalPage){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	html +=	   '	<a href="javascript:void(0)" data_page="' + Math.min(nowPage + 1, totalPage) + '"><span>&gt;</span></a>';
+	if (!disableLastPage){
+		html +=   	'<a href="javascript:void(0)" data_page="' + totalPage + '"><span>&gt;&gt;</span></a>';
+	}
+	html +=	   '</div>';
+	return html;
+}
+
+
+//构造讨论区分页的HTML
+function formatPageHTMLForForum(nowPage, totalPage){
+	nowPage = new Number(nowPage);
+	totalPage = new Number(totalPage);
+	var startPage = Math.max(1, Math.min(totalPage - 4, Math.max(nowPage - 2, 1)));
+	var endPage = Math.min(totalPage, Math.max(5, Math.min(nowPage + 2, totalPage)));
+	var html = '<div class="mc_Paging op_page">' +
+			   '	<a href="javascript:void(0)" data_page="1"><span>首页</span></a>' + 
+			   '	<a href="javascript:void(0)" data_page="' +  Math.max(1, nowPage - 1) + '"><span>&lt;</span></a>'; 
+	if (startPage > 1){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	if(nowPage >= 10){
+		startPage = startPage +1;
+		if(nowPage >= 1000){
+			endPage = endPage -1;
+		}
+	}
+	for (var i = startPage; i <= endPage; i = i + 1){
+		if (i == nowPage){
+			html +='	<a href="javascript:void(0)" class="mc_Pagcur" data_page="' + i + '"><span>' + i + '</span></a>';
+		}else{
+			html +='	<a href="javascript:void(0)" data_page="' + i + '"><span>' + i + '</span></a>';
+		}
+	}
+	if (endPage < totalPage){
+		html +='	<a href="javascript:void(0)" class="mc_Pagm" disabled="disabled" style="cursor:text"><span>...</span></a>'; 
+	}
+	html +=	   '	<a href="javascript:void(0)" data_page="' + Math.min(nowPage + 1, totalPage) + '"><span class="mc_Pagnext">&gt;</span></a>' + 
+			   '	<a href="javascript:void(0)" data_page="' + totalPage + '"><span>末页</span></a>' +
+			   '	<span class="tsite_pgall">共'+totalPage+'页</span>'+
+			   '	<span><input type="text" class="tsite_pgin"></span>'+
+			   '	<a href="javascript:void(0)" class="op_page_go_btn" data_page=""><span>GO</span></a>'+
+			   '</div>';
+	return html;
+}
+
+//构造分页的HTML
+function formatSlidePageHTML(nowPage, totalPage){
+	nowPage = new Number(nowPage);
+	totalPage = new Number(totalPage);
+	var leftPage =  (nowPage - 1) % totalPage;
+    if (leftPage == 0)
+        leftPage = totalPage;
+	var rightPage = (nowPage + 1) % totalPage;
+    if (rightPage == 0)
+        rightPage = totalPage;
+	var html =
+//            '<div class="auth_byhtjr">'+
+                    '    <div class="auth_byhtjr1"><a class="op_slidepage" href="javascript:void(0)" data_page="' + leftPage + '"></a></div>'+
+                    '    <div class="auth_byhtjr2"><a class="op_slidepage" href="javascript:void(0)" data_page="' + rightPage + '"></a></div>';
+//                    '</div>';
+	return html;
+}
+
+//显示只有一个确认按钮的提示框，title是提示框上面标题栏中的标题
+//蒙住背景
+function popAlert(content, title){
+	$.popwin.remind(content, null, {title:title});
+}
+
+//显示成功提示框（左侧提示图标为绿色对号）：timeout毫秒后会自动消失
+//timeout：毫秒，如果不传默认为2秒。如果传-1则不消失，需要手动调用$.popwin.hide();才消失。
+//蒙住背景
+function popSuccess(content, timeout){
+	if (!timeout){
+		timeout = 2000;
+	}
+	$.popwin.remind('<div class="popwin_success">' + content + '</div>', null, {delay:timeout,bar:false, btnclose: false});		
+    $(".popwin_pbn").hide();		
+}
+ 
+//显示只有一个确认按钮的错误弹窗提示（左侧为桔黄色叹号）
+//蒙住背景
+function popError(content){
+	$.popwin.remind('<div class="popwin_warning">' + content + '</div>',null, { bar:false, btnclose: false});	
+}
+
+//显示只有一个确认按钮的错误弹窗提示（带原因，左侧为桔黄色叹号）
+//蒙住背景
+function popErrorWithReason(content, reasonArray){
+	var reason = '<div class="popwin_wares">';
+	for (var i = 0; i < reasonArray.length; i++){
+		reason += '<p>' + reasonArray[i] + '</p>';
+	}
+	reason += '</div>';
+	var html = '<div class="popwin_warning"><div class="popwin_wartit">' + content + '</div>' + reason + '</div>';
+	$.popwin.remind(html, null, {bar:false, btnclose: false});
+}
+
+//显示只有一个确认按钮的失败提示框（左侧提示图标为红色禁止）
+//蒙住背景
+function popFail(content){
+	 $.popwin.remind('<div class="popwin_error">' + content + '</div>', null, {bar:false, btnclose: false});	
+}
+
+//显示只有一个确认按钮的失败提示框（带原因，左侧提示图标为红色禁止）
+//蒙住背景
+function popFailWithReason(content, reasonArray){
+	var reason = '<div class="popwin_wares">';
+	for (var i = 0; i < reasonArray.length; i++){
+		reason += '<p>' + reasonArray[i] + '</p>';
+	}
+	reason += '</div>';
+	var html = '<div class="popwin_error"><div class="popwin_wartit">' + content + '</div>' + reason + '</div>';
+	$.popwin.remind(html, null, {bar:false, btnclose: false});
+}
+
+//显示询问提示框（左侧提示图标是蓝色问号，有确认和取消两个按钮，点击确认按钮会触发callback函数）
+//蒙住背景
+function popConfirm(content, callback){
+	$.popwin.ask('<div class="popwin_ask">' + content + '</div>', function(){
+			$.popwin.hide();
+			setTimeout(callback,300);																
+    }, null, {bar:false, btnclose: false});			
+}
+
+//加载百度分享
+function loadBDShare(){
+	$("#bdshare_id").remove();
+	$("head").append('<input type="hidden" id="bdshare_js" shareText="" sharePic=""/>');
+	window._bd_share_config = null;
+	window._bd_share_config={
+			"common":{
+				"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16","bdUrl":"",
+				"onBeforeClick":function(cmd,cfg){
+					return {
+						bdText : $("#bdshare_js").attr("shareText"),
+						bdPic : $("#bdshare_js").attr("sharePic"),
+						bdUrl : $("#bdshare_js").attr("shareUrl")
+					};
+				}
+			},
+			"share":{}
+	};
+	var temp = document.createElement('script');
+	temp.id = "bdshare_id";
+	temp.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5);
+	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(temp)];
+}
+
+////获取小图片链接,size="b"或"m"或"t"
+//function getImgURL(ImgUrl, size){
+//	var i = ImgUrl.lastIndexOf("/");
+//	var temp = ImgUrl.substr(0, i + 1);
+//	var result = temp.concat(size).concat(ImgUrl.substr(i + 2));
+//	return result; 
+//}
+
+function calcResize(picWidth,picHeight,divWidth,divHeight){//计算图片适应div时的宽高
+	var top = 0;
+	var left = 0;
+		var coverWidth = divWidth;
+		var coverHeight = divHeight;
+		if(picWidth/picHeight > divWidth/divHeight){
+			coverWidth = picWidth*divHeight/picHeight;
+			left = (coverWidth - divWidth)/-2;
+		}else{
+			coverHeight = picHeight*divWidth/picWidth;
+			top = (coverHeight - divHeight)/-2;
+		}
+		var rtn =  "width:"+coverWidth+"px;height:"+coverHeight+"px;top:"+top+"px;left:"+left+"px;";
+		return rtn;
+}
+
+/*2014-04-22 update 导航条横栏信息滚动*/
+function AutoScroll(obj) {
+	$(obj).find("ul:first").animate({
+		marginTop:"-29px"
+	}, 500, function() {
+		$(this).css({marginTop:"0px"}).find("li:first").appendTo(this);
+	});
+}
+
+$(function(){
+/*表情输入控制*/		
+//if($(".editface").length>0){	
+//	var face_arr0=new Array("高兴","发呆","做鬼脸","装酷","邪恶笑","晕","变脸","阴险","发怒","心碎","心","小疑惑","委屈","鄙视","睡觉","衰","伤心","色色","瞎琢磨","亲亲","敲打","变形囧","汗","困","哭","扣鼻屎","可怜","可爱","惊讶","憨笑","奋斗","飞吻","饭","再见","撞墙","顶","惊雷","挨巴掌","悄悄地","元宝","太阳","茶","便便","冰激凌","钻石","17y","coco兔","棒");
+//	var face_arr1=new Array("s:101","s:102","s:103","s:104","s:105","s:106","s:107","s:108","s:109","s:110","s:111","s:112","s:113","s:114","s:115","s:116","s:117","s:118","s:119","s:120","s:121","s:122","s:123","s:124","s:125");
+//	var face_arrobj = { 0:face_arr0, 1:face_arr1};
+//	var face_name = ['默认','兔子'];
+//	var face_name_a = "";
+//	for(var i=0; i<face_name.length; i++) {		
+//		face_name_a+="<a href='#' class='face_nga'>"+face_name[i]+"</a>";
+//	}
+//	$(".editface").live("click",function(){
+//		var $pana=$(this).parents(".face_pa");								 
+//		$(".face_nbg").hide();
+//		if($pana.find(".face_nbg").length<=0){	
+//			var nhtml="";
+//			for(i=0; i<face_arr0.length; i++) {		
+//				nhtml+="<li class=face_img title=["+face_arr0[i]+"]></li>";
+//			}
+//			$pana.css("z-index","2");
+//			$pana.append("<div class='face_nbg'><div class='face_nx'></div><div class='face_ng'>"+face_name_a+"</div><ul class='face_nul face_nm0'>"+nhtml+"</ul></div>");	
+//			$(".face_ng a").eq(0).addClass('face_ngc');
+//	   } 
+//	   $pana.find(".face_nbg").show();	
+//	});
+//	$(".face_ng a").live("click",function(){							 
+//		if($(this).hasClass('face_ngc')){
+//			return false;
+//		}
+//		$(".face_ng a").attr("class","face_nga");	
+//		var ai = $(".face_ng a").index($(this));
+//		if($(".face_nbg").length>0){	
+//			var nhtml="";
+//			for(i=0; i<face_arrobj[ai].length; i++) {		
+//				nhtml+="<li class=face_img title=["+face_arrobj[ai][i]+"]></li>";
+//			}
+//			$(".face_nbg").html("");		
+//			$(".face_nbg").append("<div class='face_nx'></div><div class='face_ng'>"+face_name_a+"</div><ul class='face_nul face_nm"+ai+"' >"+nhtml+"</ul>");	
+//			$(".face_nm"+ai).css('background','url('+basePath+'images/face_nm'+ai+'.png) no-repeat');
+//			$(".face_ng a").eq(ai).addClass('face_ngc');
+//	   } 
+//	   return false;
+//	});
+	
+	var face_arr=new Array("高兴","发呆","做鬼脸","装酷","邪恶笑","晕","变脸","阴险","发怒","心碎","心","小疑惑","委屈","鄙视","睡觉","衰","伤心","色色","瞎琢磨","亲亲","敲打","变形囧","汗","困","哭","扣鼻屎","可怜","可爱","惊讶","憨笑","奋斗","飞吻","饭","再见","撞墙","顶","惊雷","挨巴掌","悄悄地","元宝","太阳","茶","便便","冰激凌","钻石","17y","coco兔","棒");
+	$(".editface").live("click",function(){
+		var $pana=$(this).parents(".face_pa");								 
+		$(".face_bg").hide();
+		if($pana.find(".face_bg").length<=0){	
+			var nhtml="";
+			for(i=0; i<face_arr.length; i++) {		
+			nhtml+="<li class=face_img title=["+face_arr[i]+"]></li>";
+			}
+			$pana.css("z-index","2");
+			$pana.append("<div class='face_bg'><ul class='face_ul'>"+nhtml+"</ul></div>");	
+	   } 
+	   $pana.find(".face_bg").show();	
+	})
+	$(document).bind("click", function(event) {
+			if(event.target.className!="editface"){
+				$(".face_bg").hide();
+			}
+		});
+	
+	$(".face_img").live("hover",function(){												
+	$(this).toggleClass("face_h");												
+	})	
+	
+	jQuery.fn.isChildAndSelfOf = function(b){
+		return (this.closest(b).length > 0);
+	};
+	$(document).bind("click", function(event) {
+		if(!$(event.target).isChildAndSelfOf(".face_pa")){
+			if(!$(event.target).hasClass("face_nga")){
+				$(".face_nbg").hide();
+			}
+		}else{
+			if($(event.target).hasClass("face_img") ||$(event.target).hasClass("face_nx")){
+				$(".face_nbg").hide();
+			}
+		}
+	});
+	$(".face_img").live("click",function(){	
+			var $face_txt=$(this).parents(".face_pubc").find(".face_intxt");		
+			var faceName = $(this).attr('title');
+			$face_txt.focus();
+			var txtComment =$face_txt[0];
+			if (document.all){
+				var r = document.selection.createRange();
+				document.selection.empty();
+				r.text = faceName;
+				r.collapse();			
+				r.select();
+			}
+			else{
+				var newstart = txtComment.selectionStart+faceName.length;			
+				txtComment.value=txtComment.value.substr(0,txtComment.selectionStart)+faceName+txtComment.value.substring(txtComment.selectionEnd);
+				txtComment.selectionStart = newstart;
+				txtComment.selectionEnd = newstart;
+			}				 
+	});
+	$(".face_img").live("hover",function(){												
+		$(this).toggleClass("face_h");												
+	});
+//}
+
+/*输入框的提示文字控制*/
+//if($(".place_hd").length>0){
+//	$(".place_hd").placeholder();
+//}
+
+//图片滚动函数 
+function fe_scroll($fe_sct,fe_pcount){
+	var page = 1;
+    var i = parseInt(fe_pcount); //每版放几个图片
+	var fe_prect=$fe_sct.parents("div.fe_scroll").find("div.fe_sclist").find("li").length;
+	var fe_precount = Math.ceil(fe_prect / i);
+	var fe_prestr="";
+	for(var j=0;j<fe_precount;j++){
+		fe_prestr+="<span>"+j+"</span>";		
+		}	
+	$fe_sct.parents("div.fe_scroll").find("div.fe_tip").html(fe_prestr);
+    $fe_sct.parents("div.fe_scroll").find("div.fe_tip").find("span:first").addClass("fe_scur");
+	$fe_sct.live("click",function() {										 
+        var $parent = $(this).parents("div.fe_scroll"); //根据当前点击元素获取到父元素
+        var $v_show = $parent.find("div.fe_sclist"); //寻找到“视频内容展示区域”
+        var $v_content = $parent.find("div.fe_scon"); //寻找到“视频内容展示区域”外围的DIV元素
+        var v_width = $v_content.width();
+        var len = $v_show.find("li").length;
+        var page_count = Math.ceil(len / i);        
+            if ($(this).hasClass("fe_scnext")) {
+				if (!$v_show.is(":animated")) {
+			       if (page == page_count) { //已经到最后一个版面了,如果再向后，必须跳转到第一个版面。
+                    $v_show.animate({left: '0px'},"slow"); //通过改变left值，跳转到第一个版面
+                    page = 1;
+                } else {
+					$v_show.animate({left: '-=' + v_width},"slow"); //通过改变left值，达到每次换一个版面
+                    page++;
+                }
+            }
+			}
+            if ($(this).hasClass("fe_scprev")) {
+				if (!$v_show.is(":animated")) {
+                if (page == 1) { //已经到第一个版面了,如果再向前，必须跳转到最后一个版面。
+                    $v_show.animate({left: '-=' + v_width * (page_count - 1)},"slow");
+                    page = page_count;
+                } else {
+                    $v_show.animate({left: '+=' + v_width},"slow");
+                    page--;
+                }
+            }
+			}
+       
+        $parent.find("div.fe_tip").find("span").eq((page - 1)).addClass("fe_scur").siblings().removeClass("fe_scur");
+    });
+}
+
+//主导航条消息下拉效果
+if($(".nav_myna").length>0){	
+	$(".nav_myna").live("click",function(){		
+		$(this).toggleClass("nav_c66");
+		$(this).parents(".nav_myinfo").find(".nav_subs").toggle();
+	});
+
+	$(".nav_mes").live("click",function(){		
+		$(this).toggleClass("nav_mes66");
+		$(this).find(".nav_subn").toggle();
+	});
+}
+
+/*2014-04-22 update 导航搜索下拉选择*/
+if($(".auth_hsnv5c").length > 0) {
+	$(".auth_hsnv5c").live("click", function() {
+		var auth_htx = $(this).text();
+		if(auth_htx == "游戏") {
+			$(this).next(".auth_hsnv5b").text("用户");
+		} else if(auth_htx == "用户") {
+			$(this).next(".auth_hsnv5b").text("游戏");
+		}
+		$(this).next(".auth_hsnv5b").toggle();							   
+	});
+	$(".auth_hsnv5b").live("click", function() {
+		$(this).prev(".auth_hsnv5c").html($(this).text());	
+		$(this).hide();
+	});  
+}
+
+/*2014-04-22 update 点击空白处导航搜索下拉隐藏*/
+jQuery.fn.isChildAndSelfOf = function(b) {
+	return (this.closest(b).length > 0);
+};
+$(document).bind("click", function(event) {
+	if(!$(event.target).isChildAndSelfOf(".auth_hsnv5p")) {		
+		$(".auth_hsnv5b").hide();
+	}
+});
+
+/*2014-04-22 update 导航条横栏信息滚动*/
+var auth_tscroll = null;
+$(".auth_zcb").hover(
+	function() {
+		clearInterval(auth_tscroll);
+	}, 
+	function() {
+		auth_tscroll = setInterval('AutoScroll(".auth_zcb")', 4000);
+	}
+).trigger("mouseleave");
+
+});

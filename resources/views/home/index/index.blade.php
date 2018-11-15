@@ -1,6 +1,7 @@
 @extends('home.layout.index')
 
 @section('content')
+
 	<section class="container">
 <div class="content-wrap">
 <div class="content">
@@ -37,6 +38,7 @@
 	<h3>最新发布</h3>
   </div>
   <!-- 文章内容 开始 -->
+  
   @foreach ($article as $k=>$v) 
   	<article class="excerpt excerpt-1" style="">
   		<a class="focus" href="#" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="/HomeStyle/images/logo1.png" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
@@ -46,7 +48,12 @@
 		</header>
 		<p class="meta">
 			<time class="time"><i class="glyphicon glyphicon-time"></i> {{ $v->created_at }}</time>
-			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment"></i> 4</a>
+			<?php
+				// 评论条数
+				$article_pl = \App\Models\Article_pl::where('aid',$v['id'])->get();
+				$sum = count($article_pl);
+			?>
+			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment">{{ $sum }}</i> </a>
 		</p>
 		<div style="height: 120px;overflow: hidden;">
 			{!! $v->articleinfo->article !!}	
@@ -87,9 +94,9 @@
 		</div>
 	</div>
   <div class="widget widget_search">
-	<form class="navbar-form" action="/Search" method="post">
+	<form class="navbar-form" action="/Search" method="get">
 	  <div class="input-group">
-		<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+		<input type="text" name="title" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
 		<span class="input-group-btn">
 		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
 		</span> </div>

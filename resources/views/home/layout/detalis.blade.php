@@ -29,6 +29,9 @@
   ,form = layui.form;
 </script> 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+
 <!--[if gte IE 9]>
   <script src="/HomeStyle/js/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="/HomeStyle/js/html5shiv.min.js" type="text/javascript"></script>
