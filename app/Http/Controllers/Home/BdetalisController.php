@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Models\Userdetail;
+
 class BdetalisController extends Controller
 {
     /**
@@ -27,6 +29,48 @@ class BdetalisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /*
+    * 头像修改
+    *
+    */
+    public function uploads(Request $request)
+    {
+        if ($request->hasFile('file')) {
+           // 修改用户
+            $uname = session('uname');
+            $data = User::where('uname',$uname)->first();
+            $userdetail = Userdetail::where('uid',$data->id)->first();
+            // 上传的头像
+            $file = $request -> file('file');
+            $ext = $file ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $file -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $userdetail->avatar = $profile_path;
+            if ($userdetail->save()) {
+                $str = [
+                    'code'=>0,
+                    'msg'=>'上传成功',
+                    'data'=>[
+                        'src'=>$profile_path,
+                    ],
+                ];
+            } else {
+                $str = [
+                    'code'=>1,
+                    'msg'=>'上传失败',
+                    'data'=>[
+                        'src'=>$userdetail->avatar,
+                    ],
+                ];
+            }   
+        }
+        return response()->json($str);
+    }
+
     public function create()
     {
         //

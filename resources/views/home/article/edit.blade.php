@@ -11,7 +11,7 @@
 		<a data-cont="Blog Hello" title="浏览文章" href="/detalis/article">浏览文章</a>
 	</li>
 	<li>
-		<a data-cont="Blog Hello" title="个人相册" href="#">个人相册</a>
+		<a data-cont="Blog Hello" title="个人相册" href="/myalbum">个人相册</a>
 	</li>
 	<li>
 		<a data-cont="Blog Hello" title="关注" href="#">关注</a>

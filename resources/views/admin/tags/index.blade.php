@@ -48,7 +48,6 @@
           	<tr>
            		<th>ID</th>
            		<th>标签名字</th>
-           		<th>标签样式</th>
            		<th>URL地址</th>
            		<th>操作</th>
            </tr>
@@ -58,7 +57,6 @@
         	<tr>
         		<td>{{ $v->id }}</td>
         		<td>{{ $v->tname }}</td>
-        		<td><a href="http://{{ $v->url }}"><button type="button" class="{{ $v->tagsclass }}">{{ $v->tname }}</button></a></td>
         		<td>{{ $v->url }}</td>
         		<td>
         			<a href="/admin/tags/{{ $v->id }}/edit" class="btn btn-warning">修改</a>

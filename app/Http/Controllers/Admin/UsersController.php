@@ -78,8 +78,7 @@ class UsersController extends Controller
     public function store(UsersStoreRequest $request)
     {
         // 开启事务  
-         DB::beginTransaction();
-
+        DB::beginTransaction();
         // 获取数据 进行添加
         $user = new USer;
         $user->uname = $request->input('uname');

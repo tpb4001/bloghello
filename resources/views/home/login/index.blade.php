@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="/HomeStyle/login/css/parg_denglu.css" />
 	<script type="text/javascript" src="/HomeStyle/login/js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="/HomeStyle/login/js/home_denglu.js"></script>
+	<script type="text/javascript" src="/layui-v2.4.5/layui/layui.all.js"></script>
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 <body>
@@ -16,7 +17,19 @@
 		<div class="content">
 			<div class="logo"></div>
 			<div class="login_box">	
-				
+			<!-- 注册成功提示信息 开始 -->
+			@if (session('success'))
+	           <script type="text/javascript">
+	           		layer.alert('{{ session('success') }}');
+	           </script>
+	         @endif
+
+	         @if (session('error'))
+	         	<script type="text/javascript">
+	           		layer.alert('{{ session('error') }}');
+	           	</script>
+	         @endif
+			<!-- 注册成功提示信息 结束 -->
 				<div class="login_form">
 					<div class="login_title">
 						登录

@@ -18,9 +18,16 @@
 <link rel="shortcut icon" href="images/favicon.ico">
 <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/js/bootstrap.min.js">
+<link rel="stylesheet" type="text/css" href="/layui-v2.4.5/layui/css/layui.css">
 <script src="/HomeStyle/js/jquery-2.1.4.min.js"></script>
 <script src="/HomeStyle/js/nprogress.js"></script>
 <script src="/HomeStyle/js/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="/layui-v2.4.5/layui/layui.all.js"></script>
+<script>
+//由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+  var layer = layui.layer
+  ,form = layui.form;
+</script> 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!--[if gte IE 9]>
   <script src="/HomeStyle/js/jquery-1.11.1.min.js" type="text/javascript"></script>

@@ -16,6 +16,7 @@ use App\Models\Comment;
 use App\Models\Advert;
 use App\Models\Notice;
 use App\Models\Image;
+use App\Models\Tags;
 
 class IndexController extends Controller
 {
@@ -40,8 +41,10 @@ class IndexController extends Controller
         $lbt = count($image);
         // 公告
         $ljg = Notice::orderBy('created_at','desc')->first();
+        // 标签云
+        $tags = Tags::all();
         //首页视图
-        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert]);
+        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert,'tags'=>$tags]);
     }
 
     /**

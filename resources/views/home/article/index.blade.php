@@ -2,26 +2,26 @@
 
 @section('Dh')
 	<li>
-		<a data-cont="Blog Hello" title="基本信息" href="/Bdetalis">基本信息</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="文章发布" href="/detalis/article/create">文章发布</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="浏览文章" href="/detalis/article">浏览文章</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="个人相册" href="#">个人相册</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="关注" href="#">关注</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="修改密码" href="/Bdetalis/{{ session('uname') }}/edit">修改密码</a>
-	</li>
-	<li>
-		<a data-cont="Blog Hello" title="返回首页" href="/">返回首页</a>
-	</li> 
+    <a data-cont="Blog Hello" title="基本信息" href="/Bdetalis">基本信息</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="文章发布" href="/detalis/article/create">文章发布</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="浏览文章" href="/detalis/article">浏览文章</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="个人相册" href="/myalbum">个人相册</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="关注" href="#">关注</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="修改密码" href="/Bdetalis/{{ session('uname') }}/edit">修改密码</a>
+  </li>
+  <li>
+    <a data-cont="Blog Hello" title="返回首页" href="/">返回首页</a>
+  </li> 
 @endsection()
 
 @section('content')

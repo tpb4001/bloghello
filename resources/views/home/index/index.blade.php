@@ -26,11 +26,13 @@
 		</div>
 		<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow" draggable="false"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> 
 	</div>
-  <article class="excerpt-minic excerpt-minic-index">
+	<!-- 推荐位  开始 -->
+  	<article class="excerpt-minic excerpt-minic-index">
 		<h2><span class="red">【推荐】</span><a target="_blank" href="#" title="用DTcms做一个独立博客网站（响应式模板）" draggable="false">用DTcms做一个独立博客网站（响应式模板）</a>
 		</h2>
 		<p class="note">用DTcms做一个独立博客网站（响应式模板），采用DTcms V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）</p>
 	</article>
+	<!-- 推荐位  结束 -->
   <div class="title">
 	<h3>最新发布</h3>
   </div>
@@ -69,20 +71,19 @@
 	<div class="widget widget-tabs">
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">公告</a></li>
-			<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
+			<li role="presentation"><a href="#tagscloud" aria-controls="tagscloud" role="tab" data-toggle="tab" draggable="false">标签云</a></li>
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane contact active" id="notice">
 				<h4 style="text-align: center;">{{ $ljg->title }}</h4>
 				<h5>{!! $ljg->content !!}</h5>
 			</div>
-			<div role="tabpanel" class="tab-pane contact" id="contact">
-				<h2>QQ:1079271294
-				<a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="QQ:" draggable="false"></a>
-				</h2>
-				<h2>Email:1079271294@qq.com
-				<a href="#" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" data-original-title="#" draggable="false"></a></h2>
-			</div>
+				<div role="tabpanel" class="tab-pane contact" id="tagscloud">
+					@foreach ($tags as $k=>$v)
+						<a href="http://{{ $v->url }}" target="_blank" class="{{ $v->tagsclass }}">{{ $v->tname }}</a>
+					@endforeach
+				</div>
+				<script src='/HomeStyle/js/zzsc.js' type="text/javascript"></script>
 		</div>
 	</div>
   <div class="widget widget_search">

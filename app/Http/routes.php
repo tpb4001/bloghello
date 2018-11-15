@@ -10,6 +10,12 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+	/**
+	*	公共数据
+	*		account //后台登录用户的信息
+	*		common_cates_data //共享前台分类处理
+	*/
+
 // 前台登录
 Route::get('/login','Home\LoginController@index');
 Route::post('/login/yz','Home\LoginController@yz');
@@ -18,6 +24,12 @@ Route::get('/login/esc','Home\LoginController@esc');
 
 // 用户注册
 Route::get('/login/create','Home\LoginController@create');
+// 判断手机号是否注册
+Route::get('/login/rephone','Home\LoginController@rephone');
+// 判断账户是否注册
+Route::get('/login/reuname','Home\LoginController@reuname');
+// 验证码
+Route::get('/login/sendMobileCode','Home\LoginController@sendMobileCode');
 Route::post('/login/store','Home\LoginController@store');
 
 
@@ -34,10 +46,16 @@ Route::resource('/topic','Home\TopicController');
 Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
 // 个人详情	
 Route::resource('/Pdetalis','Home\PdetalisController');
+// 头像修改
+Route::post('/Bdetalis/uploads','Home\BdetalisController@uploads');
 // 博主详情
 Route::resource('/Bdetalis','Home\BdetalisController');
 	// 博主文章管理
 	Route::resource('/detalis/article','Home\ArticleController');
+	// 相册上传
+	Route::post('/myalbum/uploads','Home\AlbumController@uploads');
+	// 博主相册管理
+	Route::resource('/myalbum','Home\AlbumController');
 
 
 

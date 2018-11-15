@@ -11,7 +11,25 @@ use DB;
 class CatesController extends Controller
 {   
     /**
-    *   分类数据处理
+    * 分类显示
+    * 
+    */
+    public static function getPidCates($pid = 0)
+    {
+        // 顶级分类
+        $cates = Cates::where('pid',$pid)->get();
+        $temp = [];
+        foreach ($cates as $k=>$v) {
+            $v['sub'] = Cates::where('pid',$v->id)->get();
+            $temp[] = $v;
+        }
+        return $temp;
+    }
+
+
+    /**
+    * 分类数据处理
+    * 
     */
     public static function getCates()
     {
