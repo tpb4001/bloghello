@@ -39,14 +39,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
         	@foreach($article as $k=>$v)
+          <tr>
           	<td>{{ $v->id }}</td>
           	<td>{{ $v->title }}</td>
           	<td>{{ $v->cates->cname }}</td>
           	<td>{{ $v->auth }}</td>
           	<td>{{ $v->copyform }}</td>
-          	<td>{{ $v->articleinfo->image or '无图片' }}</td>
+          	<td><img style="width: 60px;" src="{{ $v->articleinfo->image or '' }}"></td>
           	<td>{{ $v->status == 1 ? '审核通过' : '审核中' }}</td>
           	<td>
           		<a href="/article/{{ $v->id }}" class="btn btn-info">详情</a>
@@ -57,8 +57,8 @@
           			<input type="submit" class="btn btn-danger" onclick="return confirm('请确认删除');" value="删除">
           		</form>
           	</td>
-          	@endforeach
-        </tr>
+          </tr>
+          @endforeach
       </tbody>
     </table>
 @endsection

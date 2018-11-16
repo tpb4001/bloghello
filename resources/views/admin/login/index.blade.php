@@ -14,12 +14,19 @@
 	<div class="wrap login_wrap">
 		<div class="content">
 			<div class="logo"></div>
-			<div class="login_box">	
+			<div class="login_box" style="margin-top: 120px;">	
 				
 				<div class="login_form">
 					<div class="login_title">
 						后台登录
 					</div>
+					@if (session('error'))
+						<script type="text/javascript" src="/layui-v2.4.5/layui/layui.all.js"></script>
+						<script type="text/javascript">
+							layer.msg("{{ session('error') }}")
+						</script>
+			              
+			        @endif
 					<form action="/admin/login/ACname" method="post">
 						{{ csrf_field() }}
 						<div class="form_text_ipt">

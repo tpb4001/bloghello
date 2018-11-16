@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 
 class AdminMiddleware
 {
@@ -14,11 +15,12 @@ class AdminMiddleware
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
-        if ($request->session()->has('uname')) {
+    {   
+        $user = User::where('uname',session('uname'))->first();
+        if ($request->session()->has('uname') && $user->Identity == 1) {
             return $next($request);
         } else {
-            return redirect('/admin/login');
+            return redirect('/admin/login')->with('error','用户名或密码错误');
         }
         
     }

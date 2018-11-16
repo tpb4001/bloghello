@@ -93,7 +93,7 @@
 				                  <div class="tsite_bc1b">
 				                      
 				                        <div class="tsite_bc1b1 cd_pl op_nc cd_z1" style="position: static;" username="{{ $topic->abc->uname }}" uid="2200002818">           
-				                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818"><img width="120px" height="120px" src="/HomeStyle/ht/C6EFF4@2200002818.jpg">
+				                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818"><img width="120px" height="120px" src="{{ $topic->abc->userinfo->avatar }}">
 				                    		
 				                    	</a>
 				                    	</div>
@@ -133,7 +133,7 @@
                   <span class="tsite_bc2a1">{{ $topic->created_at }}</span><span class="tsite_bc2a3">|</span>
                    <span class="tsite_bc2a2">
                   
-				       <a class="fe_bbsa fe_bbsa_list_creator" href="javascript:void(0);">返回列表</a>
+				       <a class="fe_bbsa fe_bbsa_list_creator" href="/topic">返回列表</a>
 				       
 				  </span>
                 </div>
@@ -195,7 +195,7 @@
 				                  </div>
 				                  <div class="tsite_bc1b2">
 				                        <div class="tsite_bc1b1 cd_pl op_nc cd_z1" style="position: static;" username="{{ $v->abc->uname }}" uid="239403759">           
-				                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=239403759"><img width="120px" height="120px" src="/HomeStyle/ht/b_239403759_107302_fv8c2.jpg">
+				                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=239403759"><img width="120px" height="120px" src="{{ $v->abc->userinfo->avatar }}">
 				                    		
 				                    	</a>
 				                    	</div>
@@ -279,7 +279,7 @@
 									<div class="comment">
 										<input name="tid" class="form-control" size="22" maxlength="15" autocomplete="off" tabindex="1" type="hidden" value="{{ $topic->id }}">
 										<div class="comment-box">
-											<textarea placeholder="说点什么吧（登录即可留言）" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+											<textarea placeholder="说点什么吧!!!" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
 											<div class="comment-ctrl">
 												<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
 												<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>

@@ -102,9 +102,7 @@ $(function(){
                 }
                 return false;
             },'json');
-
-        }
-            
+        } 
     });
     // 验证码
     $('input[name=code]').blur(function(){

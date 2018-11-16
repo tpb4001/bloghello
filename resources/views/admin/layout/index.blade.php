@@ -34,6 +34,9 @@
 <link rel="stylesheet" type="text/css" href="/Background/css/themer.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/Background/css/page_page.css">
 <link rel="stylesheet" type="text/css" href="/Background/css/menu-Twolevel.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <title>Blog hello</title>
 
 </head>
@@ -61,11 +64,11 @@
             </div>
             
             <!-- User Information and functions section -->
-            <div id="mws-user-info" class="mws-inset">
+            <div id="mws-user-info" class="mws-inset" style="height: 40px;">
             
               <!-- User Photo -->
               <div id="mws-user-photo">
-                  <img src="" alt="用户头像">
+                  <img src="{{ $account->userinfo->avatar }}" alt="用户头像">
                 </div>
                 
                 <!-- Username and Functions -->
@@ -112,6 +115,9 @@
             <!-- 导航栏 开始 -->
             <div id="mws-navigation">
                 <ul>
+                    <li>
+                        <a href="/admin/index"><i class="icon-home-2"></i>主页</a>
+                    </li>
                     <li>
                         <a href="#"><i class="icon-user"></i>用户管理</a>
                           <ul>

@@ -8,6 +8,9 @@ use DB;
 use Hash;
 use App\User;
 use App\Http\Requests;
+use App\Models\Article;
+use App\Models\Notice;
+use App\Models\Topic;
 use App\Models\User_details;
 use App\Http\Controllers\Controller;
 use App\Providers\AppServiceProvider;
@@ -22,8 +25,14 @@ class IndexController extends Controller
      */
     public function index()
     {
+        // 文章
+        $article = Article::orderBy('created_at','desc')->paginate(5);
+        // 公告
+        $notice = Notice::orderBy('created_at','desc')->paginate(5);
+        // 话题
+        $topic = Topic::orderBy('created_at','desc')->paginate(5);
         //加载首页视图
-        return view('admin.index.index');
+        return view('admin.index.index',['article'=>$article,'notice'=>$notice,'topic'=>$topic]);
     }
 
     /**

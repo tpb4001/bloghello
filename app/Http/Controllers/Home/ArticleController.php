@@ -11,6 +11,7 @@ use App\Models\Articleinfo;
 use App\Models\Article;
 use App\User;
 use DB;
+
 class ArticleController extends Controller
 {
     /**

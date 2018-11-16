@@ -17,4 +17,11 @@ class Topic extends Model
     {
         return $this->hasOne('App\User','id','uid');
     }
+
+    public function getComment()
+    {
+    	//zheli guanli shang le ma 
+
+    	return $this->hasMany(Comment::class,'tid','id');
+    }
 }

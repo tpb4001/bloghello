@@ -79,9 +79,9 @@
 				<ul class="nav navbar-nav navbar-right">
 				  <li><a data-cont="Blog Hello" title="首页" href="/">首页</a></li>
 				  @foreach($common_cates_data as $k=>$v)
-				  <li><a data-cont="{{ $v->cname }}" title="{{ $v->cname }}" href="list.html">{{ $v->cname }}</a></li>
+				  <li><a data-cont="{{ $v->cname }}" title="{{ $v->cname }}" href="/list/{{ $v->id }}">{{ $v->cname }}</a></li>
 				  @endforeach
-				  <li><a data-cont="话题中心" title="话题中心" href="/">话题中心</a></li>
+				  <li><a data-cont="话题中心" title="话题中心" href="/topic">话题中心</a></li>
 				  <li><a data-cont="留言板" title="留言板" href="/">留言板</a></li>
 				</ul>
 				<!-- 导航栏 结束 -->

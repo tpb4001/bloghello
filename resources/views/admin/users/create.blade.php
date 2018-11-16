@@ -3,17 +3,16 @@
 
 @section('content')
     <!-- 显示验证信息 开始 -->
-
-             @if (count($errors) > 0)
-                 <div class="mws-form-message error">
-                     <ul>
-                         @foreach ($errors->all() as $error)
-                             <li>{{ $error }}</li>
-                         @endforeach
-                     </ul>
-                 </div>
-             @endif
-           <!-- 显示验证信息 结束 -->
+      @if (count($errors) > 0)
+         <div class="mws-form-message error">
+             <ul>
+                 @foreach ($errors->all() as $error)
+                     <li>{{ $error }}</li>
+                 @endforeach
+             </ul>
+         </div>
+      @endif
+    <!-- 显示验证信息 结束 -->
 	<div class="mws-panel grid_8">
   	<div class="mws-panel-header">
       	<span>{{ $title or '' }}</span>
@@ -22,35 +21,40 @@
       	<form class="mws-form" action="/admin/users" method="post">
       		{{ csrf_field() }}
                 <div class="mws-form-inline">
-      			<div class="mws-form-row">
+      			<div class="mws-form-row" style="padding-bottom: 0px;">
       				<label class="mws-form-label">用户名</font></label>
       				<div class="mws-form-item">
       					<input type="text" name="uname" value="{{ old('uname')}}" class="small">
       				</div>
+              <span style="margin-left: 156px;"></span>
       			</div>
-             <div class="mws-form-row">
+             <div class="mws-form-row" style="padding-bottom: 0px;">
                   <label class="mws-form-label">密码</font></label>
                   <div class="mws-form-item">
                        <input type="password" name="upass" value="{{ old('upass')}}" class="small">
                   </div>
+                  <span style="margin-left: 156px;"></span>
              </div>
-      			 <div class="mws-form-row">
+      			 <div class="mws-form-row" style="padding-bottom: 0px;">
                 <label class="mws-form-label">确认密码</font></label>
                 <div class="mws-form-item">
-                     <input type="password" name="repass" value="{{ old('repass')}}" class="small">
+                     <input type="password" name="reupass" value="{{ old('reupass')}}" class="small">
                 </div>
+                <span style="margin-left: 156px;"></span>
            </div>
-            <div class="mws-form-row">
+            <div class="mws-form-row" style="padding-bottom: 0px;">
                 <label class="mws-form-label">手机号</font></label>
                 <div class="mws-form-item">
                      <input type="text" name="phone" value="{{ old('phone')}}" class="small">
                 </div>
+                <span style="margin-left: 156px;"></span>
            </div>
-           <div class="mws-form-row">
+           <div class="mws-form-row" style="padding-bottom: 0px;">
                 <label class="mws-form-label">邮箱</font></label>
                 <div class="mws-form-item">
                      <input type="text" name="email" value="{{ old('email')}}" class="small">
                 </div>
+                <span style="margin-left: 156px;"></span>
            </div>
            <div class="mws-form-row">
                 <label class="mws-form-label">身份</font></label>
@@ -62,11 +66,13 @@
                      </ul>
                 </div>
            </div>
-      		<div class="mws-button-row">
+      		<div class="mws-button-row" style="padding-bottom: 0px;">
       			<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="添加" class="btn btn-success"></font></font>
       			<input type="reset" value="重置" class="btn btn-info">
       		</div>
       	</form>
+        <script src="/Background/js/libs/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="/Background/js/libs/user_create.js"></script>
       </div>    	
   </div>
 

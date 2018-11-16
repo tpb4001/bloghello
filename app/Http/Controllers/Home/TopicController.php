@@ -13,6 +13,12 @@ use DB;
 
 class TopicController extends Controller
 {
+    private $topic;
+
+    public function __construct(Topic $topic)
+    {
+        $this->topic = $topic;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +26,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $topic = Topic::all();
-        // dump($topic);
+        $topic = $this->topic->with('getComment')->get();
         return view('home.topic.index',['topic'=>$topic]);
     }
 
@@ -68,14 +73,9 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        $topic = Topic::find($id);
-        
-        
-
+        $topic = Topic::where('id',$id)->first();
         // 话题评论
         $comment = Comment::where('tid',$id)->orderBy('created_at','desc')->get();
-       
-        // dump($article_pl);
         return view('home.topic.show',['topic'=>$topic,'comment'=>$comment]);
     }
 

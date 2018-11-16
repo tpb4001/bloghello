@@ -9,22 +9,17 @@
       <th>标题</th>
       <th>作者</th>
       <th>发布时间</th>
-      <th>评论/浏览</th>
+      <th>评论</th>
     </tr>
   </thead>
   <tbody>
    
     @foreach ($topic as $k=>$v)
-    <?php
-        // 评论条数
-        $comment = \App\Models\Comment::where('tid',$v['id'])->get();
-        $sum = count($comment);
-    ?>
-    <tr>
-      <td><a href="/">[bloghello]</a> <a href="/topic/{{ $v->id }}">{{ $v->title }}</a></td>
+    <tr onclick="location.href='/topic/{{ $v->id }}';" >
+      <td style="width: 716px"><a href="/topic/{{ $v->id }}">{{ $v->title }}</a></td>
       <td>{{ $v->abc->uname }}</td>
       <td>{{ $v->created_at}}</td>
-      <td>{{ $sum }}/{{ $v->path }}</td>
+      <td>{{ count($v->getComment) }}</td>
     </tr>
     @endforeach
   </tbody>

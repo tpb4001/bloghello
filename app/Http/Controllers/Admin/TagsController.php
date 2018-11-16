@@ -16,7 +16,9 @@ class TagsController extends Controller
      */
     public function index(Request $request)
     {
+        // 显示条数
         $showCount = $request->input('showCount',10);
+        // 搜索内容
         $search = $request->input('search','');
         $tags = Tags::where('tname','like','%'.$search.'%')->paginate($showCount);
         // 显示视图
