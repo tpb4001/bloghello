@@ -20,7 +20,10 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $article = Article::orderBy('created_at','desc')->paginate(10);
+        $showCount = $request->input('showCount',5);
+        $search = $request->input('search','');
+        $article = Article::orderBy('created_at','desc')->where('title','like','%'.$search.'%')->paginate($showCount);
+        
         return view('admin.article.index',['article'=>$article,'request'=>$request->all()]);
     }
 

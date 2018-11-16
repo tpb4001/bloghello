@@ -21,19 +21,8 @@
 <script type="text/javascript" src="/HomeStyle/ht/bbs_forumformatter.js.下载"></script>
 <script type="text/javascript" src="/HomeStyle/ht/aes.js.下载"></script>
 <input type="hidden" id="bdshare_js" sharetext="" sharepic=""><script id="bdshare_id" src="/HomeStyle/ht/share.js.下载"></script><link rel="stylesheet" href="/HomeStyle/ht/share_style0_16.css">
-
-
 <div class="bbs_container">
 <div class="bbs_header">
-    
-
-
-
-
-
-
-
-
 <script type="text/javascript">
 	var basePath = "http://www.xilexuan.com:80/";
 	var loginUid = "0";
@@ -62,47 +51,31 @@
         <div class="tsite_pages tsite_pages_up">
         <div class="bbs_mtpub"></div>
           <!-- 上面的分页 -->
-						
-						
-
-
     <div class="mc_Paging op_page Baidu_paging_indicator">
-         
-    </div>
-
-						
+    </div>			
           <div class="rs_clear"></div>
         </div>
         <div class="tsite_bcz">
           <div class="tsite_bc">
-          
-							
-              
               <div class="tsite_bcli_item" id="topic_floor_1">
                             <div class="tsite_bcli tsite_bcli_floorId_area" fid="1">
               <div class="tsite_bc1">
-				                <div class="tsite_bntxinf">
-				                  <div class="tsite_bc1a">
-				                    <div class="tsite_bc1a1 op_nc cd_z1" style="position: static;" username="{{ $topic->abc->uname }}" uid="2200002818"><a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818">{{ $topic->abc->uname }}</a></div>
-				                    
-				                    <div class="bbs_micred">版主</div>
-				                    
-				                    <div class="rs_clear"></div>
-				                  </div>
-				                  
-				                  <div class="tsite_bc1b">
-				                      
-				                        <div class="tsite_bc1b1 cd_pl op_nc cd_z1" style="position: static;" username="{{ $topic->abc->uname }}" uid="2200002818">           
-				                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818"><img width="120px" height="120px" src="{{ $topic->abc->userinfo->avatar }}">
-				                    		
-				                    	</a>
-				                    	</div>
-				                  </div>
-				                  <!-- 以下是女神图标 -->
-				                   
-				                </div>
-				                <div class="tsite_ki">
-				                  
+                <div class="tsite_bntxinf">
+                  <div class="tsite_bc1a">
+                    <div class="tsite_bc1a1 op_nc cd_z1" style="position: static;" username="{{ $topic->abc->uname }}" uid="2200002818"><a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818">{{ $topic->abc->uname }}</a></div>
+                    <div class="bbs_micred">版主</div>
+                    <div class="rs_clear"></div>
+                  </div>
+                  <div class="tsite_bc1b">
+                        <div class="tsite_bc1b1 cd_pl op_nc cd_z1" style="position: static;" username="{{ $topic->abc->uname }}" uid="2200002818">           
+                    	<a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=2200002818"><img width="120px" height="120px" src="{{ $topic->abc->userinfo->avatar }}">
+                    		
+                    	</a>
+                    	</div>
+                  </div>
+                  <!-- 以下是女神图标 -->
+                </div>
+                <div class="tsite_ki">           
                   <div class="tsite_ki1">
                     <div class="tsite_ki1a"></div>
                     <div class="tsite_ki1b"></div>
@@ -120,11 +93,9 @@
                     <div class="tsite_ki1a"></div>
                     <div class="tsite_ki1b"></div>
                   </div>
-                  
 				                </div>
 				<!-- 以下是级别图标 -->                
 				                 <div class="bbs_micon">
-				
                 </div>
 				              </div>
               <div class="tsite_bcrz">
@@ -132,9 +103,7 @@
                   <div class="tsite_bc2a"><span class="tsite_bc7a2">楼主</span><span class="tsite_bc2a1">发表于</span> 
                   <span class="tsite_bc2a1">{{ $topic->created_at }}</span><span class="tsite_bc2a3">|</span>
                    <span class="tsite_bc2a2">
-                  
 				       <a class="fe_bbsa fe_bbsa_list_creator" href="/topic">返回列表</a>
-				       
 				  </span>
                 </div>
                 </div>
@@ -156,13 +125,7 @@
                      
                     </div>
                      <div class="bbs_mgn">
-                     
-                      
-                     
                     </div>
-               
-                   		
-                    
                     <div class="tsite_bc5">
 				                 
                     
@@ -173,15 +136,12 @@
               </div>
                <div class="tsite_bc6"></div>
             </div>
-           
            </div>
     <!-- 帝王置顶大循环结束 -->
 		  <div class="bbs_msubt">全部评论</div>
 
           <div class="tsite_bcz">		 
-		  <div class="tsite_bc">		            
-		  
-					
+		  <div class="tsite_bc">		            	
            </div>
            @foreach ($comment as $k=>$v)
 		 	<div class="tsite_bcli_item" id="topic_floor_20">
@@ -190,7 +150,6 @@
 				                <div class="tsite_bntxinf">
 				                  <div class="tsite_bc1a">
 				                    <div class="tsite_bc1a1 op_nc cd_z1" style="position: static;" username="{{ $v->abc->uname }}" uid="239403759"><a target="_blank" href="http://www.xilexuan.com/user.do?method=home&amp;uid=239403759">{{ $v->abc->uname }}</a></div>
-				                    
 				                    <div class="rs_clear"></div>
 				                  </div>
 				                  <div class="tsite_bc1b2">
@@ -200,8 +159,7 @@
 				                    	</a>
 				                    	</div>
 				                  </div>
-				                  <!-- 以下是女神图标 -->
-				                   
+				                  <!-- 以下是女神图标 --> 
 				                </div>
 				                <div class="tsite_ki">
 				                  
@@ -230,7 +188,6 @@
                   </div>
                   <div class="tsite_bc5">
                      <div class="tsite_bc5b" style="display: none;">
-                       
 		                  <span class="tsite_bc5b1 tsite_report" data_reportsource="5" data_reporteeuid="239403759" data_reporteeusername="小撸手" data_reporturl="http://www.xilexuan.com:80/thread-100160.html"><a class="tsite_kgrp" href="javascript:void(0);">举报</a></span><span class="tsite_bc5b2">|</span>        
 		                  <span class="tsite_bc5b1 tsite_bc5b1_refer tsite_scroll_to_end"><a href="javascript:void(0)">引用</a></span>                    
                       </div>
@@ -246,10 +203,8 @@
           <!-- <div style="clear:both">此处加载分页</div> -->
 						<div class="tsite_pages tsite_pdmin tsite_pages_bottom">
     <div class="mc_Paging op_page Baidu_paging_indicator">
-          
     </div>
 
-						   
 					       <div class="rs_clear"></div>      
 					    </div>
 					    
@@ -259,7 +214,6 @@
               <div class="tsite_bcli">
                 <div class="tsite_bc1 tsite_reply_topic_namecard">
 										<!-- 回帖中的 左侧用户名片 -->
-
 
 									</div>
                 <div class="tsite_bcrz">
@@ -271,7 +225,7 @@
                     <div class="tsite_bc7q">
                     @if (session()->has('uname'))
                      	<div class="title" id="comment">
-							<h3>话题评论</h3>
+							<h3><img src="/HomeStyle/images/zybh.png" alt="话题评论"></h3>
 						  </div>
 						  <div id="respond">
 								<form id="comment-form" name="comment-form" action="/comment" method="POST">
@@ -279,7 +233,7 @@
 									<div class="comment">
 										<input name="tid" class="form-control" size="22" maxlength="15" autocomplete="off" tabindex="1" type="hidden" value="{{ $topic->id }}">
 										<div class="comment-box">
-											<textarea placeholder="说点什么吧!!!" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+											<textarea placeholder="说点什么吧" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
 											<div class="comment-ctrl">
 												<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
 												<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>
@@ -292,7 +246,6 @@
 							</div>
                       @else
 	                       <div class="tsite_bc7q1" style="">
-	                       
 	                        <div class="tsite_bc7q1b"> <span class="tsite_bc7q1b1">评论请先</span> <span class="tsite_bc7q1b2"><a href="/login">登录</a></span> <span class="tsite_bc7q1b3">|</span> <span class="tsite_bc7q1b4"><a href="/login/create">注册</a></span> </div>
 	                      </div>
                     @endif
@@ -310,16 +263,7 @@
     <!--bbs_main end--> 
   </div>
 </div>
-
-  
-
-
 </div></div>
-
-
-
-
-
 <script type="text/javascript" src="/HomeStyle/ht/header.js.下载"></script>
 <script type="text/javascript" src="/HomeStyle/ht/ZeroClipboard.js.下载"></script>
 <script>

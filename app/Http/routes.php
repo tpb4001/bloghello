@@ -61,6 +61,8 @@ Route::resource('/Bdetalis','Home\BdetalisController');
 	// 博主相册管理
 	Route::resource('/myalbum','Home\AlbumController');
 
+// 留言管理
+Route::resource('/message','Home\MessageController');
 
 
 

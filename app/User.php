@@ -44,15 +44,23 @@ class User extends Model implements AuthenticatableContract,
 
     public function noticeinfo()
     {
-        return $this->hasOne('App\Models\notices','uid');
+        return $this->hasOne('App\Models\Notices','uid');
     }
     
     public function articleinfo()
     {
-        return $this->hasOne('App\Models\article','aid');
+        return $this->hasOne('App\Models\Article','aid');
     }
     public function topicinfo()
     {
-        return $this->hasOne('App\Models\topic','uid');
+        return $this->hasOne('App\Models\Topic','uid');
+    }
+    public function messageinfo()
+    {
+        return $this->hasOne('App\Models\Message','uid');
+    }
+    public function message_hfinfo()
+    {
+        return $this->hasOne('App\Models\Message_hf','uid');
     }
 }

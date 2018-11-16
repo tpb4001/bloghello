@@ -53,7 +53,7 @@
   </div>
     @if (session()->has('uname'))
   <div class="title" id="comment">
-	<h3>评论</h3>
+	<h3><img src="/HomeStyle/images/zybh.png" alt="文章评论"></h3>
   </div>
  <div id="respond">
 	<form id="comment-form" name="comment-form" action="/comment" method="POST">

@@ -29,7 +29,6 @@
 <![endif]-->
 </head>
 <body class="user-select">
-
 	<header class="header">
 	<nav class="navbar navbar-default" id="navbar">
 		<div class="container">
@@ -82,7 +81,7 @@
 				  <li><a data-cont="{{ $v->cname }}" title="{{ $v->cname }}" href="/list/{{ $v->id }}">{{ $v->cname }}</a></li>
 				  @endforeach
 				  <li><a data-cont="话题中心" title="话题中心" href="/topic">话题中心</a></li>
-				  <li><a data-cont="留言板" title="留言板" href="/">留言板</a></li>
+				  <li><a data-cont="留言板" title="留言板" href="/message">留言板</a></li>
 				</ul>
 				<!-- 导航栏 结束 -->
 		  	</div>
