@@ -271,7 +271,7 @@
                     <div class="tsite_bc7q">
                     @if (session()->has('uname'))
                      	<div class="title" id="comment">
-							<h3>话题评论</h3>
+							<h3><img src="/HomeStyle/images/zybh.png" alt="话题评论"></h3>
 						  </div>
 						  <div id="respond">
 								<form id="comment-form" name="comment-form" action="/comment" method="POST">
@@ -279,7 +279,7 @@
 									<div class="comment">
 										<input name="tid" class="form-control" size="22" maxlength="15" autocomplete="off" tabindex="1" type="hidden" value="{{ $topic->id }}">
 										<div class="comment-box">
-											<textarea placeholder="说点什么吧（登录即可留言）" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+											<textarea placeholder="说点什么吧" name="content" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
 											<div class="comment-ctrl">
 												<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
 												<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>

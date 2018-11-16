@@ -17,10 +17,12 @@ class TopicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $topic = Topic::all();
-        return view('admin.topic.index',['title'=>'话题列表','topic'=>$topic]);
+        $showCount = $request->input('showCount',1);
+        $search = $request->input('search','');
+        $topic = Topic::where('title','like','%'.$search.'%')->paginate($showCount);
+        return view('admin.topic.index',['title'=>'话题列表','topic'=>$topic,'request'=>$request->all()]);
     }
 
     /**

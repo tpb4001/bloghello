@@ -27,13 +27,13 @@ class IndexController extends Controller
      */
     public function index()
     {
-        
+
         // 文章
         $article = Article::orderBy('created_at','desc')->paginate(5);
         // 友情链接
         $link = Link::all();
         // 话题
-        $topic = Topic::all();
+        $topic = Topic::get()->take(3);
         // 广告
         $advert = Advert::all();
         //轮播图
@@ -44,7 +44,13 @@ class IndexController extends Controller
         // 标签云
         $tags = Tags::all();
         // 搜索
-        
+        if (!empty($_GET['type']) && !empty($_GET['title'])) {
+            if ($_GET['type']=='article') {
+                $article = Article::where('title','like',"%{$_GET['title']}%")->orderBy('created_at','desc')->paginate(5);
+            }else{
+                $topic = Topic::where('title','like',"%{$_GET['title']}%")->get()->take(3);
+            }
+        }
         //首页视图
         return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert,'tags'=>$tags]);
     }

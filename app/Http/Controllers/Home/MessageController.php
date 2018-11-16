@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Article_pl;
-use App\Models\Article;
-use App\Models\Articleinfo;
-use App\User;
-use DB;
-
-class Article_plController extends Controller
+use App\Models\Message;
+use App\user;
+use App\Models\Message_hf;
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +18,8 @@ class Article_plController extends Controller
      */
     public function index()
     {
-        
+        $message = Message::all();
+       return view('home.message.message',['message'=>$message]);
     }
 
     /**
@@ -42,7 +40,16 @@ class Article_plController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message = new Message;
+        $uid = User::where('uname',$request->input('uname'))->first()->id;
+        $message->uid = $uid;
+        $message->umes = $request->input('umes');
+        // 判断数据是否存储成功
+        if($message->save()){
+            return back();
+        }else{
+            return back();
+        }
     }
 
     /**
@@ -53,9 +60,7 @@ class Article_plController extends Controller
      */
     public function show($id)
     {
-        $article_pl = Article_pl::where('aid',$id)->get();
-        // dump($message_hf);
-         return view('admin.article.pinglun',['article_pl'=>$article_pl]);
+        //
     }
 
     /**
@@ -89,7 +94,6 @@ class Article_plController extends Controller
      */
     public function destroy($id)
     {
-       
-
+        //
     }
 }

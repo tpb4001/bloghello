@@ -94,11 +94,15 @@
 		</div>
 	</div>
   <div class="widget widget_search">
-	<form class="navbar-form" action="/Search" method="get">
+	<form class="navbar-form" action="/" method="get">
 	  <div class="input-group">
-		<input type="text" name="title" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+	  	<select name="type" style="float: left;">
+			<option value="article">文章</option>
+			<option value="topic">话题</option>
+	  	</select>
+		<input type="text" name="title" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off" style="margin-top: 10px;">
 		<span class="input-group-btn">
-		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		<button class="btn btn-default btn-search" name="search" type="submit" style="margin-top: 32px;">搜索</button>
 		</span> </div>
 	</form>
   </div>
@@ -108,7 +112,7 @@
 	  <ul> 
 	  	    @foreach ($topic as $k=>$v)       
 			<li><a title="{{ $v->title }}" href="/topic/{{ $v->id }}" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/201610181739277776.jpg" src="/HomeStyle/images/201610181739277776.jpg" alt="{{ $v->title }}" style="display: block;" draggable="false">
+				<img class="thumb" data-original="/HomeStyle/images/qcsg.jpg" src="/HomeStyle/images/qcsg.jpg" alt="{{ $v->title }}" style="display: block;" draggable="false">
 			</span><span class="text">{{ $v->title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
 				{{ $v->created_at }}
 			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>{{ $v->path }}</span></a></li>
@@ -122,18 +126,14 @@
 	<a href="{{ $v->url }}" target="_blank" rel="nofollow" title="{{ $v->aname }}" draggable="false">
 	<img style="width: 100%" src="{{ $v->image }}" alt="{{ $v->aname }}" draggable="false"></a>
 	@endforeach
-	<a href="#" target="_blank" rel="nofollow" title="专业网站建设" draggable="false">
-	<img style="width: 100%" src="/HomeStyle/images//201610241224221511.jpg" alt="专业网站建设" draggable="false"></a>    
+	   
  </div>
- <div class="widget widget_sentence">    
-	<a href="#" target="_blank" rel="nofollow" title="BlogHello" draggable="false">
-	<img style="width: 100%" src="/HomeStyle/images/logo4.png" alt="BlogHello" draggable="false"></a>    
- </div>
+
 <div class="widget widget_sentence">
-  <h3>友情链接</h3>
-  <div class="widget-sentence-link" style="height: 140px;">
+  <h3><b>友情链接</b></h3>
+  <div class="widget-sentence-link" style="height: 50px;">
   	@foreach($link as $k => $v)
-	<a href="{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;
+	<a href="{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	@endforeach
   </div>
 </div>

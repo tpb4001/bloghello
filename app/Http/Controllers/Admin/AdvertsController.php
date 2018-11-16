@@ -14,10 +14,12 @@ class AdvertsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $advert = Advert::all();
-        return view('admin.advert.index',['title'=>'浏览广告','advert'=>$advert]);
+        $showCount = $request->input('showCount',2);
+        $search = $request->input('search','');
+        $advert = Advert::where('aname','like','%'.$search.'%')->paginate($showCount);
+        return view('admin.advert.index',['title'=>'浏览广告','advert'=>$advert,'request'=>$request->all()]);
     }
 
     /**

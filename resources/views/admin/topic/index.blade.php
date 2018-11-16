@@ -2,11 +2,24 @@
 
 @section('content')
 <div class="mws-panel grid_8">
-    <div class="mws-panel-header">
-        <span>话题列表</span>
-    </div>
-    <div class="mws-panel-body no-padding">
-        <table class="mws-table">
+                    <div class="mws-panel-header">
+                        <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">话题列表</font></font></span>
+                    </div>
+                     <form action="/admin/topic" method="get">
+                        <div class="mws-panel-body no-padding">
+                            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid">
+                       
+
+                      <div class="dataTables_filter" id="DataTables_Table_1_filter">
+                        <label>
+                          <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">关键字</font></font>
+                          <input type="text" name="search" value="{{ $request['search'] or '' }}" aria-controls="DataTables_Table_1"></label>
+                        <input type="submit" value="搜索" class="btn btn-info">
+                      </div>
+                    </form>
+
+        <table class="mws-datatable-fn mws-table dataTable" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -18,7 +31,7 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @foreach ($topic as $k=>$v)
                 <tr>
                     <td>{{ $v->id }}</td>
@@ -40,6 +53,11 @@
                 @endforeach
             </tbody>    
         </table>
-    </div>
-</div>
+        <div class="dataTables_info" id="DataTables_Table_1_info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分页显示</font></font></div>
+                        <div id="page_page">
+                            {!! $topic->appends($request)->render() !!}
+                        </div>
+                    </div>
+                    </div>
+                </div>
 @endsection

@@ -16,11 +16,13 @@ class LinksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $link = Link::all();
-        return view('admin.links.index',['title'=>'链接详情','link'=>$link]);
+        $showCount = $request->input('showCount',3);
+        $search = $request->input('search','');
+        $link = Link::where('lname','like','%'.$search.'%')->paginate($showCount);
+        return view('admin.links.index',['title'=>'链接详情','link'=>$link,'request'=>$request->all()]);
         
     }
 

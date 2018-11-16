@@ -20,7 +20,8 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $topic = Topic::all();
+        $topic = new Topic;
+        $topic = $topic::all();
         // dump($topic);
         return view('home.topic.index',['topic'=>$topic]);
     }

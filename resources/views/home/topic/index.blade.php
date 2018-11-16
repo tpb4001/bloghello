@@ -2,8 +2,14 @@
 
 
 @section('content')
+  
 	<table class="table table-hover">
-  <caption>全部话题</caption>
+    
+      <caption style="line-height: 50px;font-size: 22px;">
+      <a href="/topic/create" style="float: right;font-size: 20px;" class="btn btn-info">话题发布</a>
+       全部话题
+      </caption>
+  
   <thead>
     <tr>
       <th>标题</th>
@@ -13,20 +19,17 @@
     </tr>
   </thead>
   <tbody>
-   
-    @foreach ($topic as $k=>$v)
-    <?php
-        // 评论条数
-        $comment = \App\Models\Comment::where('tid',$v['id'])->get();
-        $sum = count($comment);
-    ?>
+    
+   @foreach($topic as $k=>$v)
+
     <tr>
-      <td><a href="/">[bloghello]</a> <a href="/topic/{{ $v->id }}">{{ $v->title }}</a></td>
+      <td><a href="/topic/{{ $v->id }}">{{ $v->title }}</a></td>
       <td>{{ $v->abc->uname }}</td>
-      <td>{{ $v->created_at}}</td>
-      <td>{{ $sum }}/{{ $v->path }}</td>
+      <td>{{ $v->created_at }}</td>
+      <td></td>
     </tr>
-    @endforeach
+    
+   @endforeach
   </tbody>
 </table>
 @endsection

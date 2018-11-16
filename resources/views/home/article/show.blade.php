@@ -22,7 +22,7 @@
 
 		  <script>                  window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "32" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=0.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
   </article>
-  <div class="article-tags" style="text-align: left;">标签：<a href="#list/2/" rel="tag" draggable="false">DTcms博客</a><a href="#list/3/" rel="tag" draggable="false">木庄网络博客</a><a href="#list/4/" rel="tag" draggable="false">独立博客</a><a href="#list/5/" rel="tag" draggable="false">修复优化</a>
+  <div class="article-tags" style="text-align: left;">标签：<a href="#list/2/" rel="tag" draggable="false">DTcms博客</a><a href="/" rel="tag" draggable="false">bloghello博客</a><a href="/" rel="tag" draggable="false">独立博客</a><a href="/" rel="tag" draggable="false">修复优化</a>
 	</div>
   <div class="relates">
 	<div class="title">
@@ -44,7 +44,7 @@
   </div>
     @if (session()->has('uname'))
   <div class="title" id="comment">
-	<h3>评论</h3>
+	<h3><img src="/HomeStyle/images/zybh.png" alt="文章评论"></h3>
   </div>
   <div id="respond">
 		<form id="comment-form" name="comment-form" action="/comment" method="POST">
