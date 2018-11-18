@@ -17,9 +17,9 @@ class BkzhuyeController extends Controller
      */
     public function index($id)
     {
+
         $article = Article::where('uid',$id)->get();
-        $user = User::where('uname',$id)->get();
-        return view('home.bkzhuye.index',['article'=>$article,'user'=>$user]);
+        return view('home.bkzhuye.index',['article'=>$article]);
     }
 
     /**
