@@ -23,6 +23,7 @@
             <th>标题</th>
             <th>发起人</th>
             <th>话题内容</th>
+            <th>话题图片</th>
             <th>浏览次数</th>
             <th>发布时间</th>
             <th>操作</th>
@@ -35,6 +36,7 @@
             <td>{{ $v->title }}</td>
             <td>{{ $v->abc->uname }}</td>
             <td>{!! $v->content !!}</td>
+            <td>{{ $v->topic->image or '无图片' }}</td>
             <td>{{ $v->path }}</td>
             <td>{{ $v->created_at }}</td>
             <td><a href="/admin/topic/{{ $v->id }}" class="btn btn-info">详情</a>

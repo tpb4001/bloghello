@@ -10,6 +10,10 @@
   	  	<label for="exampleInputEmail1">话题标题</label>
   	  	<input type="text" class="form-control" name="title" placeholder="话题标题">
   	</div> 
+    <div class="form-group">
+        <label for="exampleInputEmail1">话题图片</label>
+        <input type="file" name="image">
+    </div>
  	 <div class="form-group" style="height: 420px;">
     	<label for="exampleInputEmail1">话题内容</label>
     	<!-- 加载编辑器的容器 -->

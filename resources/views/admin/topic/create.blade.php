@@ -16,7 +16,12 @@
     					<input type="text" class="small" name="title">
     				</div>
     			</div>
-                
+                <div class="mws-form-row">
+                    <label class="mws-form-label">话题图片</label>
+                    <div class="mws-form-item">
+                        <input type="file" name="image">
+                    </div>
+                </div>
     			<div class="mws-form-row">
     				<label class="mws-form-label">话题内容</label>
     				<div class="mws-form-item">

@@ -54,6 +54,16 @@ class TopicController extends Controller
         $topic->title  = $request->input('title');
         $topic->uid  = $uid;
         $topic->content  = $request->input('content'); 
+         if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $topic->image = $profile_path;
+        }
         if($topic->save()) {
             // 提交事务   
             DB::commit();
