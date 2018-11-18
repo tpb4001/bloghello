@@ -6,21 +6,20 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
+use App\Models\Article;
 use App\User;
-use App\Models\Message_hf;
-
-class MessageController extends Controller
+class BkzhuyeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $message = Message::all();
-        return view('home.message.message',['message'=>$message]);
+
+        $article = Article::where('uid',$id)->get();
+        return view('home.bkzhuye.index',['article'=>$article]);
     }
 
     /**
@@ -41,16 +40,7 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $message = new Message;
-        $uid = User::where('uname',$request->input('uname'))->first()->id;
-        $message->uid = $uid;
-        $message->umes = $request->input('umes');
-        // 判断数据是否存储成功
-        if($message->save()){
-            return back();
-        }else{
-            return back();
-        }
+        //
     }
 
     /**
