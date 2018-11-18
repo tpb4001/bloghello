@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
-use App\user;
+use App\User;
 use App\Models\Message_hf;
 class MessageController extends Controller
 {
@@ -18,8 +18,9 @@ class MessageController extends Controller
      */
     public function index()
     {
+        
         $message = Message::all();
-        return view('admin.message.index',['message'=>$message]);
+        return view('home.message.message',['message'=>$message]);
     }
 
     /**
@@ -40,7 +41,16 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message = new Message;
+        $uid = User::where('uname',$request->input('uname'))->first()->id;
+        $message->uid = $uid;
+        $message->umes = $request->input('umes');
+        // 判断数据是否存储成功
+        if($message->save()){
+            return back();
+        }else{
+            return back();
+        }
     }
 
     /**
@@ -51,10 +61,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-
-        $message_hf = Message_hf::where('mid',$id)->get();
-        // dump($message_hf);
-         return view('admin.message.show',['message_hf'=>$message_hf]);
+        //
     }
 
     /**
@@ -65,7 +72,7 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**
@@ -77,8 +84,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-       
+        //
     }
 
     /**
@@ -87,13 +93,8 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
     public function destroy($id)
     {
-        if (Message::destroy($id)) {
-            return redirect('admin/message')->with('success','删除成功');
-        } else {
-            return back()->with('error','删除失败');
-        }
+        //
     }
 }

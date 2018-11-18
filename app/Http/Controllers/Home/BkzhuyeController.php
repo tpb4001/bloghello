@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
-use App\user;
-use App\Models\Message_hf;
-class MessageController extends Controller
+use App\Models\Article;
+use App\User;
+class BkzhuyeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $message = Message::all();
-        return view('admin.message.index',['message'=>$message]);
+        $article = Article::where('uid',$id)->get();
+        $user = User::where('uname',$id)->get();
+        return view('home.bkzhuye.index',['article'=>$article,'user'=>$user]);
     }
 
     /**
@@ -51,10 +51,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-
-        $message_hf = Message_hf::where('mid',$id)->get();
-        // dump($message_hf);
-         return view('admin.message.show',['message_hf'=>$message_hf]);
+        //
     }
 
     /**
@@ -65,7 +62,7 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**
@@ -77,8 +74,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-       
+        //
     }
 
     /**
@@ -87,13 +83,8 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
     public function destroy($id)
     {
-        if (Message::destroy($id)) {
-            return redirect('admin/message')->with('success','删除成功');
-        } else {
-            return back()->with('error','删除失败');
-        }
+        //
     }
 }

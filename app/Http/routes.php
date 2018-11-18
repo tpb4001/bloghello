@@ -43,7 +43,7 @@ Route::resource('/pinglun','Home\Article_plController');
 Route::resource('/topic','Home\TopicController');
 // 话题评论
 Route::resource('/comment','Home\CommentController');
-
+Route::resource('/message', 'Home\MessageController');
 // 修改密码
 Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
 // 个人详情	
@@ -52,6 +52,8 @@ Route::resource('/Pdetalis','Home\PdetalisController');
 Route::post('/Bdetalis/uploads','Home\BdetalisController@uploads');
 // 博主详情
 Route::resource('/Bdetalis','Home\BdetalisController');
+	// 博主前台页面
+	Route::get('/grbk/{id}','Home\BkzhuyeController@index');
 	// 博主文章管理
 	Route::resource('/detalis/article','Home\ArticleController');
 	// 相册上传
