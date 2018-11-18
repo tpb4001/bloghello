@@ -63,7 +63,6 @@
 	}
 </style>
 <meta name="keywords" content="给我留言">
-<meta name="description" content="静觅-给我留言">
 <script type="text/javascript">
 	jQuery(document).ready( function() {
 		jQuery('.video').fitVids();
