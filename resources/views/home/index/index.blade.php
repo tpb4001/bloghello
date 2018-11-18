@@ -118,7 +118,7 @@
 	  <ul> 
 	  	    @foreach ($topic as $k=>$v)       
 			<li><a title="{{ $v->title }}" href="/topic/{{ $v->id }}" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="/HomeStyle/images/qcsg.jpg" src="/HomeStyle/images/qcsg.jpg" alt="{{ $v->title }}" style="display: block;" draggable="false">
+				<img class="thumb" data-original="" src="{{ $v->image }}" alt="{{ $v->title }}" style="display: block;" draggable="false">
 			</span><span class="text">{{ $v->title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
 				{{ $v->created_at }}
 			</span></a></li>
@@ -130,7 +130,7 @@
  	<h3>广告</h3>
  	 @foreach ($advert as $k=>$v)   
 	<a href="{{ $v->url }}" target="_blank" rel="nofollow" title="{{ $v->aname }}" draggable="false">
-	<img style="width: 100%" src="{{ $v->image }}" alt="{{ $v->aname }}" draggable="false"></a>
+	<img style="width: 100%; margin-bottom:20px;" src="{{ $v->image }}" alt="{{ $v->aname }}" draggable="false"></a>
 	@endforeach
 	   
  </div>

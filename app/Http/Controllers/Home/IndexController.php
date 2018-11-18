@@ -107,7 +107,7 @@ class IndexController extends Controller
         $articleinfo->path = $path;
         $articleinfo->save();
         //此用户文章
-        $article_user = Article::where('uid',$article->uid)->get();
+        $article_user = Article::where('uid',$article->uid)->get()->take(4);
         // 标签
         $tags = Tags::all();
         // 文章评论
