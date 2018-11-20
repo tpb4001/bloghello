@@ -42,7 +42,7 @@
                          <img src="{{ $data->image }}" alt="" width="40px">
                     </div>
                </div>
-                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="添加" class="btn btn-success"></font></font>
+                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="修改" class="btn btn-success"></font></font>
                 <input type="reset" value="重置" class="btn btn-info">
               </div>
             </form>

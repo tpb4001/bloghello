@@ -89,12 +89,12 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
     </div>
 	
     <div class="author-name">
-    	<a href="">不一样的天空w</a>
+    	<a href="">{{ $user->uname }}</a>
     </div>
 
     <div class="author-intro">
     </div>
-    <p class="register-time"><span class="color77">注册时间：</span>2016-09-22</p>
+    <p class="register-time"><span class="color77">注册时间：</span>{{ $user->created_at }}</p>
 
     <ul class="tree-list clearfix">
         <li>
