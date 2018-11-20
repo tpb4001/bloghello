@@ -102,6 +102,8 @@ class AlbumController extends Controller
     public function edit($id)
     {
         //
+        $album = Album::find($id);
+        return view('home.album.edit',['id'=>$id,'album'=>$album]);
     }
 
     /**
@@ -111,9 +113,18 @@ class AlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // 获取要修改的数据
+        $id = $request->input('id');
+        $album = Album::where('id',$id)->first();
+        $album->content = $request->input('data');
+        if ($album->save()) {
+            session('album','success');
+            echo 'success';
+        } else {
+            echo 'error';
+        }
     }
 
     /**

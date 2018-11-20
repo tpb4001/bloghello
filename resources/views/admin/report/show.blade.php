@@ -11,19 +11,19 @@
     			<div class="mws-form-row">
     				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文章详情</font></font></label>
     				<div class="mws-form-item">
-    					{{ $data->getT->title }}
+    					{{ $data->title }}
     				</div>
     			</div>
     			<div class="mws-form-row">
     				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">作者</font></font></label>
     				<div class="mws-form-item">
-    					{{ $data->getB->uname }}
+    					{{ $data->abc->uname }}
     				</div>
     			</div>
     			<div class="mws-form-row">
     				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">文章内容</font></font></label>
     				<div class="mws-form-item">
-    					{!! $data->getTinfo->article !!}
+    					{!! $data->articleinfo->article !!}
     				</div>
     			</div>
     		</div>

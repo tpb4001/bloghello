@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
+use DB;
+use App\Models\Article;
+use App\Models\Articleinfo;
+
 class ReportController extends Controller
 {
     /**
@@ -52,8 +56,13 @@ class ReportController extends Controller
     public function show($id)
     {
         //文章详情
-        $data = Report::find($id);
-        return view('admin.report.show',['data'=>$data]);
+        $data = Article::find($id);
+        if (!empty($data)) {
+            return view('admin.report.show',['data'=>$data]);
+        } else {
+            return back()->with('error','文章已删除');
+        }
+        
     }
 
     /**
@@ -95,4 +104,26 @@ class ReportController extends Controller
             return back()->with('error','删除失败');
         }
     }
+
+    /**
+     * 删除违规文章
+     *
+     */ 
+     public function DelArticle($id)
+     {
+        // 开启事务  
+        DB::beginTransaction();
+        $res1 = Article::destroy($id);
+        $res2 = Articleinfo::where('aid',$id)->delete();
+        if ($res1 && $res2) {
+            // 提交事务   
+            DB::commit();
+            return redirect('admin/report')->with('success','删除成功');
+        } else {
+            // 回滚事务  
+            DB::rollBack();
+            return back()->with('error','已经删除');
+        }
+     }
+
 }

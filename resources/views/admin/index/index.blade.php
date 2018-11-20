@@ -75,19 +75,19 @@
     	<span>最新文章</span>
     <div class="mws-collapse-button mws-inset"><span></span></div></div>
     <div class="mws-panel-inner-wrap"><div class="mws-panel-body">
-       	<table class="table">
+       	<table class="table text-center">
 			<tr>
-				<th class="text-center" style="width: 510px;">标题</th>
-				<th>作者</th>
-				<th>发布时间</th>
+				<td style="width: 510px;">标题</td>
+				<td>作者</td>
+				<td>发布时间</td>
 			</tr>
 			@foreach($article as $k=>$v)
-			<tr onclick="location.href='/topic/4';">
-				<td class="text-center">{{ $v->title }}</td>
-				<td>{{ $v->auth }}</td>
-				<td>{{ $v->created_at }}</td>
-			</tr>
-			@endforeach           	
+				<tr>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->title }}</td>
+					<td>{{ $v->auth }}</td>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->created_at }}</td>
+				</tr>
+			@endforeach          	
 		</table> 
     </div></div>
 </div>
@@ -105,12 +105,12 @@
 				<td>发布时间</td>
 			</tr>
 			@foreach($notice as $k=>$v)
-			<tr onclick="location.href='/topic/4';">
-				<td>{{ $v->title }}</td>
-				<td>{{ $v->user->uname }}</td>
-				<td>{{ $v->created_at }}</td>
-			</tr>
-			@endforeach      	
+				<tr>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->title }}</td>
+					<td>{{ $v->user->uname }}</td>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->created_at }}</td>
+				</tr>
+			@endforeach   
 		</table> 
     </div></div>
 </div>
@@ -121,19 +121,19 @@
     	<span>最新话题</span>
     <div class="mws-collapse-button mws-inset"><span></span></div></div>
     <div class="mws-panel-inner-wrap"><div class="mws-panel-body">
-       	<table class="table">
+       	<table class="table text-center">
 			<tr>
-				<td class="text-center" style="width: 510px;">标题</td>
+				<td style="width: 510px;">标题</td>
 				<td>版主</td>
 				<td>发布时间</td>
 			</tr>
 			@foreach($topic as $k=>$v)
-			<tr onclick="location.href='/topic/4';">
-				<td>{{ $v->title }}</td>
-				<td>{{ $v->abc->uname }}</td>
-				<td>{{ $v->created_at }}</td>
-			</tr>
-			@endforeach        	
+				<tr>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->title }}</td>
+					<td>{{ $v->abc->uname }}</td>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->created_at }}</td>
+				</tr>
+			@endforeach       	
 		</table> 
     </div></div>
 </div>
@@ -144,12 +144,19 @@
     	<span>留言</span>
     <div class="mws-collapse-button mws-inset"><span></span></div></div>
     <div class="mws-panel-inner-wrap"><div class="mws-panel-body">
-       	<table class="table">
+       	<table class="table text-center">
 			<tr>
-				<td class="text-center" style="width: 510px;">内容</td>
+				<td style="width: 510px;">内容</td>
 				<td>用户</td>
 				<td>留言时间</td>
-			</tr>        	
+			</tr>
+			@foreach($message as $k=>$v)
+				<tr>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->umes }}</td>
+					<td>{{ $v->user_name->uname }}</td>
+					<td style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ $v->created_at }}</td>
+				</tr>
+			@endforeach         	
 		</table> 
     </div></div>
 </div>

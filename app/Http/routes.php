@@ -30,6 +30,7 @@ Route::get('/login/rephone','Home\LoginController@rephone');
 Route::get('/login/reuname','Home\LoginController@reuname');
 // 验证码
 Route::get('/login/sendMobileCode','Home\LoginController@sendMobileCode');
+// 注册用户
 Route::post('/login/store','Home\LoginController@store');
 
 
@@ -37,6 +38,10 @@ Route::post('/login/store','Home\LoginController@store');
 Route::get('/','Home\IndexController@index');
 // 文章详情
 Route::resource('/article','Home\IndexController');
+// 举报
+Route::get('/report/create/{id}','Home\ReportController@create');
+// 提交举报
+Route::get('/report/store','Home\ReportController@store');
 // 列表页
 Route::get('/list/{id}','Home\IndexController@list');
 // 文章评论
@@ -45,6 +50,7 @@ Route::resource('/pinglun','Home\Article_plController');
 Route::resource('/topic','Home\TopicController');
 // 话题评论
 Route::resource('/comment','Home\CommentController');
+// 留言板
 Route::resource('/message', 'Home\MessageController');
 // 修改密码
 Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
@@ -56,13 +62,15 @@ Route::post('/Bdetalis/uploads','Home\BdetalisController@uploads');
 Route::resource('/Bdetalis','Home\BdetalisController');
 	// 博主前台页面
 	Route::get('/grbk/{id}','Home\BkzhuyeController@index');
+	// 博主前台相册
+	Route::get('/grbk/myalbum/{id}','Home\BkzhuyeController@myalbum');
 	// 博主文章管理
 	Route::resource('/detalis/article','Home\ArticleController');
 	// 相册上传
 	Route::post('/myalbum/uploads','Home\AlbumController@uploads');
+	Route::post('/myalbum/update','Home\AlbumController@update');
 	// 博主相册管理
 	Route::resource('/myalbum','Home\AlbumController');
-
 // 留言管理
 Route::resource('/message','Home\MessageController');
 
@@ -103,6 +111,8 @@ Route::group(['middleware' => 'admin'],function()
 	Route::resource('/admin/pinglun','Admin\Article_plController');
 	// 留言管理
 	Route::resource('/admin/message','Admin\MessageController');
+	// 删除举报文章举报
+	Route::post('/admin/report/DelArticle/{id}','Admin\ReportController@DelArticle');
 	// 用户举报
 	Route::resource('/admin/report','Admin\ReportController');
 	// 轮播图

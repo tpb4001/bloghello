@@ -15,6 +15,7 @@ use App\Models\User_details;
 use App\Http\Controllers\Controller;
 use App\Providers\AppServiceProvider;
 use App\Http\Requests\UpassStoreRequest;
+use App\Models\Message;
 
 class IndexController extends Controller
 {
@@ -31,8 +32,10 @@ class IndexController extends Controller
         $notice = Notice::orderBy('created_at','desc')->paginate(5);
         // 话题
         $topic = Topic::orderBy('created_at','desc')->paginate(5);
+        // 留言
+        $message = Message::orderBy('created_at','desc')->paginate(5);
         //加载首页视图
-        return view('admin.index.index',['article'=>$article,'notice'=>$notice,'topic'=>$topic]);
+        return view('admin.index.index',['article'=>$article,'notice'=>$notice,'topic'=>$topic,'message'=>$message]);
     }
 
     /**

@@ -55,6 +55,19 @@
                 <div id="page_page">
                     {!! $topic->appends($request)->render() !!}
                 </div>
+                <script type="text/javascript">
+                    $(function(){
+                        $('#page_page ul').removeClass('.pagination');
+                        $("#page_page ul").attr("class", "#page_page");
+                    });
+                </script>
+                <script type="text/javascript" src="/Background/js/libs/jquery-1.8.3.min.js"></script>
+                <script type="text/javascript">
+                    $(function(){
+                        $('#page_page ul').removeClass('.pagination');
+                        $("#page_page ul").attr("class", "#page_page");
+                    });
+                </script>
             </div>
             </div>
         </div>

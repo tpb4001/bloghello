@@ -43,6 +43,10 @@
 	  @endforeach
 	</ul>
   </div>
+  <div class="text-right ">
+  	<!-- <a href="#" onclick="openwin()">举报</a> -->
+  	<a href="#" onclick="open('/report/create/{{ $article->id }}',',','width=600,height=600,left=150,top=150,resizable=no,scrollbars=no,status=yes,toolbar=no,location=no,menubar=no,menu=yes')">举报</a> 
+  </div>
   <div class="bbs_msubt">全部评论</div>
   <div id="postcomments" style="text-align: left;">
 	<ol id="comment_list" class="commentlist">

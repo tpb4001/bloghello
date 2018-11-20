@@ -92,6 +92,7 @@
 <script type="text/javascript" charset="utf-8" src="/HomeStyle/ly/helper-utils-moplus-monitor_cccb3ce.js.下载" _md_="_anymoore_https://openapi.baidu.com/cloudaapi/pkg/helper-utils-moplus-monitor_cccb3ce.js"></script>
 <script type="text/javascript" charset="utf-8" src="/HomeStyle/ly/push-smartBar_f0a0b3a.js.下载" _md_="_anymoore_https://openapi.baidu.com/cloudaapi/pkg/push-smartBar_f0a0b3a.js"></script>
 <script type="text/javascript" charset="utf-8" src="/HomeStyle/ly/app-socialshare_b5c9f0e.js.下载" _md_="_anymoore_https://openapi.baidu.com/cloudaapi/pkg/app-socialshare_b5c9f0e.js"></script>
+<script type="text/javascript" src="/layui-v2.4.5/layui/layui.all.js"></script>
 
 
 
@@ -109,14 +110,22 @@
 				{{ csrf_field() }}
 				<input type="hidden" name="uname" value="{{ session('uname') }}">
 				<div class="comt-title">
-					<div class="comt-avatar pull-left">
-						<img alt="" src="/HomeStyle/ly/png" class="avatar avatar-54 photo avatar-default" height="54" width="54">			
-					</div>
+					@if (!empty(session('uname'))) 
+						<div class="comt-avatar pull-left">
+							<img alt="" src="{{ $user->userinfo->avatar }}" class="avatar avatar-54 photo avatar-default" height="54" width="54">
+						</div> 
+						<span style="margin-left: 10px;">{{ $user->uname }}</span>
+					@else
+						<div class="comt-avatar pull-left">
+							<img alt="" src="/HomeStyle/ly/png" class="avatar avatar-54 photo avatar-default" height="54" width="54">
+						</div> 
+						<span style="margin-left: 10px;">未登录,请先<a href="/login">登录</a>在留言</span>
+					@endif
 				</div>
-				<!-- @if (session()->has('uname')) -->
+				@if (!empty(session('uname')))
 				<div class="comt">
 					<div class="comt-box">
-						<textarea placeholder="写点什么..." class="input-block-level comt-area" name="umes" id="comment" cols="100%" rows="3" tabindex="1" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};"></textarea>
+						<textarea placeholder="写点什么..." class="input-block-level comt-area" name="umes" id="comment" cols="100%" rows="3" tabindex="1" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};" style="resize:none"></textarea>
 						<div class="comt-ctrl">
 							<input class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5" value="提交评论"> 
 							<div class="comt-tips pull-right">
@@ -127,31 +136,37 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
+				@endif
 			</form>
+			<script type="text/javascript">
+				$('form').submit(function(){
+					var data = $('#comment').val();
+					if (data == '') {
+						layer.msg('请输入您的留言');
+						return false;
+					} else {
+						return true;
+					}
+					
+				});	
+			</script>
 		</div>
-		<!-- @else
-		<div class="tsite_bc7q1" style="">
-			<div class="tsite_bc7q1b">
-				<span class="tsite_bc7q1b1">评论请先</span> 
-				<span class="tsite_bc7q1b2"><a href="/login">登录</a></span> 
-				<span class="tsite_bc7q1b3">|</span> 
-				<span class="tsite_bc7q1b4"><a href="/login/create">注册</a></span>
-			</div>
-		</div>
-		@endif -->
 		<div id="postcomments">
 			<div id="comments">
-				<b> (208)</b>个小伙伴在吐槽
+				小伙伴在吐槽
 			</div>
 			@foreach ($message as $k=>$v)
 			<ol class="commentlist">
 				<li class="comment even thread-even depth-1" id="comment-95824">
-					<div class="c-avatar"><img alt="" data-original="https://cuiqingcai.com/avatar/bda8cdeccf7c8d891a3aa1b56c8c9a3e.png" class="avatar avatar-54 photo" height="54" width="54">
-						<div class="c-main" id="div-comment-95824">{{ $v->umes}}
-							<!-- <div class="c-meta">
-								<span class="c-author">{{ $v->user_name->uname}}</span>{{ $v->created_at}}<a rel="nofollow" class="comment-reply-link" href="" onclick="return addComment.moveForm( &quot;div-comment-95824&quot;, &quot;95824&quot;, &quot;respond&quot;, &quot;42&quot; )" aria-label="回复给李先生">回复</a>
-							</div> -->
+					<div class="c-avatar">
+						<img src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
+						<div style="margin-left: 72px; margin-bottom: 2px;">
+							{{ $v->user_name->uname}}
+						</div>
+						<div class="c-main" id="div-comment-95824">
+							{{ $v->umes}}
 						</div>
 					</div>
 				</li><!-- #comment-## -->
@@ -159,7 +174,17 @@
 			@endforeach
 		</div>
 	</div>
+	<div class="fy">
+		{!! $message->render() !!}
+		<script type="text/javascript">
+			$(function(){
+				$('.pagination').removeAttr('style');
+				$('.fy ul').attr('style','padding-bottom: 0px;margin-top: 10px;padding-top: 0px;');
+			});
+		</script>
+	</div>	
 </section>
+
 <script type="text/javascript">
 	/* <![CDATA[ */
 	var viewsCacheL10n = {"admin_ajax_url":"https:\/\/cuiqingcai.com\/wp-admin\/admin-ajax.php","post_id":"42"};

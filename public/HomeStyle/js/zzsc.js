@@ -1,5 +1,5 @@
 ﻿var radius = 60;
-var d = 160;
+var d = 100;
 var dtr = Math.PI / 160;
 var mcList = [];
 var lasta = 1;

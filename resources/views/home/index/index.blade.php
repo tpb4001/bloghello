@@ -16,8 +16,8 @@
 		</ol>
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<a href="#" target="_blank" title="" draggable="false">
-				<img src="/HomeStyle/images/liuyanban.jpg" alt="" class="img-responsive" draggable="false"></a>
+				<a href="/message" target="_blank" title="" draggable="false">
+				<img src="/HomeStyle/images/liuyanban.jpg" alt="给我们留言" class="img-responsive" draggable="false"></a>
 			</div>
 			@foreach($image as $k=>$v)
 			<div class="item">
@@ -86,11 +86,11 @@
 			<li role="presentation"><a href="#tagscloud" aria-controls="tagscloud" role="tab" data-toggle="tab" draggable="false">标签云</a></li>
 		</ul>
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane contact active" id="notice">
+			<div role="tabpanel" class="tab-pane contact active" id="notice" >
 				<h4 style="text-align: center;">{{ $ljg->title }}</h4>
 				<h5>{!! $ljg->content !!}</h5>
 			</div>
-				<div role="tabpanel" class="tab-pane contact" id="tagscloud">
+				<div role="tabpanel" class="tab-pane contact" id="tagscloud" style="width: 358px;margin-left: 0px;height: 154px;">
 					@foreach ($tags as $k=>$v)
 						<a href="http://{{ $v->url }}" target="_blank" class="{{ $v->tagsclass }}">{{ $v->tname }}</a>
 					@endforeach
@@ -113,6 +113,7 @@
 	</form>
   </div>
 </div>
+<!-- 话题 开始 -->
 <div class="widget widget_hot">
 	  <h3>话题讨论</h3>
 	  <ul> 
@@ -126,6 +127,22 @@
 
 	  </ul>
  </div>
+ <!-- 话题 结束 -->
+ <!-- 推荐博主 开始 -->
+ <div class="widget widget_hot">
+	  <h3>推荐博主</h3>
+	  <ul> 
+	  	    @foreach ($Blogger as $k=>$v)       
+			<li><a title="{{ $v->uname }}" href="/grbk/{{ $v->id }}" draggable="false"><span class="thumbnail">
+				<img class="thumb" data-original="" src="{{ $v->userinfo->avatar }}" alt="{{ $v->title }}" style="display: block;" draggable="false">
+			</span><span class="text">{{ $v->uname }}</span><span class="muted">
+				{{ $v->userinfo->introduce }}
+			</span></a></li>
+			@endforeach
+
+	  </ul>
+ </div>
+  <!-- 推荐博主 结束 -->
  <div class="widget widget_sentence">
  	<h3>广告</h3>
  	 @foreach ($advert as $k=>$v)   

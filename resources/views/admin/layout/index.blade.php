@@ -37,6 +37,8 @@
 <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/Background/js/libs/jquery-1.8.3.min.js"></script>
+
 <title>Blog hello</title>
 
 </head>
@@ -120,7 +122,7 @@
                     </li>
                     <li>
                         <a href="#"><i class="icon-user"></i>用户管理</a>
-                          <ul>
+                          <ul class="closed" style="display: none;">
                             <div id="menu-Twolevel">
                             <a href="/admin/users"></i>用户列表</a>
                             <ul>
@@ -134,31 +136,28 @@
                     </li>
                     <li>
                         <a href="#"><i class="icon-align-left"></i>类别管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                             <li><a href="/admin/cates">浏览类别</a></li>
                             <li><a href="/admin/cates/create">添加类别</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="icon-tags"></i>标签管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/tags">浏览标签</a></li>
                             <li><a href="/admin/tags/create">添加标签</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href=""><i class="icon-book"></i>系统公告</a>
-                    </li>
-                    <li>
                         <a href="#"><i class="icon-edit"></i>公告管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/notice">浏览公告</a></li>
                           <li><a href="/admin/notice/create">添加公告</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="/admin/article"><i class="icon-book"></i>文章管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/article">浏览文章</a></li>
                           <li><a href="/admin/article/create">添加文章</a></li>
                           <li><a href="/admin/pinglun">浏览评论</a></li>
@@ -166,20 +165,20 @@
                     </li>
                     <li>
                         <a href="/admin/topic"><i class="icon-book"></i>话题管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/topic">浏览话题</a></li>
                           <li><a href="/admin/topic/create">添加话题</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="icon-pencil-2"></i>留言管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/message">浏览留言</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="icon-pictures"></i>轮播图</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/image">浏览图片</a></li>
                           <li><a href="/admin/image/create">添加图片</a></li>
                         </ul>
@@ -196,7 +195,7 @@
                     </li>
                     <li>
                         <a href="#"><i class="icon-pictures"></i>广告管理</a>
-                        <ul>
+                        <ul class="closed" style="display: none;">
                           <li><a href="/admin/advert">浏览广告</a></li>
                           <li><a href="/admin/advert/create">添加广告</a></li>
                         </ul>
@@ -249,7 +248,6 @@
     </div>
 
     <!-- JavaScript Plugins -->
-    <script src="/Background/js/libs/jquery-1.8.3.min.js"></script>
     <script src="/Background/js/libs/jquery.mousewheel.min.js"></script>
     <script src="/Background/js/libs/jquery.placeholder.min.js"></script>
     <script src="/Background/custom-plugins/fileinput.js"></script>

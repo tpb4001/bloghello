@@ -34,11 +34,11 @@ class IndexController extends Controller
         // 推荐文章
         $recarticle = Articleinfo::orderBy('path','desc')->first();
         // 友情链接
-        $link = Link::all();
+        $link = Link::all()->take(15);
         // 话题
         $topic = Topic::get()->take(3);
         // 广告
-        $advert = Advert::all();
+        $advert = Advert::all()->take(3);
         //轮播图
         $image = Image::all();
         $lbt = count($image);
@@ -46,6 +46,8 @@ class IndexController extends Controller
         $ljg = Notice::orderBy('created_at','desc')->first();
         // 标签云
         $tags = Tags::all();
+        // 博主
+        $Blogger = User::where('Identity',2)->get()->take(3);
         // 搜索
         if (!empty($_GET['type']) && !empty($_GET['title'])) {
             if ($_GET['type']=='article') {
@@ -55,7 +57,7 @@ class IndexController extends Controller
             }
         }
         //首页视图
-        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert,'tags'=>$tags,'recarticle'=>$recarticle]);
+        return view('home.index.index',['ljg'=>$ljg,'image'=>$image,'lbt'=>$lbt,'article'=>$article,'link'=>$link,'topic'=>$topic,'advert'=>$advert,'tags'=>$tags,'recarticle'=>$recarticle,'Blogger'=>$Blogger]);
     }
 
     /**
@@ -109,7 +111,7 @@ class IndexController extends Controller
         //此用户文章
         $article_user = Article::where('uid',$article->uid)->get()->take(4);
         // 标签
-        $tags = Tags::all();
+        $tags = Tags::all()->take(5);
         // 文章评论
         $article_pl = Article_pl::where('aid',$id)->orderBy('created_at','desc')->get();
         // dump($article_pl);

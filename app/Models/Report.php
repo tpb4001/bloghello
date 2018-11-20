@@ -6,25 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    //
+    // 数据库表
     public $table = 'report';
-
-    public function getUser()
-    {
-    	return $this->hasOne('App\User','id','uid');
-    }
-
-    public function getB()
-    {
-    	return $this->hasOne('App\User','id','bid');
-    }
-
+    // 一对一关联 文章表
     public function getT()
     {
-        return $this->hasOne('App\Models\Article','id','aid');
-    }
-    public function getTinfo()
-    {
-    	return $this->hasOne('App\Models\Articleinfo','aid','aid');
+        return $this->hasOne('App\Models\Article','id','tid');
     }
 }

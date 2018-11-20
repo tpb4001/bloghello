@@ -41,11 +41,11 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
 	<div class="blog-main clearfix w1200">
         <div class="fl w890 blog-list clearfix">
             <div class="top-title mt30">
-                <span>
-                    全部博文
+                <span style="border-bottom: 1px solid #fff;">
+                    <a href="/grbk/{{ $id }}" style="margin-right: 0px;padding-bottom: 0px;">全部博文</a>
                 </span>
-                <span style="margin-left: 10px;">
-                    <a href="/grbk/myalbum/{{ $id }}">个人相册</a>
+                <span style="margin-left: 10px; border-bottom: 1px solid #f15142;">
+                    <a style="margin-right: 0px;" href="/grbk/myalbum/{{ $id }}">个人相册</a>
                 </span>
             </div>
 		    <ul class="list-items" id="list">
@@ -55,31 +55,22 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
 		            <span class="text-btn" mid="2220310" onclick="blogObj.delDraft($(this))">删除</span>
 		        </div>
 		        <!--博主本人和管理员 显示 结束-->
-		    	@foreach ($article as $k=>$v) 
+		    	@foreach ($album as $k=>$v) 
 			  	<article class="excerpt excerpt-1" style="">
-			  		<a class="focus" href="javascript:;" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="{{ $v->articleinfo->image }}" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
-					<header><a class="cat" href="javascript:;" title="BlogHello博客" draggable="false">BlogHello博客<i></i></a>
-						<h2><a href="/article/{{ $v->id }}" title="{{ $v->title }}" target="_blank" draggable="false">{{ $v->title }}</a>
+			  		<a class="focus" href="javascript:;" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="{{ $v->image }}" alt="{{ $v->images }}" style="display: inline;" draggable="false"></a>
+					<header><a class="cat" href="#" title="分享时间" draggable="false">分享时间<i></i></a>
+						<h2><a href="javascript:;" title="{{ $v->created_at }}" target="_blank" draggable="false">{{ $v->created_at }}</a>
 						</h2>
 					</header>
-					<p class="meta">
-						<time class="time"><i class="glyphicon glyphicon-time"></i> {{ $v->created_at }}</time>
-						<?php
-							// 评论条数
-							$article_pl = \App\Models\Article_pl::where('aid',$v['id'])->get();
-							$sum = count($article_pl);
-						?>
-						<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment">{{ $sum }}</i> </a>
-					</p>
 					<div style="height: 120px;overflow: hidden;">
-						{!! $v->articleinfo->article !!}	
+						{{ $v->content }}	
 					</div>
 				</article>
 			  	@endforeach
 		    </ul>
 		    <!-- 分页 开始 -->
 		    <div class="fy">
-                {!! $article->render() !!}
+                {!! $album->render() !!}
                 <script type="text/javascript">
                     $(function(){
                         $('.pagination').removeAttr('style');

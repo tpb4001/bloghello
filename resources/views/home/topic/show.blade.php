@@ -7,6 +7,7 @@
 <link type="text/css" href="/HomeStyle/ht/base.css" rel="stylesheet" media="all">
 <link type="text/css" href="/HomeStyle/ht/ns_bbs.css" rel="stylesheet" media="all">
 <script src="/HomeStyle/ht/hm.js.下载"></script><script type="text/javascript" src="/HomeStyle/ht/jquery-1.7.2.min.js.下载"></script>
+<script type="text/javascript" src="/layui-v2.4.5/layui/layui.all.js"></script>
 <script type="text/javascript" src="/HomeStyle/ht/jquery.popwin.js.下载"></script>
 <script type="text/javascript" src="/HomeStyle/ht/jquery.cookie.js.下载"></script>
 <script type="text/javascript" src="/HomeStyle/ht/jquery.placeholder.js.下载"></script>
@@ -242,7 +243,17 @@
 										</div>
 									</div>
 								</form>
-								
+								<script type="text/javascript">
+                  $('form').submit(function(){
+                    var data = $('textarea[name=content]').val();
+                    if (data == '') {
+                      layer.msg('请输入您的评论');
+                      return false;
+                    } else {
+                      return true;
+                    }
+                  }); 
+                </script>
 							</div>
                       @else
 	                       <div class="tsite_bc7q1" style="">

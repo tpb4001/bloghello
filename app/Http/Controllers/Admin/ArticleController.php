@@ -11,6 +11,7 @@ use App\Models\Articleinfo;
 use App\Models\Cates;
 use App\User;
 use DB;
+
 class ArticleController extends Controller
 {
     /**
@@ -157,7 +158,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-          // 开启事务  
+        // 开启事务  
         DB::beginTransaction();
         $res1 = Article::destroy($id);
         $res2 = Articleinfo::where('aid',$id)->delete();

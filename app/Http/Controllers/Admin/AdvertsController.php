@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Advert;
+
 class AdvertsController extends Controller
 {
     /**
@@ -97,7 +98,7 @@ class AdvertsController extends Controller
         $advert = Advert::find($id);
         $advert->url = $request->input('url');
         $advert->aname = $request->input('aname');
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $profile = $request -> file('image');
             $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
             $file_name = str_random('20').'.'.$ext;
@@ -122,12 +123,10 @@ class AdvertsController extends Controller
      */
     public function destroy($id)
     {
-        if(Advert::destroy($id)){
-
-         return redirect('admin/advert')->with('success','删除成功');
-         }else{
-
-         return back()->with('error','删除失败');
+        if (Advert::destroy($id)) {
+            return redirect('admin/advert')->with('success','删除成功');
+        } else {
+            return back()->with('error','删除失败');
         }
     }
 }

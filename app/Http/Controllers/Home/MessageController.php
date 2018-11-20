@@ -18,9 +18,12 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $message = Message::all();
-        return view('home.message.message',['message'=>$message]);
+    {   
+        // 获取留言
+        $message = Message::orderBy('created_at','desc')->paginate(6);
+        // 获取登录用户信息
+        $user = User::where('uname',session('uname'))->first();
+        return view('home.message.message',['message'=>$message,'user'=>$user]);
     }
 
     /**
