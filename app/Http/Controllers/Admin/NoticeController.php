@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Notice;
+use App\Http\Requests\NoticeStoreRequest;
 class NoticeController extends Controller
 {
     /**
@@ -39,7 +40,7 @@ class NoticeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NoticeStoreRequest $request)
     {
         
         $notice = new Notice;
