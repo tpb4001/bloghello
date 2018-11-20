@@ -146,7 +146,7 @@
  <div class="widget widget_sentence">
  	<h3>广告</h3>
  	 @foreach ($advert as $k=>$v)   
-	<a href="{{ $v->url }}" target="_blank" rel="nofollow" title="{{ $v->aname }}" draggable="false">
+	<a href="http://{{ $v->url }}" target="_blank" rel="nofollow" title="{{ $v->aname }}" draggable="false">
 	<img style="width: 100%; margin-bottom:20px;" src="{{ $v->image }}" alt="{{ $v->aname }}" draggable="false"></a>
 	@endforeach
 	   
@@ -156,7 +156,7 @@
   <h3><b>友情链接</b></h3>
   <div class="widget-sentence-link" style="height: 50px;">
   	@foreach($link as $k => $v)
-	<a href="{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="http://{{$v->url}}" title="{{$v->lname}}" target="_blank" draggable="false">{{$v->lname}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	@endforeach
   </div>
 </div>
