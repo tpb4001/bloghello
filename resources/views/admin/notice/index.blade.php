@@ -2,10 +2,20 @@
 
 @section('content')
 <div class="mws-panel grid_8">
-    <div class="mws-panel-header">
-        <span><i class="icon-table"></i>公告浏览</span>
-    </div>
-    <div class="mws-panel-body no-padding">
+                    <div class="mws-panel-header">
+                        <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">公告列表</font></font></span>
+                    </div>
+                     <form action="/admin/article" method="get">
+                        <div class="mws-panel-body no-padding">
+                            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid">
+                      <div class="dataTables_filter" id="DataTables_Table_1_filter">
+                        <label>
+                          <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">关键字</font></font>
+                          <input type="text" name="search" value="{{ $request['search'] or '' }}" aria-controls="DataTables_Table_1"></label>
+                        <input type="submit" value="搜索" class="btn btn-info">
+                      </div>
+                    </form>
         <table class="mws-table">
             <thead>
                 <tr>
@@ -35,6 +45,17 @@
                 @endforeach
             </tbody>
         </table>
+    <div class="dataTables_info" id="DataTables_Table_1_info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分页显示</font></font></div>
+    <div id="page_page">
+        {!! $notice->appends($request)->render() !!}
     </div>
+    <script type="text/javascript">
+        $(function(){
+            $('#page_page ul').removeClass('.pagination');
+            $("#page_page ul").attr("class", "#page_page");
+        });
+    </script>
+</div>
+</div>
 </div>
 @endsection

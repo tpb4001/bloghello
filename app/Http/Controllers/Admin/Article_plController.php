@@ -90,6 +90,12 @@ class Article_plController extends Controller
     public function destroy($id)
     {
        
+        if(Article_pl::destroy($id)){
 
+         return back()->with('success','删除成功');
+         }else{
+
+         return back()->with('error','删除失败');
+        }
     }
 }

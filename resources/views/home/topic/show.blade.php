@@ -111,7 +111,7 @@
                 <div class="bbs_mtzcon">
                   <div class="tsite_bc3z">
                     <div class="tsite_bc2b"><span class="bbs_t_title">{!! $topic->content !!}</span> 
-                                    <span class="tsite_bc2b3_top_digest_info"><span class="tsite_bc2b3" digest="0" top="0">	<span class="tsite_bc2b3_top"></span>	<span class="tsite_bc2b3_digest"></span>	<span class="tsite_bc2b3_lockflag"></span></span>
+                                    <span class="tsite_bc2b3_top_digest_info"><img src="{{ $topic->image }}" alt=""><span class="tsite_bc2b3" digest="0" top="0">	<span class="tsite_bc2b3_top"></span>	<span class="tsite_bc2b3_digest"></span>	<span class="tsite_bc2b3_lockflag"></span></span>
 				                  	</span></div>
                   
                     <div class="bbs_mbcons"><p style="text-align:center;">

@@ -14,10 +14,12 @@ class NoticeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notice = Notice::all();
-        return view('admin.notice.index',['notice'=>$notice]);
+        $showCount = $request->input('showCount',2);
+        $search = $request->input('search','');
+        $notice = Notice::where('aname','like','%'.$search.'%')->paginate($showCount);
+        return view('admin.notice.index',['notice'=>$notice,'request'=>$request->all()]);
     }
 
     /**

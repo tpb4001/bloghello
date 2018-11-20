@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Topic;
 use App\Models\Comment;
+use App\Http\Requests\TopicStoreRequest;
 use App\User;
 use DB;
 class TopicController extends Controller
@@ -19,7 +20,7 @@ class TopicController extends Controller
      */
     public function index(Request $request)
     {
-        $showCount = $request->input('showCount',1);
+        $showCount = $request->input('showCount',3);
         $search = $request->input('search','');
         $topic = Topic::where('title','like','%'.$search.'%')->paginate($showCount);
         return view('admin.topic.index',['title'=>'话题列表','topic'=>$topic,'request'=>$request->all()]);
@@ -41,7 +42,7 @@ class TopicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TopicStoreRequest $request)
     {
         // 开启事务   
         DB::beginTransaction();
@@ -49,6 +50,16 @@ class TopicController extends Controller
         $topic->title = $request->input('title');
         $topic->content = $request->input('content');
         $topic->uid  = $request->input('uid');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $topic->image = $profile_path;
+        }
         if($topic->save()) {
             // 提交事务   
             DB::commit();
@@ -98,6 +109,16 @@ class TopicController extends Controller
         $topic = Topic::find($id);
         $topic->title = $request->input('title');
         $topic->content = $request->input('content');
+        if($request->hasFile('image')){
+            $profile = $request -> file('image');
+            $ext = $profile ->getClientOriginalExtension(); //获取文件后缀
+            $file_name = str_random('20').'.'.$ext;
+            $dir_name = './uploads/'.date('Ymd',time());
+            $res = $profile -> move($dir_name,$file_name);
+            // 拼接数据库存放路径
+            $profile_path = ltrim($dir_name.'/'.$file_name,'.');
+            $topic->image = $profile_path;
+        }
         if($topic->save()) {
             // 提交事务   
             DB::commit();
@@ -119,8 +140,14 @@ class TopicController extends Controller
     {
         // 开启事务  
         DB::beginTransaction();
-        $res1 = Topic::destroy($id);
-        $res2 = Comment::where('tid',$id)->delete();
+        
+        $res1 = Topic::destroy($id); 
+        if(Comment::where('tid', $id)->first()){
+            $res2 = Comment::where('tid', $id)->delete();
+        }else{
+            $res2 = true;
+        }
+        
         if($res1 && $res2){
         // 提交事务   
          DB::commit();
@@ -128,7 +155,10 @@ class TopicController extends Controller
          }else{
         // 回滚事务  
          DB::rollBack();
-         return back()->with('error','删除失败');
-      }
+         return back()->with('error','删除失败'); 
+        }
+      
+      
+        
     }
 }

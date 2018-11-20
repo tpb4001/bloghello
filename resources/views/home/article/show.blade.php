@@ -60,7 +60,7 @@
 	<h3><img src="/HomeStyle/images/zybh.png" alt="文章评论"></h3>
   </div>
  <div id="respond">
-	<form id="comment-form" name="comment-form" action="/comment" method="POST">
+	<form id="comment-form" name="comment-form" action="/pinglun" method="POST">
 		{{ csrf_field() }}
 		<div class="comment">
 			<input name="aid" class="form-control" size="22" maxlength="15" autocomplete="off" tabindex="1" type="hidden" value="{{ $article->id }}">

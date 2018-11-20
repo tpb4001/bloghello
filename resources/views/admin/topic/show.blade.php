@@ -25,12 +25,7 @@
                     <td>{{ $v->created_at }}</td>
 
                     <td><a href="/admin/topic" class="btn btn-info">返回</a>
-						<a href="/admin/topic/{{$v->id}}/edit" class="btn btn-warning">修改</a>
-					<form action="/admin/topic/{{ $v->id }}" method="post" style="display: inline-block">
-						{{csrf_field()}}
-						{{method_field('DELETE')}}
-						<input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
-					</form>
+						
                     </td>
                 </tr>
                 @endforeach

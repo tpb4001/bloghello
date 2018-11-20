@@ -2,18 +2,7 @@
 
 
 @section('content')
-      <!-- 显示验证信息 开始 -->
-
-             @if (count($errors) > 0)
-                 <div class="mws-form-message error">
-                     <ul>
-                         @foreach ($errors->all() as $error)
-                             <li>{{ $error }}</li>
-                         @endforeach
-                     </ul>
-                 </div>
-             @endif
-           <!-- 显示验证信息 结束 -->
+      
   <div class="mws-panel grid_8">
         <div class="mws-panel-header">
             <span>{{ $title or '' }}</span>

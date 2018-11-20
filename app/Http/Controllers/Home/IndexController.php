@@ -102,7 +102,7 @@ class IndexController extends Controller
     public function show($id)
     {
         $article = Article::find($id);
-        // 访问量
+        //  访问量
         $path = $article->articleinfo->path;
         $path++;
         $articleinfo = Articleinfo::where('aid',$id)->first();

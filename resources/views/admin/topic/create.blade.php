@@ -6,7 +6,7 @@
     	<span>{{ $title or '' }}</span>
     </div>
     <div class="mws-panel-body no-padding">
-    	<form class="mws-form" action="/admin/topic" method="post">
+    	<form class="mws-form" action="/admin/topic" method="post" enctype="multipart/form-data">
     		{{ csrf_field() }}
             <input type="hidden" name="uid" value="{{ $account->id }}">
     		<div class="mws-form-inline">

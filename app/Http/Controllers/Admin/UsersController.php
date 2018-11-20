@@ -17,19 +17,20 @@ class UsersController extends Controller
     /**
      *   管理员页面
      */ 
-    public function Administrators()
+    public function Administrators(Request $request)
     {
-        $user_admin = User::where('Identity',1)->get();
-        return view('admin.users.Administrators',['title'=>'管理员','user_admin'=>$user_admin]);
+       
+        $user_admin = User::where('Identity',1)->paginate(3);
+        return view('admin.users.Administrators',['title'=>'管理员','user_admin'=>$user_admin,'request'=>$request->all()]);
     }
     
     /**
      *   博主页面
      */ 
-    public function Blogger()
+    public function Blogger(Request $request)
     {
-        $Blogger = User::where('Identity',2)->get();
-        return view('admin.users.Blogger',['title'=>'博主','Blogger'=>$Blogger]);
+        $Blogger = User::where('Identity',2)->paginate(2);
+        return view('admin.users.Blogger',['title'=>'博主','Blogger'=>$Blogger,'request'=>$request->all()]);
     }
 
     /**
@@ -45,10 +46,10 @@ class UsersController extends Controller
      *   普通用户页面
      *
      */ 
-    public function OrdinaryUser()
+    public function OrdinaryUser(Request $request)
     {
-        $OrdinaryUser = User::where('Identity',3)->get();
-        return view('admin.users.OrdinaryUser',['title'=>'普通用户','OrdinaryUser'=>$OrdinaryUser]);
+        $OrdinaryUser = User::where('Identity',3)->paginate(3);
+        return view('admin.users.OrdinaryUser',['title'=>'普通用户','OrdinaryUser'=>$OrdinaryUser,'request'=>$request->all()]);
     }
 
     /**
