@@ -63,7 +63,6 @@
 	}
 </style>
 <meta name="keywords" content="给我留言">
-<meta name="description" content="静觅-给我留言">
 <script type="text/javascript">
 	jQuery(document).ready( function() {
 		jQuery('.video').fitVids();
@@ -160,13 +159,24 @@
 			@foreach ($message as $k=>$v)
 			<ol class="commentlist">
 				<li class="comment even thread-even depth-1" id="comment-95824">
-					<div class="c-avatar">
-						<img src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
-						<div style="margin-left: 72px; margin-bottom: 2px;">
-							{{ $v->user_name->uname}}
-						</div>
+					<div class="c-avatar"><img alt="" data-original="https://cuiqingcai.com/avatar/bda8cdeccf7c8d891a3aa1b56c8c9a3e.png" src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
+						{{ $v->user_name->uname }}
 						<div class="c-main" id="div-comment-95824">
 							{{ $v->umes}}
+							@if($v->huifu)
+							<ol class="commentlist">
+								<li class="comment even thread-even depth-1" id="comment-95824">
+									<div class="c-avatar"><img alt="" data-original="https://cuiqingcai.com/avatar/bda8cdeccf7c8d891a3aa1b56c8c9a3e.png" src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
+										<div class="c-main" id="div-comment-95824">
+											{{ $v->huifu}}
+										</div>
+									</div>
+								</li><!-- #comment-## -->
+							</ol>
+							@endif
+							<!-- <div class="c-meta">
+								<span class="c-author">{{ $v->user_name->uname}}</span>{{ $v->created_at}}<a rel="nofollow" class="comment-reply-link" href="" onclick="return addComment.moveForm( &quot;div-comment-95824&quot;, &quot;95824&quot;, &quot;respond&quot;, &quot;42&quot; )" aria-label="回复给李先生">回复</a>
+							</div> -->
 						</div>
 					</div>
 				</li><!-- #comment-## -->

@@ -75,7 +75,6 @@ Route::resource('/Bdetalis','Home\BdetalisController');
 Route::resource('/message','Home\MessageController');
 
 
-
 // 后台登录
 Route::get('/admin/login','Admin\LoginController@index');
 Route::post('/admin/login/ACname','Admin\LoginController@ACname');

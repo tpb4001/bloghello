@@ -14,6 +14,6 @@ class Message extends Model
     }
     public function user_name()
     {
-        return $this->hasOne('App\User','id','uid');
+        return $this->belongsTo('App\User','uid');
     }
 }

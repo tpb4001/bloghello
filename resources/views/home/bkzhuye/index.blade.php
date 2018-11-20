@@ -1,6 +1,8 @@
 @extends('home.layout.index')
 
 
+
+
 @section('content')
 <link rel="stylesheet" href="/bkzhuye/css/layui.css">
 <link rel="stylesheet" href="/bkzhuye/css/base.css">
@@ -12,33 +14,33 @@
 <script type="text/javascript">
 // 手机适配
 if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
-	if (window.location.href.indexOf("?mobile") < 0) {
-		if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-			window.location.href = "http://m.blog.itpub.net/31397003/viewspace-2220130/";
-		}
-	}
+    if (window.location.href.indexOf("?mobile") < 0) {
+        if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            window.location.href = "http://m.blog.itpub.net/31397003/viewspace-2220130/";
+        }
+    }
 }
 </script>
 <link href="/bkzhuye/staticcss/shcoredefault.css" rel="stylesheet" type="text/css"/>
 <script src="/bkzhuye/static/js/shcore.js" type="text/javascript"></script>
 <script type="text/javascript">
-	$(function () {
-		SyntaxHighlighter.all()
-	});
+    $(function () {
+        SyntaxHighlighter.all()
+    });
 </script>
 <script src="/bkzhuye/static/js/template.js"></script>
 <script src="/bkzhuye/static/js/detail.js"></script>
 <style>
-	.code .container > textarea{ height:100%; }
-	.translate{color: #9fa3a7 !important;font-size:12px !important;}
-	.translate a{font-size:12px !important;color:#9fa3a7 !important;}
-	.translate a:hover {font-size:12px !important;color:#f15142 !important;}
-	.newslist{padding:10px 5px;height:20px !important;line-height:20px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;border-bottom:1px solid #eee}
+    .code .container > textarea{ height:100%; }
+    .translate{color: #9fa3a7 !important;font-size:12px !important;}
+    .translate a{font-size:12px !important;color:#9fa3a7 !important;}
+    .translate a:hover {font-size:12px !important;color:#f15142 !important;}
+    .newslist{padding:10px 5px;height:20px !important;line-height:20px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;border-bottom:1px solid #eee}
 </style>
 <!--header部分结束-->
 <script src="http://blog.itpub.net/js/paging.js"></script>
 <!--main部分开始-->
-	<div class="blog-main clearfix w1200">
+    <div class="blog-main clearfix w1200">
         <div class="fl w890 blog-list clearfix">
             <div class="top-title mt30">
                 <span>
@@ -87,37 +89,39 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
                     });
                 </script>
             </div>  
-		    <!-- 分页 结束 -->                            
+		    <!-- 分页 结束 -->                           
         </div>
         <div class="fr w290">
             <!--作者信息开始-->
             <!--作者信息开始-->
-<div class="author-info right-fixed ">
-    <div class="head-img">
-    <a href=""><img src="http://account.itpub.net/api/avatar.php?uid=31397003" alt=""></a>
-    </div>
-	
-    <div class="author-name">
-    	<a href="">不一样的天空w</a>
-    </div>
+        
+            <div class="author-info right-fixed ">
+                <div class="head-img">
+                <a href=""><img src="{{ $user->userinfo->avatar }}" alt=""></a>
+                </div>
+                
+                <div class="author-name">
+                    <a href="javascript:;">{{ $user->uname }}</a>
+                </div>
+             
+                <div class="author-intro">
+                </div>
 
-    <div class="author-intro">
-    </div>
-    <p class="register-time"><span class="color77">注册时间：</span>2016-09-22</p>
+                <ul class="tree-list clearfix">
+                    <li>
+                        <div class="item-tt">博文量</div>
+                        <a href="http://blog.itpub.net/31397003/"><span class="item-num blognum">739</span></a>
+                    </li>
+                    <li>
+                        <div class="item-tt">访问量</div>
+                        <div class="item-num blogviewnum">345675</div>
+                    </li>
+                </ul>
 
-    <ul class="tree-list clearfix">
-        <li>
-            <div class="item-tt">博文量</div>
-            <a href="http://blog.itpub.net/31397003/"><span class="item-num blognum">739</span></a>
-        </li>
-        <li>
-            <div class="item-tt">访问量</div>
-            <div class="item-num blogviewnum">345675</div>
-        </li>
-    </ul>
 
-</div>
+            </div>
 <!--作者信息结束-->
+
 
 <script>
     var data = {uid: 31397003};
@@ -136,6 +140,7 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
     });
 </script>            
 <!--作者信息结束-->
+          
             <style>
                 .search0801{ margin:0 auto; width:248px; border:1px solid #e0e0e0; height:38px; overflow:hidden; background:#fff;}
                 .inp0801{ float:left; width:176px; padding:0 10px; line-height:38px; border:0;}

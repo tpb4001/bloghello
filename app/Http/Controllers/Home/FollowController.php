@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
-use App\user;
-use App\Models\Message_hf;
-class MessageController extends Controller
+use App\User;
+class FollowController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $showCount = $request->input('showCount',3);
-        $search = $request->input('search','');
-        $Message = Message::where('title','like','%'.$search.'%')->paginate($showCount);
-        return view('admin.message.index',['message'=>$message,'request'=>$request->all()]);
+        $follow = user()->followThisUser($userId);
+        //如果用户关注了另一个用户
+        if(count($followed['attached'])>0){
+            //可以去通知用户 修改用户的关注人数等数据
+            return response()->json(['followed' => true]);
+        }
     }
 
     /**
@@ -53,10 +53,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $data = Message::find($id);
-        $message_hf = Message_hf::where('mid',$id)->get();
-        // dump($message_hf);
-         return view('admin.message.show',['message_hf'=>$message_hf,'data'=>$data]);
+        //
     }
 
     /**
@@ -67,7 +64,7 @@ class MessageController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**
@@ -79,15 +76,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // 获取数据 进行回复
-        $message = Message::find($id);
-        $message->huifu = $request->input('huifu');
-        if($message->save()) {
-            return redirect('/admin/message')->with('success','回复成功');
-        } else {
-            return back()->with('error','回复失败');
-        }
-       
+        //
     }
 
     /**
@@ -96,13 +85,8 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
     public function destroy($id)
     {
-        if (Message::destroy($id)) {
-            return redirect('admin/message')->with('success','删除成功');
-        } else {
-            return back()->with('error','删除失败');
-        }
+        //
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Album;
+use App\Models\Fans;
 use App\User;
 
 class BkzhuyeController extends Controller
@@ -17,14 +18,17 @@ class BkzhuyeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
+
     public function index($id)
     {
         // 博主的文章
         $article = Article::where('uid',$id)->orderBy('created_at','desc')->paginate(4);
         // 优秀文章
         $path = Article::where('uid',$id)->orderBy('updated_at','desc')->paginate(13);
-        // dump($path);
-        return view('home.bkzhuye.index',['article'=>$article,'path'=>$path,'id'=>$id]);
+        // 博主信息
+        $user = User::find($id);
+        return view('home.bkzhuye.index',['article'=>$article,'path'=>$path,'id'=>$id,'user'=>$user]);
     }
     /**
      * 博主相片
@@ -34,10 +38,8 @@ class BkzhuyeController extends Controller
     {
         // 博主的相片
         $album = Album::orderBy('created_at','desc')->paginate(4);
-        // dump($album);
         // 优秀文章
         $path = Article::where('uid',$id)->orderBy('updated_at','desc')->paginate(13);
-        // dump($path);
         return view('home.bkzhuye.myalbum',['album'=>$album,'path'=>$path,'id'=>$id]);
     }
 
