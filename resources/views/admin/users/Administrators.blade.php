@@ -1,6 +1,8 @@
 @extends('admin.layout.index')
 
 
+
+
 @section('content')
 	<div class="mws-panel grid_8">
         <div class="mws-panel-header" style="padding-bottom: 30px;">
@@ -11,18 +13,18 @@
             <table class="mws-datatable-fn mws-table dataTable" id="DataTables_Table_1" style="text-align: center;" aria-describedby="DataTables_Table_1_info">
                 <thead>
                     <tr>
-						<th>ID</th>
-						<th>用户名</th>
-						<th>手机号码</th>
-						<th>邮箱</th>
-						<th>身份</th>
-						<th>注册日期</th>
-						<th>操作</th>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>手机号码</th>
+                        <th>邮箱</th>
+                        <th>身份</th>
+                        <th>注册日期</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                <tbody role="alert" aria-live="polite" aria-relevant="all">
-					@foreach($user_admin as $k => $v)
-               		<tr class="odd">	
+                    @foreach($user_admin as $k => $v)
+                    <tr class="odd">    
                         <td>{{$v->id}}</td>
                         <td>{{$v->uname}}</td>
                         <td>{{$v->userinfo->phone}}</td>
@@ -38,12 +40,12 @@
                         </td>
                         <td>{{$v->created_at}}</td>
                         <td>
-							<a href="/admin/users/{{$v->id}}/edit" class="btn btn-warning">修改</a>
-							<form action="/admin/users/{{$v->id}}" method="post" style="display: inline-block">
-								{{csrf_field()}}
-								{{method_field('DELETE')}}
-								<input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
-							</form>
+                            <a href="/admin/users/{{$v->id}}/edit" class="btn btn-warning">修改</a>
+                            <form action="/admin/users/{{$v->id}}" method="post" style="display: inline-block">
+                                {{csrf_field()}}
+                                {{method_field('DELETE')}}
+                                <input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
+                            </form>
                         </td>
                     </tr>
                     @endforeach

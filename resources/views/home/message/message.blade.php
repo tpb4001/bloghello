@@ -160,15 +160,15 @@
 			<ol class="commentlist">
 				<li class="comment even thread-even depth-1" id="comment-95824">
 					<div class="c-avatar"><img alt="" data-original="https://cuiqingcai.com/avatar/bda8cdeccf7c8d891a3aa1b56c8c9a3e.png" src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
-						{{ $v->user_name->uname }}
 						<div class="c-main" id="div-comment-95824">
-							{{ $v->umes}}
+							<b>{{ $v->user_name->uname }}</b>  :  {{ $v->umes}}
 							@if($v->huifu)
 							<ol class="commentlist">
 								<li class="comment even thread-even depth-1" id="comment-95824">
 									<div class="c-avatar"><img alt="" data-original="https://cuiqingcai.com/avatar/bda8cdeccf7c8d891a3aa1b56c8c9a3e.png" src="{{ $v->user_name->userinfo->avatar }}" class="avatar avatar-54 photo" height="54" width="54">
+
 										<div class="c-main" id="div-comment-95824">
-											{{ $v->huifu}}
+											<b>{{ $v->user_name->uname }}</b>  :  {{ $v->huifu}}
 										</div>
 									</div>
 								</li><!-- #comment-## -->

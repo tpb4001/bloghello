@@ -5,7 +5,7 @@
                     <div class="mws-panel-header" style="padding-bottom: 30px;">
                         <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">公告列表</font></font></span>
                     </div>
-                     <form action="/admin/article" method="get">
+                     <form action="/admin/notice" method="get">
                         <div class="mws-panel-body no-padding">
                             <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid">
                       <div class="dataTables_filter" id="DataTables_Table_1_filter">
@@ -20,7 +20,6 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>用户名</th>
                     <th>公告标题</th>
                     <th>公告时间</th>
                     <th>操作</th>
@@ -30,7 +29,6 @@
                 @foreach($notice as $k=>$v)
                 <tr>
                     <td>{{ $v->id }}</td>
-                    <td>{{ $v->uid }}</td>
                     <td>{{ $v->title }}</td>
                     <td>{{ $v->created_at }}</td>
                     <td><a href="/admin/notice/{{ $v->id }}" class="btn btn-info">查看详情</a>

@@ -85,11 +85,11 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
             <!--作者信息开始-->
 <div class="author-info right-fixed ">
     <div class="head-img">
-    <a href=""><img src="http://account.itpub.net/api/avatar.php?uid=31397003" alt=""></a>
+    <a href=""><img src="{{ $user->userinfo->avatar }}" alt=""></a>
     </div>
 	
     <div class="author-name">
-    	<a href="">{{ $user->uname }}</a>
+    	<a href="javascript:;">{{ $user->uname }}</a>
     </div>
 
     <div class="author-intro">
@@ -202,3 +202,5 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
     })();
 </script>
 @endsection
+
+
