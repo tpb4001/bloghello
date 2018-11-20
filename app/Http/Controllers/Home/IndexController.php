@@ -40,7 +40,7 @@ class IndexController extends Controller
         // 广告
         $advert = Advert::all();
         //轮播图
-        $image = Image::all();
+        $image = Image::where('status', 1)->get();
         $lbt = count($image);
         // 公告
         $ljg = Notice::orderBy('created_at','desc')->first();

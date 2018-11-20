@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Fans;
 use App\User;
 class BkzhuyeController extends Controller
 {
@@ -15,11 +16,13 @@ class BkzhuyeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
+
     public function index($id)
     {
-
+        $user = User::find($id);
         $article = Article::where('uid',$id)->get();
-        return view('home.bkzhuye.index',['article'=>$article]);
+        return view('home.bkzhuye.index',['article'=>$article,'user'=>$user]);
     }
 
     /**

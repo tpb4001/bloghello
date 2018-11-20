@@ -37,8 +37,6 @@ Route::post('/login/store','Home\LoginController@store');
 Route::get('/','Home\IndexController@index');
 // 文章详情
 Route::resource('/article','Home\IndexController');
-// 列表页
-Route::get('/list/{id}','Home\IndexController@list');
 // 文章评论
 Route::resource('/pinglun','Home\Article_plController');
 // 话题详情
@@ -63,8 +61,6 @@ Route::resource('/Bdetalis','Home\BdetalisController');
 	// 博主相册管理
 	Route::resource('/myalbum','Home\AlbumController');
 
-// 留言管理
-Route::resource('/message','Home\MessageController');
 
 
 

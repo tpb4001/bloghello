@@ -51,10 +51,10 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-
+        $data = Message::find($id);
         $message_hf = Message_hf::where('mid',$id)->get();
         // dump($message_hf);
-         return view('admin.message.show',['message_hf'=>$message_hf]);
+         return view('admin.message.show',['message_hf'=>$message_hf,'data'=>$data]);
     }
 
     /**
@@ -77,7 +77,14 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        // 获取数据 进行回复
+        $message = Message::find($id);
+        $message->huifu = $request->input('huifu');
+        if($message->save()) {
+            return redirect('/admin/message')->with('success','回复成功');
+        } else {
+            return back()->with('error','回复失败');
+        }
        
     }
 

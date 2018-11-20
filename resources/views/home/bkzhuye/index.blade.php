@@ -1,6 +1,8 @@
 @extends('home.layout.index')
 
 
+
+
 @section('content')
 <link rel="stylesheet" href="/bkzhuye/css/layui.css">
 <link rel="stylesheet" href="/bkzhuye/css/base.css">
@@ -12,101 +14,103 @@
 <script type="text/javascript">
 // 手机适配
 if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
-	if (window.location.href.indexOf("?mobile") < 0) {
-		if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-			window.location.href = "http://m.blog.itpub.net/31397003/viewspace-2220130/";
-		}
-	}
+    if (window.location.href.indexOf("?mobile") < 0) {
+        if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            window.location.href = "http://m.blog.itpub.net/31397003/viewspace-2220130/";
+        }
+    }
 }
 </script>
 <link href="/bkzhuye/staticcss/shcoredefault.css" rel="stylesheet" type="text/css"/>
 <script src="/bkzhuye/static/js/shcore.js" type="text/javascript"></script>
 <script type="text/javascript">
-	$(function () {
-		SyntaxHighlighter.all()
-	});
+    $(function () {
+        SyntaxHighlighter.all()
+    });
 </script>
 <script src="/bkzhuye/static/js/template.js"></script>
 <script src="/bkzhuye/static/js/detail.js"></script>
 <style>
-	.code .container > textarea{ height:100%; }
-	.translate{color: #9fa3a7 !important;font-size:12px !important;}
-	.translate a{font-size:12px !important;color:#9fa3a7 !important;}
-	.translate a:hover {font-size:12px !important;color:#f15142 !important;}
-	.newslist{padding:10px 5px;height:20px !important;line-height:20px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;border-bottom:1px solid #eee}
+    .code .container > textarea{ height:100%; }
+    .translate{color: #9fa3a7 !important;font-size:12px !important;}
+    .translate a{font-size:12px !important;color:#9fa3a7 !important;}
+    .translate a:hover {font-size:12px !important;color:#f15142 !important;}
+    .newslist{padding:10px 5px;height:20px !important;line-height:20px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;border-bottom:1px solid #eee}
 </style>
 <!--header部分结束-->
 <script src="http://blog.itpub.net/js/paging.js"></script>
 <!--main部分开始-->
-	<div class="blog-main clearfix w1200">
+    <div class="blog-main clearfix w1200">
         <div class="fl w890 blog-list clearfix">
             <div class="top-title mt30">
                 <span>
                     全部博文
                 </span>
             </div>
-		    <ul class="list-items" id="list">
-		        <!--博主本人和管理员 显示 开始-->
-		        <div class="btns" style="display: none;">
-		            <a href="/blog/post/2220310/"><span class="text-btn mr30">编辑</span></a>
-		            <span class="text-btn" mid="2220310" onclick="blogObj.delDraft($(this))">删除</span>
-		        </div>
-		        <!--博主本人和管理员 显示 结束-->
-		    	@foreach ($article as $k=>$v) 
-			  	<article class="excerpt excerpt-1" style="">
-			  		<a class="focus" href="#" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="/HomeStyle/images/logo1.png" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
-					<header><a class="cat" href="#" title="MZ-NetBlog主题" draggable="false">BlogHello博客<i></i></a>
-						<h2><a href="/article/{{ $v->id }}" title="{{ $v->title }}" target="_blank" draggable="false">{{ $v->title }}</a>
-						</h2>
-					</header>
-					<p class="meta">
-						<time class="time"><i class="glyphicon glyphicon-time"></i> {{ $v->created_at }}</time>
-						<?php
-							// 评论条数
-							$article_pl = \App\Models\Article_pl::where('aid',$v['id'])->get();
-							$sum = count($article_pl);
-						?>
-						<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment">{{ $sum }}</i> </a>
-					</p>
-					<div style="height: 120px;overflow: hidden;">
-						{!! $v->articleinfo->article !!}	
-					</div>
-				</article>
-			  	@endforeach
-		    </ul>
-		    <!-- 分页 开始 -->
-		    <div class="blog-pager"></div>
-		    <!-- 分页 结束 -->                            
+            <ul class="list-items" id="list">
+                <!--博主本人和管理员 显示 开始-->
+                <div class="btns" style="display: none;">
+                    <a href="/blog/post/2220310/"><span class="text-btn mr30">编辑</span></a>
+                    <span class="text-btn" mid="2220310" onclick="blogObj.delDraft($(this))">删除</span>
+                </div>
+                <!--博主本人和管理员 显示 结束-->
+                @foreach ($article as $k=>$v) 
+                <article class="excerpt excerpt-1" style="">
+                    <a class="focus" href="#" title="{{ $v->title }}" target="_blank" draggable="false"><img class="thumb" data-original="images/logo1.png" src="/HomeStyle/images/logo1.png" alt="{{ $v->title }}" style="display: inline;" draggable="false"></a>
+                    <header><a class="cat" href="#" title="MZ-NetBlog主题" draggable="false">BlogHello博客<i></i></a>
+                        <h2><a href="/article/{{ $v->id }}" title="{{ $v->title }}" target="_blank" draggable="false">{{ $v->title }}</a>
+                        </h2>
+                    </header>
+                    <p class="meta">
+                        <time class="time"><i class="glyphicon glyphicon-time"></i> {{ $v->created_at }}</time>
+                        <?php
+                            // 评论条数
+                            $article_pl = \App\Models\Article_pl::where('aid',$v['id'])->get();
+                            $sum = count($article_pl);
+                        ?>
+                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ $v->articleinfo->path }}</span> <a class="comment" href="##comment" title="评论" target="_blank" draggable="false"><i class="glyphicon glyphicon-comment">{{ $sum }}</i> </a>
+                    </p>
+                    <div style="height: 120px;overflow: hidden;">
+                        {!! $v->articleinfo->article !!}    
+                    </div>
+                </article>
+                @endforeach
+            </ul>
+            <!-- 分页 开始 -->
+            <div class="blog-pager"></div>
+            <!-- 分页 结束 -->                            
         </div>
         <div class="fr w290">
             <!--作者信息开始-->
             <!--作者信息开始-->
-<div class="author-info right-fixed ">
-    <div class="head-img">
-    <a href=""><img src="http://account.itpub.net/api/avatar.php?uid=31397003" alt=""></a>
-    </div>
-	
-    <div class="author-name">
-    	<a href="">不一样的天空w</a>
-    </div>
+        
+            <div class="author-info right-fixed ">
+                <div class="head-img">
+                <a href=""><img src="{{ $user->userinfo->avatar }}" alt=""></a>
+                </div>
+                
+                <div class="author-name">
+                    <a href="javascript:;">{{ $user->uname }}</a>
+                </div>
+             
+                <div class="author-intro">
+                </div>
 
-    <div class="author-intro">
-    </div>
-    <p class="register-time"><span class="color77">注册时间：</span>2016-09-22</p>
+                <ul class="tree-list clearfix">
+                    <li>
+                        <div class="item-tt">博文量</div>
+                        <a href="http://blog.itpub.net/31397003/"><span class="item-num blognum">739</span></a>
+                    </li>
+                    <li>
+                        <div class="item-tt">访问量</div>
+                        <div class="item-num blogviewnum">345675</div>
+                    </li>
+                </ul>
 
-    <ul class="tree-list clearfix">
-        <li>
-            <div class="item-tt">博文量</div>
-            <a href="http://blog.itpub.net/31397003/"><span class="item-num blognum">739</span></a>
-        </li>
-        <li>
-            <div class="item-tt">访问量</div>
-            <div class="item-num blogviewnum">345675</div>
-        </li>
-    </ul>
 
-</div>
+            </div>
 <!--作者信息结束-->
+
 
 <script>
     var data = {uid: 31397003};
@@ -125,6 +129,7 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
     });
 </script>            
 <!--作者信息结束-->
+          
             <style>
                 .search0801{ margin:0 auto; width:248px; border:1px solid #e0e0e0; height:38px; overflow:hidden; background:#fff;}
                 .inp0801{ float:left; width:176px; padding:0 10px; line-height:38px; border:0;}

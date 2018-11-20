@@ -6,11 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
 use App\User;
-use App\Models\Message_hf;
-
-class MessageController extends Controller
+class FollowController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +16,12 @@ class MessageController extends Controller
      */
     public function index()
     {
-        
-        $message = Message::all();
-        return view('home.message.message',['message'=>$message]);
+        $follow = user()->followThisUser($userId);
+        //如果用户关注了另一个用户
+        if(count($followed['attached'])>0){
+            //可以去通知用户 修改用户的关注人数等数据
+            return response()->json(['followed' => true]);
+        }
     }
 
     /**
@@ -42,16 +42,7 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $message = new Message;
-        $uid = User::where('uname',$request->input('uname'))->first()->id;
-        $message->uid = $uid;
-        $message->umes = $request->input('umes');
-        // 判断数据是否存储成功
-        if($message->save()){
-            return back();
-        }else{
-            return back();
-        }
+        //
     }
 
     /**

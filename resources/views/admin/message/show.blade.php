@@ -2,39 +2,42 @@
 
 @section('content')
 <div class="mws-panel grid_8">
-        <div class="mws-panel-header">
-            <span><i class="icon-table"></i>留言浏览</span>
-        </div>
-        <div class="mws-panel-body no-padding">
-            <table class="mws-table">
-                <thead>
-                    <tr>
-                        <th><font style="vertical-align: inherit; font-size:20px;">ID</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">用户名</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">回复内容</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">留言时间</font></th>
-                        <th><font style="vertical-align: inherit; font-size:20px;">操作</font></th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($message_hf as $k=>$v)
-                <tr>
-                    <td>{{ $v->id }}</td>
-                    <td>{{ $v->user_name->uname }}</td>
-                    <td>{{ $v->huifu }}</td>
-                    <td>{{ $v->created_at }}</td>
-                    <td>
-                       
-                    <form action="/admin/message/{{ $v->id }}" method="post" style="display: inline-block">
-                        {{csrf_field()}}
-                        {{method_field('DELETE')}}
-                        <input  type="submit" value="删除回复" class="btn btn-danger" onclick="return confirm('请确认删除');">
-                    </form>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+          <div class="mws-panel-header">
+               <span>{{ $title or '' }}</span>
+          </div>
+          <div class="mws-panel-body no-padding">
+               <form class="mws-form" action="/admin/message/{{$data->id}}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field("PUT") }}
+                    <div class="mws-form-inline">
+                    <div class="mws-form-row">
+                         <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">留言用户名称</font></font></label>
+                         <div class="mws-form-item">
+                              <input type="text" class="large" value="{{ $data->user_name->uname }}" readonly="readonly">
+                          </div>
+                    </div>
+                    <div class="mws-form-row">
+                         <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">留言内容</font></font></label>
+                         <div class="mws-form-item">
+                              <input type="text" class="large" value="{{ $data->umes }}" readonly="readonly">
+                          </div>
+                    </div>
+                    <div class="mws-form-row">
+                         <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">留言时间</font></font></label>
+                         <div class="mws-form-item">
+                              <input type="text" class="large" value="{{ $data->time }}" readonly="readonly">
+                          </div>
+                    </div>
+                    <div class="mws-form-row">
+                         <label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">回复留言</font></font></label>
+                         <div class="mws-form-item">
+                             <textarea rows="" cols="" name="huifu" class="large autosize" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 130px;"></textarea>
+                         </div>
+                    </div>
+                   <div class="mws-button-row">
+                         <input type="submit" value="提交" class="btn btn-danger">
+                    </div>
+               </form>
+          </div>         
+     </div>
 @endsection

@@ -12,6 +12,7 @@
                         <th><font style="vertical-align: inherit; font-size:20px;">ID</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">用户名</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">用户留言</font></th>
+                        <th><font style="vertical-align: inherit; font-size:20px;">回复内容</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">留言时间</font></th>
                         <th><font style="vertical-align: inherit; font-size:20px;">操作</font></th>
                     </tr>
@@ -22,6 +23,7 @@
                     <td>{{ $v->id }}</td>
                     <td>{{ $v->user_name->uname }}</td>
                     <td>{{ $v->umes }}</td>
+                    <td>{{ $v->huifu }}</td>
                     <td>{{ $v->created_at }}</td>
                     <td>
                         <a href="/admin/message/{{$v->id}}" class="btn btn-info">回复</a>
