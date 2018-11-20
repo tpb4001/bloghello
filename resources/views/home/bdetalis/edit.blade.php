@@ -13,9 +13,6 @@
 		<a data-cont="Blog Hello" title="个人相册" href="/myalbum">个人相册</a>
 	</li>
 	<li>
-		<a data-cont="Blog Hello" title="关注" href="#">关注</a>
-	</li>
-	<li>
 		<a data-cont="Blog Hello" title="修改密码" href="/Bdetalis/{{ session('uname') }}/edit">修改密码</a>
 	</li>
 	<li>
