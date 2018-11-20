@@ -48,6 +48,9 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
+        if (empty($request->input('content')) || empty($request->input('title'))) {
+            return back()->with('error','内容不能为空');
+        }
         DB::beginTransaction();
         $uid = User::where('uname',$request->input('uname'))->first()->id;
         $topic = new Topic;

@@ -8,7 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Articleinfo;
+use App\Models\Article_pl;
 use App\Models\Cates;
+use App\Http\Requests\ArticleStoreRequest;
 use App\User;
 use DB;
 class ArticleController extends Controller
@@ -51,7 +53,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleStoreRequest $request)
     {   
         // 开启事务   
         DB::beginTransaction();
@@ -161,6 +163,12 @@ class ArticleController extends Controller
         DB::beginTransaction();
         $res1 = Article::destroy($id);
         $res2 = Articleinfo::where('aid',$id)->delete();
+        if(Article_pl::where('aid', $id)->first()){
+            $res3 = Article_pl::where('aid', $id)->delete();
+        }else{
+            $res3 = true;
+        }
+
         if ($res1 && $res2) {
             // 提交事务   
             DB::commit();

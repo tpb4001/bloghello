@@ -56,7 +56,6 @@
                     
                     </td>
                 </tr>
-
                 @endforeach
             </tbody>    
         </table>
@@ -64,6 +63,12 @@
                         <div id="page_page">
                             {!! $article->appends($request)->render() !!}
                         </div>
+                        <script type="text/javascript">
+                            $(function(){
+                                $('#page_page ul').removeClass('.pagination');
+                                $("#page_page ul").attr("class", "#page_page");
+                            });
+                        </script>
                     </div>
                     </div>
                 </div>

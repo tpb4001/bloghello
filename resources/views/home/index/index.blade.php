@@ -118,7 +118,7 @@
 	  <ul> 
 	  	    @foreach ($topic as $k=>$v)       
 			<li><a title="{{ $v->title }}" href="/topic/{{ $v->id }}" draggable="false"><span class="thumbnail">
-				<img class="thumb" data-original="" src="{{ $v->image }}" alt="{{ $v->title }}" style="display: block;" draggable="false">
+				<img class="thumb" data-original="{{ $v->image }}" src="{{ $v->image }}" alt="{{ $v->title }}" style="display: block;" draggable="false" >
 			</span><span class="text">{{ $v->title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
 				{{ $v->created_at }}
 			</span></a></li>

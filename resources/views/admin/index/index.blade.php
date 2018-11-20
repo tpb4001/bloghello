@@ -104,13 +104,7 @@
 				<td>发布者</td>
 				<td>发布时间</td>
 			</tr>
-			@foreach($notice as $k=>$v)
-			<tr onclick="location.href='/topic/4';">
-				<td>{{ $v->title }}</td>
-				<td>{{ $v->user->uname }}</td>
-				<td>{{ $v->created_at }}</td>
-			</tr>
-			@endforeach      	
+			   	
 		</table> 
     </div></div>
 </div>

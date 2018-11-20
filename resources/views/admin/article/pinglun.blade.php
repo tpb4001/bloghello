@@ -25,7 +25,14 @@
                     <td>{{ $v->pinglun }}</td>
                     <td>{{ $v->created_at }}</td>
 
-                    <td><a href="/admin/article" class="btn btn-info">返回</a></td>
+                    <td>
+                        <a href="/admin/article" class="btn btn-info">返回</a>
+                        <form action="/admin/pinglun/{{ $v->id }}" method="post" style="display: inline-block">
+                            {{csrf_field()}}
+                            {{method_field('DELETE')}}
+                            <input type="submit" value="删除" class="btn btn-danger" onclick="return confirm('请确认删除');">
+                        </form>
+                    </td>
                 </tr>
                
                 @endforeach

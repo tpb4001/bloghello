@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Advert;
+use App\Http\Requests\AdvertsStoreRequest;
 class AdvertsController extends Controller
 {
     /**
@@ -38,7 +39,7 @@ class AdvertsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdvertsStoreRequest $request)
     {
        $advert = new Advert;
         $advert->url = $request->input('url');

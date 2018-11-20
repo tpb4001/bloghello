@@ -16,10 +16,12 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $message = Message::all();
-        return view('admin.message.index',['message'=>$message]);
+        $showCount = $request->input('showCount',3);
+        $search = $request->input('search','');
+        $Message = Message::where('title','like','%'.$search.'%')->paginate($showCount);
+        return view('admin.message.index',['message'=>$message,'request'=>$request->all()]);
     }
 
     /**
