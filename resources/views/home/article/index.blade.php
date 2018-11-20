@@ -14,9 +14,6 @@
     <a data-cont="Blog Hello" title="个人相册" href="/myalbum">个人相册</a>
   </li>
   <li>
-    <a data-cont="Blog Hello" title="关注" href="#">关注</a>
-  </li>
-  <li>
     <a data-cont="Blog Hello" title="修改密码" href="/Bdetalis/{{ session('uname') }}/edit">修改密码</a>
   </li>
   <li>
@@ -47,8 +44,9 @@
           	<td>{{ $v->copyform }}</td>
           	<td><img style="width: 60px;" src="{{ $v->articleinfo->image or '' }}"></td>
           	<td>
-          		<a href="/article/{{ $v->id }}" class="btn btn-info">详情</a>
-          		<a href="/detalis/article/{{ $v->id }}/edit" class="btn btn-warning">修改</a>
+              <a href="/article/{{ $v->id }}" class="btn btn-info">详情</a>
+          		<a href="/detalis/article_pl/{{ $v->id }}" class="btn btn-info" >评论</a>
+          		<a href="/detalis/article/{{ $v->id }}/edit" class="btn btn-warning" style="display: inline-block">修改</a>
           		<form action="/detalis/article/{{ $v->id }}" method="post" style="display: inline-block">
           			{{ csrf_field() }}
           			{{ method_field('DELETE') }}

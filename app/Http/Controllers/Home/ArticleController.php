@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cates;
 use App\Models\Articleinfo;
 use App\Models\Article;
+use App\Models\Article_pl;
 use App\User;
 use DB;
 
@@ -86,6 +87,14 @@ class ArticleController extends Controller
             DB::rollBack();
             return back()->with('error','添加失败');
         }
+    }
+    /**
+     *  查看文章评论
+     */
+    public function article_pl($id)
+    {
+        $article_pl = Article_pl::where('aid',$id)->get();
+        return view('home.article.article_pl',['article_pl'=>$article_pl]);
     }
 
     /**

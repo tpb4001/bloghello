@@ -73,6 +73,8 @@ Route::group(['middleware' => 'home'],function()
 	Route::get('/grbk/{id}','Home\BkzhuyeController@index');
 	// 博主前台相册
 	Route::get('/grbk/myalbum/{id}','Home\BkzhuyeController@myalbum');
+	// 文章评论
+	Route::get('/detalis/article_pl/{id}','Home\ArticleController@article_pl');
 	// 博主文章管理
 	Route::resource('/detalis/article','Home\ArticleController');
 	// 相册上传
