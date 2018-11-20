@@ -18,7 +18,7 @@ class NoticeController extends Controller
     {
         $showCount = $request->input('showCount',2);
         $search = $request->input('search','');
-        $notice = Notice::where('aname','like','%'.$search.'%')->paginate($showCount);
+        $notice = Notice::where('title','like','%'.$search.'%')->paginate($showCount);
         return view('admin.notice.index',['notice'=>$notice,'request'=>$request->all()]);
     }
 

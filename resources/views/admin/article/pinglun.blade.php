@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="mws-panel grid_8">
-                    <div class="mws-panel-header">
+                    <div class="mws-panel-header" style="padding-bottom: 30px;">
                         <span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">评论列表</font></font></span>
                     </div>
                      

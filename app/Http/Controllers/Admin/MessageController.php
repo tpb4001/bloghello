@@ -20,7 +20,7 @@ class MessageController extends Controller
     {
         $showCount = $request->input('showCount',3);
         $search = $request->input('search','');
-        $Message = Message::where('title','like','%'.$search.'%')->paginate($showCount);
+        $message = Message::where('umes','like','%'.$search.'%')->paginate($showCount);
         return view('admin.message.index',['message'=>$message,'request'=>$request->all()]);
     }
 

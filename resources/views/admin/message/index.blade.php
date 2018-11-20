@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="mws-panel grid_8">
-        <div class="mws-panel-header">
+        <div class="mws-panel-header" style="padding-bottom: 30px;">
             <span><i class="icon-table"></i>留言浏览</span>
         </div>
          <form action="/admin/tags" method="get">

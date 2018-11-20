@@ -3,10 +3,11 @@
 
 @section('content')
 	<div class="mws-panel grid_8">
-    	<div class="mws-panel-header">
-        	<span><i class="icon-table"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $title }}</font></font></span>
+        <div class="mws-panel-header" style="padding-bottom: 30px;">
+            <span><i class="icon-table"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ $title }}</font></font></span>
         </div>
         <div class="mws-panel-body no-padding">
+            <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper" role="grid">
             <table class="mws-datatable-fn mws-table dataTable" id="DataTables_Table_1" style="text-align: center;" aria-describedby="DataTables_Table_1_info">
                 <thead>
                     <tr>
@@ -50,13 +51,15 @@
             </table>
             <div class="dataTables_info" id="DataTables_Table_1_info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分页显示</font></font></div>
                 <div id="page_page">
-            {!! $user_admin->appends($request)->render() !!}
-            </div>
+                {!! $user_admin->appends($request)->render() !!}
+                </div>
             <script type="text/javascript">
                 $(function(){
                     $('#page_page ul').removeClass('.pagination');
                     $("#page_page ul").attr("class", "#page_page");
                 });
-            </script>
+             </script>
+            </div>
+        </div>
     </div>
 @endsection

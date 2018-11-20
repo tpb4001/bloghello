@@ -4,7 +4,7 @@
 @section('content')
 
 	<div class="mws-panel grid_8">
-      	<div class="mws-panel-header">
+      	<div class="mws-panel-header" style="padding-bottom: 30px;">
           	<span>{{ $title or '' }}</span>
           </div>
           <div class="mws-panel-body no-padding">

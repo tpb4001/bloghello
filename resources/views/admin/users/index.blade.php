@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="mws-panel grid_8">
-    	<div class="mws-panel-header">
+    	<div class="mws-panel-header" style="padding-bottom: 30px;">
         	<span><i class="icon-table"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 带有编号分页的数据表</font></font></span>
         </div>
         <div class="mws-panel-body no-padding">
