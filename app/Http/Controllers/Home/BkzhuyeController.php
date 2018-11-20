@@ -40,8 +40,11 @@ class BkzhuyeController extends Controller
         $album = Album::orderBy('created_at','desc')->paginate(4);
         // 优秀文章
         $path = Article::where('uid',$id)->orderBy('updated_at','desc')->paginate(13);
-        return view('home.bkzhuye.myalbum',['album'=>$album,'path'=>$path,'id'=>$id]);
+        // 博主信息
+        $user = User::find($id);
+        return view('home.bkzhuye.myalbum',['album'=>$album,'path'=>$path,'id'=>$id,'user'=>$user]);
     }
+
 
     /**
      * Show the form for creating a new resource.

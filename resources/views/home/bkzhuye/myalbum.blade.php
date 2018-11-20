@@ -85,16 +85,16 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
             <!--作者信息开始-->
 <div class="author-info right-fixed ">
     <div class="head-img">
-    <a href=""><img src="http://account.itpub.net/api/avatar.php?uid=31397003" alt=""></a>
+    <a href=""><img src="{{ $user->userinfo->avatar }}" alt=""></a>
     </div>
 	
     <div class="author-name">
-    	<a href="">不一样的天空w</a>
+    	<a href="javascript:;">{{ $user->uname }}</a>
     </div>
 
     <div class="author-intro">
     </div>
-    <p class="register-time"><span class="color77">注册时间：</span>2016-09-22</p>
+    <p class="register-time"><span class="color77">注册时间：</span>{{ $user->created_at }}</p>
 
     <ul class="tree-list clearfix">
         <li>
@@ -202,3 +202,5 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
     })();
 </script>
 @endsection
+
+

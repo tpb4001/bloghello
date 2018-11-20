@@ -103,10 +103,10 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
                 <div class="author-name">
                     <a href="javascript:;">{{ $user->uname }}</a>
                 </div>
-             
+              
                 <div class="author-intro">
                 </div>
-
+                <p class="register-time"><span class="color77">注册时间：</span>{{ $user->created_at }}</p>
                 <ul class="tree-list clearfix">
                     <li>
                         <div class="item-tt">博文量</div>
