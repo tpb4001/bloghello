@@ -47,14 +47,14 @@
 		</div>
 		<div class="col-md-7 col-md-offset-2" style="padding-bottom: 20px;">
 			<div class="input-group" >
-				<span class="input-group-addon" id="basic-addon3">&nbsp;邮 箱&nbsp;</span>
-				<input type="text" name="email" value="{{ $data->userinfo->email }}" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+				<span class="input-group-addon" id="basic-addon3">手机号</span>
+				<input type="text" name="phone" value="{{ $data->userinfo->phone }}" disabled class="form-control" id="basic-url" aria-describedby="basic-addon3">
 			</div>
 		</div>
 		<div class="col-md-7 col-md-offset-2" style="padding-bottom: 20px;">
 			<div class="input-group" >
-				<span class="input-group-addon" id="basic-addon3">手机号</span>
-				<input type="text" name="phone" value="{{ $data->userinfo->phone }}" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+				<span class="input-group-addon" id="basic-addon3">&nbsp;邮 箱&nbsp;</span>
+				<input type="text" name="email" value="{{ $data->userinfo->email }}" class="form-control" id="basic-url" aria-describedby="basic-addon3">
 			</div>
 		</div>
 		<div class="col-md-7 col-md-offset-2" style="padding-bottom: 20px;">
