@@ -18,10 +18,18 @@
 
 // 前台登录
 Route::get('/login','Home\LoginController@index');
+// 找回密码
+Route::get('/login/edit','Home\LoginController@edit');
+// Ajax找回密码验证码
+Route::get('/login/CodeEdit','Home\LoginController@CodeEdit');
+// 修改密码
+Route::post('/login/cpass','Home\LoginController@cpass');
+// 保存修改密码
+Route::post('/login/update/{id}','Home\LoginController@update');
+// 登录验证
 Route::post('/login/yz','Home\LoginController@yz');
 // 退出登录
 Route::get('/login/esc','Home\LoginController@esc');
-
 // 用户注册
 Route::get('/login/create','Home\LoginController@create');
 // 判断手机号是否注册
@@ -32,8 +40,6 @@ Route::get('/login/reuname','Home\LoginController@reuname');
 Route::get('/login/sendMobileCode','Home\LoginController@sendMobileCode');
 // 注册用户
 Route::post('/login/store','Home\LoginController@store');
-
-
 // 前台页面
 Route::get('/','Home\IndexController@index');
 // 文章详情
@@ -50,16 +56,19 @@ Route::resource('/pinglun','Home\Article_plController');
 Route::resource('/topic','Home\TopicController');
 // 话题评论
 Route::resource('/comment','Home\CommentController');
-// 留言板
-Route::resource('/message', 'Home\MessageController');
-// 修改密码
-Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
-// 个人详情	
-Route::resource('/Pdetalis','Home\PdetalisController');
-// 头像修改
-Route::post('/Bdetalis/uploads','Home\BdetalisController@uploads');
-// 博主详情
-Route::resource('/Bdetalis','Home\BdetalisController');
+// 留言管理
+Route::resource('/message','Home\MessageController');
+// 前台中间件
+Route::group(['middleware' => 'home'],function()
+{
+	// 修改密码
+	Route::post('/Pdetalis/Cpass','Home\PdetalisController@Cpass');
+	// 个人详情	
+	Route::resource('/Pdetalis','Home\PdetalisController');
+	// 头像修改
+	Route::post('/Bdetalis/uploads','Home\BdetalisController@uploads');
+	// 博主详情
+	Route::resource('/Bdetalis','Home\BdetalisController');
 	// 博主前台页面
 	Route::get('/grbk/{id}','Home\BkzhuyeController@index');
 	// 博主前台相册
@@ -71,9 +80,7 @@ Route::resource('/Bdetalis','Home\BdetalisController');
 	Route::post('/myalbum/update','Home\AlbumController@update');
 	// 博主相册管理
 	Route::resource('/myalbum','Home\AlbumController');
-// 留言管理
-Route::resource('/message','Home\MessageController');
-
+});
 
 // 后台登录
 Route::get('/admin/login','Admin\LoginController@index');
@@ -86,14 +93,18 @@ Route::group(['middleware' => 'admin'],function()
 	// 后台首页
 	Route::resource('/admin/index','Admin\IndexController');
 	// 用户管理
-		// 管理员
-		Route::get('/admin/users/Administrators','Admin\UsersController@Administrators');
-		// 博主
-		Route::get('/admin/users/Blogger','Admin\UsersController@Blogger');
-			// 博主个人文章
-			Route::get('/admin/users/Particle/{id}','Admin\UsersController@Particle');
-		// 普通用户
-		Route::get('/admin/users/OrdinaryUser','Admin\UsersController@OrdinaryUser');
+	// 管理员
+	Route::get('/admin/users/Administrators','Admin\UsersController@Administrators');
+	// 博主
+	Route::get('/admin/users/Blogger','Admin\UsersController@Blogger');
+	// 博主个人文章
+	Route::get('/admin/users/Particle/{id}','Admin\UsersController@Particle');
+	// 博主个人相册
+	Route::get('/admin/users/Palbum/{id}','Admin\UsersController@Palbum');
+	// 博主删除相册
+	Route::get('/admin/users/Palbum/Del/{id}','Admin\UsersController@Del');
+	// 普通用户
+	Route::get('/admin/users/OrdinaryUser','Admin\UsersController@OrdinaryUser');
 	// 用户增删改
 	Route::resource('/admin/users','Admin\UsersController');
 	// 分类管理

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model
 {
-    public $table = 'Album';
+    public $table = 'album';
 }

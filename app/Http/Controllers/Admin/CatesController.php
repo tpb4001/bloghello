@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\models\Cates;
+use App\Models\Cates;
 use DB;
 class CatesController extends Controller
 {   

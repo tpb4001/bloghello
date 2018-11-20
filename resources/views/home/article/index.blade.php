@@ -34,7 +34,6 @@
           <th>作者</th>
           <th>来源</th>
           <th>图片</th>
-          <th>状态</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -47,7 +46,6 @@
           	<td>{{ $v->auth }}</td>
           	<td>{{ $v->copyform }}</td>
           	<td><img style="width: 60px;" src="{{ $v->articleinfo->image or '' }}"></td>
-          	<td>{{ $v->status == 1 ? '审核通过' : '审核中' }}</td>
           	<td>
           		<a href="/article/{{ $v->id }}" class="btn btn-info">详情</a>
           		<a href="/detalis/article/{{ $v->id }}/edit" class="btn btn-warning">修改</a>

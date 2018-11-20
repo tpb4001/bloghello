@@ -235,7 +235,7 @@
 
           @show
         </div>
-      <!-- 内容 结束 -->>
+      <!-- 内容 结束 -->
                        
             <!-- Footer -->
             <div id="mws-footer">

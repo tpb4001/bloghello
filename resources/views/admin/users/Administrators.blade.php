@@ -49,7 +49,7 @@
                     @endforeach
                 </tbody>  
             </table>
-            <div class="dataTables_info" id="DataTables_Table_1_info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分页显示</font></font></div>
+            <div class="dataTables_info" id="DataTables_Table_1_info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></div>
                 <div id="page_page">
                 {!! $user_admin->appends($request)->render() !!}
                 </div>

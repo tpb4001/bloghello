@@ -49,7 +49,7 @@
 								<label><input name="" type="checkbox"> 下次自动登录</label>
 							</div>
 							<div class="right check_right">
-								<a href="#">忘记密码</a>
+								<a href="/login/edit">忘记密码</a>
 							</div>
 						</div>
 						<div class="form_btn">
@@ -61,13 +61,11 @@
 						</div>
 					</form>
 					<div class="other_login">
-						<div class="left other_left">
-							<span>其它登录方式</span>
+						<div class="left other_right">
+							<span>启示语：</span>
 						</div>
-						<div class="right other_right">
-							<a href="#"><i class="fa fa-qq fa-2x"></i></a>
-							<a href="#"><i class="fa fa-weixin fa-2x"></i></a>
-							<a href="#"><i class="fa fa-weibo fa-2x"></i></a>
+						<div class="align other_right">
+							<span>天才就是无止境刻苦勤奋的能力－－卡莱尔</span>
 						</div>
 					</div>
 				</div>

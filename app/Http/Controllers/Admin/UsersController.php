@@ -12,6 +12,9 @@ use Hash;
 use App\Models\Userdetail;
 use DB;
 use App\Models\Article;
+use App\Models\Album;
+
+
 class UsersController extends Controller
 {
     /**
@@ -40,6 +43,28 @@ class UsersController extends Controller
     {
         $Particle = Article::where('uid',$id)->get();
         return view('admin.users.Particle',['title'=>'个人文章','Particle'=>$Particle]);    
+    }
+
+    /**
+     *   博主个人相片
+     */ 
+    public function Palbum($id)
+    {
+
+        $Palbum = Album::where('uid',$id)->get();
+        return view('admin.users.Palbum',['title'=>'个人文章','Palbum'=>$Palbum]);    
+    }
+
+    /**
+     *   博主删除个人相片
+     */ 
+    public function Del($id)
+    {
+        if (Album::destroy($id)) {
+            return back()->with('success','删除成功');
+        } else {
+            return back()->with('error','删除失败');
+        }   
     }
 
     /**

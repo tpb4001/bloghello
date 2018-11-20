@@ -39,7 +39,7 @@
                         <td>{{$v->created_at}}</td>
                         <td>
                             <a href="/admin/users/Particle/{{$v->id}}" class="btn btn-success">文章</a>
-                            <a href="/admin/users/{{$v->id}}/edit" class="btn btn-success">相册</a>
+                            <a href="/admin/users/Palbum/{{$v->id}}" class="btn btn-success">相册</a>
                             <a href="/admin/users/{{$v->id}}/edit" class="btn btn-warning">修改</a>
 							<form action="/admin/users/{{$v->id}}" method="post" style="display: inline-block">
 								{{csrf_field()}}
