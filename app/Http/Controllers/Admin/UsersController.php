@@ -183,7 +183,7 @@ class UsersController extends Controller
         //查询详情表ID;
         $UDid = $user->userinfo->id;
         $userdetail = Userdetail::where('id',$UDid)->first();
-        dump($userdetail);
+        // dump($userdetail);
         //头像修改
         if ($request->hasFile('avatar')) {
             $profile = $request -> file('avatar');

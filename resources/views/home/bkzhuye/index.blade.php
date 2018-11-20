@@ -106,6 +106,8 @@ if (/AppleWebKit.*mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|S
              
                 <div class="author-intro">
                 </div>
+                <p class="register-time"><span class="color77">注册时间：</span>{{ $user->created_at }}</p>
+                
 
                 <ul class="tree-list clearfix">
                     <li>
