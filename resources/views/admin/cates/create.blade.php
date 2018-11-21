@@ -30,15 +30,6 @@
           					<input type="text" class="medium" name="cname">
           				</div>
           			</div>
-          			<div class="mws-form-row">
-          				<label class="mws-form-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">分类状态</font></font></label>
-          				<div class="mws-form-item clearfix">
-          					<ul class="mws-form-list">
-          						<li><input type="radio" checked name="status" value="1" id="s1"> <label for="s1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">激活</font></font></label></li>
-          						<li><input type="radio" name="status" value="2" id="s2"> <label for="s2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">未激活</font></font></label></li>
-          					</ul>
-          				</div>
-          			</div>
           		</div>
           		<div class="mws-button-row">
           			<font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><input type="submit" value="提交" class="btn btn-danger"></font></font>

@@ -13,7 +13,6 @@
                     <th>标题</th>
                     <th>作者</th>
                     <th>来源</th>
-                    <th>文章状态</th>
                     <th>文章图片</th>
                     <th>发布者</th>
                     <th>发布时间</th>
@@ -27,8 +26,13 @@
                     <td>{{ $v->title }}</td>
                     <td>{{ $v->auth }}</td>
                     <td>{{ $v->copyform }}</td>
-                    <td>{{ $v->status }}</td>
-                    <td>{{ $v->articleinfo->image }}</td>
+                    <td>
+                        @if(empty($v->articleinfo->image))
+                            '无图片'
+                        @else
+                            <img src="{{ $v->articleinfo->image }}" style="height: 100px;">
+                        @endif
+                    </td>
                     <td>{{ $v->abc->uname }}</td>
                     <td>{{ $v->created_at }}</td>
                     <td><a href="/admin/article/{{ $v->id }}" class="btn btn-info">详情</a>

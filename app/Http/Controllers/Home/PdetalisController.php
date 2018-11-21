@@ -22,7 +22,7 @@ class PdetalisController extends Controller
         //
         $uname = session('uname');
         $data = User::where('uname',$uname)->first();
-        return view('home.Pdetalis.index',['data'=>$data]);
+        return view('home.pdetalis.index',['data'=>$data]);
     }
 
     /**
@@ -67,7 +67,7 @@ class PdetalisController extends Controller
     {
         //
         $data = User::where('uname',$name)->first();
-        return view('home.Pdetalis.edit',['data'=>$data]);
+        return view('home.pdetalis.edit',['data'=>$data]);
     }
 
     /**
@@ -92,12 +92,11 @@ class PdetalisController extends Controller
                 $profile_path = ltrim($dir_name.'/'.$file_name,'.');
                 $userdetail->avatar = $profile_path;
             }
-            $userdetail->phone = $request->input('phone');
             $userdetail->email = $request->input('email');
             $userdetail->sex = $request->input('sex');
             $userdetail->introduce = $request->input('introduce');
             if ($userdetail->save()) {
-                return redirect('Pdetalis')->with('success','修改成功');
+                return redirect('/Pdetalis')->with('success','修改成功');
             } else {
                 return back()->with('error','修改失败');
             } 
@@ -108,13 +107,19 @@ class PdetalisController extends Controller
      */
     public function Cpass(Request $request)
     {   
+        // 获取用户Id
         $id = $request->input('id');
+        // 用户输入旧的密码
         $jupass = $request->input('jupass');
+        // 用户输入新的密码
         $upass = $request->input('upass');
         $user = User::where('id',$id)->first();
+        // 提取数据库的密码
         $yupass = $user->upass;
+        // 判断用户输入的密码是否正确进行判断
         if (Hash::check($jupass, $yupass)) {
             $user->upass = Hash::make($upass);
+            $user->save();
             echo 'success';
         } else {
             echo 'error';

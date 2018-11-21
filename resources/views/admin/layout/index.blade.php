@@ -160,7 +160,6 @@
                         <ul class="closed" style="display: none;">
                           <li><a href="/admin/article">浏览文章</a></li>
                           <li><a href="/admin/article/create">添加文章</a></li>
-                          <li><a href="/admin/pinglun">浏览评论</a></li>
                         </ul>
                     </li>
                     <li>

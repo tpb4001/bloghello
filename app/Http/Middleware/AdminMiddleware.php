@@ -20,7 +20,7 @@ class AdminMiddleware
         if ($request->session()->has('uname') && $user->Identity == 1) {
             return $next($request);
         } else {
-            return redirect('/admin/login')->with('error','用户名或密码错误');
+            return redirect('/admin/login')->with('error','请登录你的账号');
         }
         
     }

@@ -26,7 +26,7 @@ class LoginStoreRequest extends Request
         return [
             'uname' => 'required|unique:users|regex:/^[\w]{6,16}$/',
             'upass' => 'required|regex:/^[\S]{6,20}$/',
-            'rupass' => 'required|same:upass',
+            'reupass' => 'required|same:upass',
             'phone' => 'required|unique:User_details|regex:/^1{1}[345678]{1}[\d]{9}$/',
         ];
     }
@@ -39,8 +39,8 @@ class LoginStoreRequest extends Request
             'uname.unique' => '用户已存在',
             'upass.required' => '密码必填',
             'upass.regex' => '密码格式错误',
-            'rupass.required' => '确认密码必填',
-            'rupass.same' => '两次密码不一致',
+            'reupass.required' => '确认密码必填',
+            'reupass.same' => '两次密码不一致',
             'phone.required' => '手机号必填',
             'phone.regex' => '手机号格式错误',
             'phone.unique' => '手机号已注册',

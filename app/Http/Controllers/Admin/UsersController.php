@@ -178,7 +178,9 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->uname = $request->input('uname');
         $user->Identity = $request->input('Identity');
-        $user->upass = Hash::make($request->input('upass'));
+        if(!empty($request->input('upass'))){
+            $user->upass = Hash::make($request->input('upass'));   
+        }
         $res1 = $user->save();//bool
         //查询详情表ID;
         $UDid = $user->userinfo->id;

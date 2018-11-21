@@ -23,7 +23,7 @@
 
 @section('content')
 <div class="row">
-	<form action="/Pdetalis/{{ $data->id }}" method="post" enctype="multipart/form-data">
+	<form action="/Bdetalis/{{ $data->id }}" method="post" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		{{ method_field('PUT') }}
 		<input type="hidden" name="upname" value="upname">

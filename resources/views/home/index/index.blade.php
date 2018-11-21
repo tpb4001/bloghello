@@ -21,7 +21,7 @@
 			</div>
 			@foreach($image as $k=>$v)
 			<div class="item">
-				<a href="#" target="_blank" title="{{ $v->iname }}" draggable="false">
+				<a href="http://{{ $v->iurl }}" target="_blank" title="{{ $v->iname }}" draggable="false">
 				<img src="{{ $v->img }}" style="width:820px;height:200px;border-radius:0px;" alt="{{ $v->iname }}" class="img-responsive" draggable="false"></a>
 			</div>
 			@endforeach

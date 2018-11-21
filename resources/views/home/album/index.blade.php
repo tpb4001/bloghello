@@ -29,7 +29,7 @@
 	@foreach($album as $k=>$v)
 	<div class="col-md-3">
 		<span>{{ $v->content}}</span>
-		<img src="{{ $v->image }}" style="margin-top: 4px;" class="img-thumbnail">
+		<img src="{{ $v->image }}" style="margin-top: 4px; height: 200px;" class="img-thumbnail">
 		<div class="text-right">
 			<a href="javascript:;" href="#" onclick="open('/myalbum/{{ $v->id }}/edit',',','width=600,height=600,left=150,top=150,resizable=no,scrollbars=no,status=yes,toolbar=no,location=no,menubar=no,menu=yes')"><span class="glyphicon glyphicon-pencil"></span></label></a>
 			<form action="/myalbum/{{ $v->id }}" method="post" style="display: inline-block">

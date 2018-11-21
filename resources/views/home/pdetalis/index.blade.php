@@ -21,8 +21,13 @@
 		<div class="col-md-7 col-md-offset-2" style="padding-bottom: 20px">
 			<div class="input-group" >
 				<img src="{{ $data->userinfo->avatar }}" style="height: 100px; height: 100px; ">
-				<label for="file" class="btn btn-info" style="margin-top: 67px;margin-left: 20px;;">更换头像</label>
-				<input id="file" type="file" name="avatar" style="display: none;" accept="image/gif, image/jpeg, image/jpg">
+				<!-- <label for="file" class="btn btn-info" style="margin-top: 67px;margin-left: 20px;;">更换头像</label>
+				<input id="file" type="file" name="avatar" style="display: none;" accept="image/gif, image/jpeg, image/jpg"> --> 
+				<button type="button" class="layui-btn layui-btn-danger" id="user_avatar" style="margin-top: 50px; margin-left: 20px;"><i class="layui-icon"></i>更换头像</button>
+				<div class="layui-inline layui-word-aux" style="margin-top: 45px;">
+				  图片大小限制 60KB
+				</div>
+				<script type="text/javascript" src="/HomeStyle/js/user.avatat.js"></script>
 			</div>
 		</div>
 		<div class="col-md-7 col-md-offset-2" style="padding-bottom: 20px;">

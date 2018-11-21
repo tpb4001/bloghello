@@ -24,7 +24,7 @@ class ArticleController extends Controller
     {
         //
         $uid = User::where('uname',session('uname'))->first()->id;
-        $article = Article::where('uid',$uid)->get();
+        $article = Article::where('uid',$uid)->orderBy('created_at','desc')->get();
         return view('home.article.index',['article'=>$article]);
     }
 

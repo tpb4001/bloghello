@@ -25,7 +25,6 @@
                     <th>类别</th>
                     <th>作者</th>
                     <th>来源</th>
-                    <th>文章状态</th>
                     <th>文章图片</th>
                     <th>发布者</th>
                     <th>发布时间</th>
@@ -40,8 +39,13 @@
                     <td width="60px">{{ $v->cates->cname }}</td>
                     <td width="70px">{{ $v->auth }}</td>
                     <td width="50px">{{ $v->copyform }}</td>
-                    <td>{{ $v->status ? '展示' : '下架' }}</td>
-                    <td>{{ $v->articleinfo->image or '无图片' }}</td>
+                    <td>
+                        @if(empty($v->articleinfo->image))
+                            '无图片'
+                        @else
+                            <img src="{{ $v->articleinfo->image }}" style="height: 100px;">
+                        @endif
+                    </td>
                     <td>{{ $v->abc->uname }}</td>
                     <td>{{ $v->created_at }}</td>
 

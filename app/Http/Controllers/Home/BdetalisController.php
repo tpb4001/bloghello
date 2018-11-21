@@ -108,7 +108,7 @@ class BdetalisController extends Controller
     {
         //加载密码修改视图
         $data = User::where('uname',$name)->first();
-        return view('home.Bdetalis.edit',['data'=>$data]);
+        return view('home.bdetalis.edit',['data'=>$data]);
     }
 
     /**
@@ -120,7 +120,16 @@ class BdetalisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // 获取数据 进行基本信息修改
+        $userdetail = Userdetail::where('uid',$id)->first();
+        $userdetail->email = $request->input('email');
+        $userdetail->sex = $request->input('sex');
+        $userdetail->introduce = $request->input('introduce');
+        if ($userdetail->save()) {
+            return redirect('/Bdetalis')->with('success','修改成功');
+        } else {
+            return back()->with('error','修改失败');
+        }
     }
 
     /**
