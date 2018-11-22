@@ -18,8 +18,9 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
-        $album = Album::all();
+        //根据登录信息查找相片
+        $uid = User::where('uname',session('uname'))->first()->id;
+        $album = Album::where('uid',$uid)->get();
         return view('home.album.index',['album'=>$album]);
     }
 

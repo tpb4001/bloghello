@@ -15,6 +15,6 @@ class Article_pl extends Model
     // 一对一文章表
     public function art()
     {
-        return $this->hasOne('App\Models\Article;','id','aid');
+        return $this->hasOne('App\Models\Article','id','aid');
     }
 }
