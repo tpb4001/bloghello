@@ -27,7 +27,7 @@ class LoginStoreRequest extends Request
             'uname' => 'required|unique:users|regex:/^[\w]{6,16}$/',
             'upass' => 'required|regex:/^[\S]{6,20}$/',
             'reupass' => 'required|same:upass',
-            'phone' => 'required|unique:User_details|regex:/^1{1}[345678]{1}[\d]{9}$/',
+            'phone' => 'required|unique:user_details|regex:/^1{1}[345678]{1}[\d]{9}$/',
         ];
     }
 

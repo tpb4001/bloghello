@@ -139,13 +139,14 @@ class LoginController extends Controller
             // 开启事务  
             DB::beginTransaction();
             // 获取数据 进行添加
-            $user = new USer;
+            $user = new User;
             $user->uname = $request->input('uname');
             $user->Identity = 3;
             $user->upass = Hash::make($request->input('upass'));
             $res1 = $user->save();//bool
             $id=$user->id;//获取最后插入的id号
             $userdetail = new User_details;
+            dd($userdetail->all());
             $userdetail->uid = $id;
             $userdetail->phone = $request->input('phone');
             $res2 = $userdetail->save();
